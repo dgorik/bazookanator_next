@@ -4,7 +4,6 @@ import { Card, CardContent, CardFooter } from "@/components/ui/other/card";
 import { Input } from "@/components/ui/other/input";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/buttons/button";
-import { ScrollArea } from "@/components/ui/other/scroll-area";
 import { useState } from "react";
 
 interface Message {

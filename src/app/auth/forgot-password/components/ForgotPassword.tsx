@@ -12,10 +12,7 @@ import { Button } from "../../../../components/ui/buttons/button";
 import { Input } from "../../../../components/ui/other/input";
 import { Label } from "../../../../components/ui/other/label";
 
-export default function ForgotPasswordForm({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState({ type: "", message: "" });
 
