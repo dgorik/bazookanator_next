@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function LoginForm({
+export function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
@@ -19,14 +19,22 @@ export function LoginForm({
     // <div className={cn("flex flex-col gap-6", className)} {...props}>
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
+        <CardTitle className="text-2xl">Create an account</CardTitle>
+        <CardDescription>Enter your information to get started</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
-          <div className="flex flex-col gap-6 mb-3">
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="grid gap-2">
+                <Label htmlFor="first-name">First Name</Label>
+                <Input id="first-name" type="text" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="first-name">Last Name</Label>
+                <Input id="first-name" type="text" />
+              </div>
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -38,21 +46,10 @@ export function LoginForm({
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              {/* <div className="flex items-center">
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div> */}
               <Input id="password" type="password" />
             </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-            <Link href="/signup">
-              <Button variant="outline" className="w-full">
+            <Link href="/verify">
+              <Button type="submit" className="w-full">
                 Sign Up
               </Button>
             </Link>
