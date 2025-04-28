@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "../components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "../components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 

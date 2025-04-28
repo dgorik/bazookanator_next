@@ -1,6 +1,6 @@
-import { LoginForm } from "@/components/home/login-form";
+import { LoginForm } from "@/app/Loginform";
 import Header from "@/components/Header";
-import { VerificationComponent } from "@/components/verification/Verification";
+import { VerificationComponent } from "@/app/verify/components/Verification";
 
 export default function Verification() {
   return (

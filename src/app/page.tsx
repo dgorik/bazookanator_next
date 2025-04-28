@@ -1,6 +1,6 @@
-import { LoginForm } from "@/components/home/login-form";
+import { LoginForm } from "@/app/Loginform";
 import Header from "@/components/Header";
-import { connectDB } from "./config/database/mongodb";
+import { connectDB } from "../database/mongodb";
 
 export default async function Home() {
   await connectDB(); // Connect to the DB before the page is rendered
