@@ -1,17 +1,16 @@
 import  { NextRequest, NextResponse } from "next/server";
-import validator, { normalizeEmail } from 'validator';
-import User from "@/models/User";
+import validator from 'validator';
+import User from "@/(models)/User";
 
 type Credentials = {
   email: string;
-  password: number;
+  password: string;
 };
 
 type ValidationError = { msg: string }[]; // ValidationError is an array of objects
 
 export async function POST( ///google this more
   req: NextRequest,
-  res: NextResponse //this is a response object in app route
 ) {
   if (req.method === "POST") {
     const ValidationErrors: ValidationError =  []
@@ -27,8 +26,6 @@ export async function POST( ///google this more
     if (!email.endsWith('@bazooka-inc.com')){
       ValidationErrors.push({ msg: "Please enter bazooka-inc.com email." });
     }
-    if (validator.isEmpty(email))
-      ValidationErrors.push({ msg: "Password cannot be blank." });
   
     if (ValidationErrors.length) {
       return NextResponse.json(ValidationErrors)
@@ -36,7 +33,8 @@ export async function POST( ///google this more
     let normalized_email = validator.normalizeEmail(email, {
       gmail_remove_dots: false,
     });
-    return NextResponse.json([{msg: `${normalized_email}`}])
+
+    return NextResponse.json([{msg: "Got it!"}])
 
   } else {
     // Handle other HTTP methods (e.g., GET)

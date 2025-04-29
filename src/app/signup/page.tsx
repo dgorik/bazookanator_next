@@ -1,5 +1,5 @@
 import { LoginForm } from "@/app/Loginform";
-import Header from "@/components/Header";
+import Header from "@/(components)/Header";
 import { SignupForm } from "@/app/signup/components/SignupForm";
 
 export default function SignUp() {

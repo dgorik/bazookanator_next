@@ -1,5 +1,5 @@
 import { LoginForm } from "@/app/Loginform";
-import Header from "@/components/Header";
+import Header from "@/(components)/Header";
 import { connectDB } from "../database/mongodb";
 
 export default async function Home() {

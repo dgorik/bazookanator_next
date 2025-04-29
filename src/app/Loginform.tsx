@@ -1,16 +1,17 @@
 "use client";
 import Link from "next/link";
-import { Button } from "../components/ui/button";
-import { useState, useEffect } from "react";
+import { signIn } from "next-auth/react";
+import { Button } from "../(components)/ui/button";
+import { useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "../(components)/ui/card";
+import { Input } from "@/(components)/ui/input";
+import { Label } from "@/(components)/ui/label";
 
 export function LoginForm({
   className,
@@ -18,29 +19,27 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState<{ msg: string }[]>([]); //this means you are storing an array of objects with initial value []
+  const [errors, setErrors] = useState(""); //this means you are storing an array of objects with initial value []
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setErrors([{ msg: "Enter a password and an email" }]);
-      return;
-    }
-    const res = await fetch("/api/auth/login", {
-      //google the differnce between pages and app folders
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+    const res = await signIn("credentials", {
+      redirect: false, // Do not redirect immediately after signIn
+      email,
+      password,
     });
 
-    const data = await res.json();
-    setErrors(data);
+    if (res?.error) {
+      setErrors(res.error);
+    } else {
+      // Handle successful login, e.g., redirect or show success message
+      alert("Login successful");
+    }
+
+    // const data = await res.json();
+    // setErrors(data);
+    ///maybe you should refresh the page after getting error messages?
   };
 
   return (
@@ -60,6 +59,7 @@ export function LoginForm({
               <Input
                 id="email"
                 type="email"
+                required={true}
                 placeholder="@bazooka-inc.com"
                 onChange={(e) => setEmail(e.target.value)}
                 // required
@@ -70,6 +70,7 @@ export function LoginForm({
               <Input
                 id="password"
                 type="password"
+                required={true}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -99,11 +100,7 @@ export function LoginForm({
             </Button>
           </div>
         </form>
-        <div style={{ color: "red" }}>
-          {errors.map((err, index) => (
-            <p key={index}>{err.msg}</p>
-          ))}
-        </div>
+        <div style={{ color: "red" }}>{<p>{errors}</p>}</div>
       </CardContent>
     </Card>
     // </div>

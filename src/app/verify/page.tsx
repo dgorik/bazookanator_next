@@ -1,5 +1,5 @@
 import { LoginForm } from "@/app/Loginform";
-import Header from "@/components/Header";
+import Header from "@/(components)/Header";
 import { VerificationComponent } from "@/app/verify/components/Verification";
 
 export default function Verification() {
