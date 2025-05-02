@@ -23,8 +23,8 @@ export async function POST( ///google this more
     if (!email.endsWith('@bazooka-inc.com')){
       ValidationError.push({ msg: "Please enter bazooka-inc.com emails." });
     }
-    if (ValidationError.length) {
-      return NextResponse.json({ error: ValidationError }, { status: 500 });
+    if (!ValidationError.length) {
+      return NextResponse.json({ message: "hiiiii"}, { status: 200 });
     }
 
     // Log the email and name to the console

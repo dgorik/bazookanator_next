@@ -1,8 +1,7 @@
 "use client";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { Button } from "../components/ui/button";
-import { useState, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -23,10 +22,10 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState<ValidationError[]>([]);
+  const [message, setMessage] = useState("");
 
   const PostUsers = async () => {
-    fetch("/api/auth/login", {
+    const res = await fetch("/api/auth/login", {
       //google the differnce between pages and app folders
       method: "POST",
       headers: {
@@ -37,25 +36,10 @@ export function LoginForm({
         password,
       }),
     });
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors([]);
-
-    const res = await fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify({ email }),
-      headers: { "Content-Type": "application/json" },
-    });
 
     const data = await res.json();
-
-    if (!res.ok) {
-      setErrors(data.errors || []);
-    } else {
-      // redirect or success message
-    }
+    console.log(data);
+    setMessage(data.message);
   };
 
   return (
@@ -91,13 +75,13 @@ export function LoginForm({
             <Button type="submit" className="w-full" onClick={PostUsers}>
               Login
             </Button>
-            {errors.length > 0 && (
+            {/* {errors.length > 0 && (
               <ul style={{ color: "red" }}>
                 {errors.map((error, idx) => (
                   <li key={idx}>{error.msg}</li>
                 ))}
               </ul>
-            )}
+            )} */}
             <Link href="/signup">
               <Button variant="outline" className="w-full">
                 Sign Up
@@ -105,13 +89,14 @@ export function LoginForm({
             </Link>
             <Button
               type="submit"
-              className="w-1/2 mx-auto"
+              className="w-1/2 mx-auto" //
               // onClick={}
             >
               Forgot Password
             </Button>
           </div>
         </form>
+        <div>{message ? message : "Loading"}</div>
       </CardContent>
     </Card>
     // </div>
