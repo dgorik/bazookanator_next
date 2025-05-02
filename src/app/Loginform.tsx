@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "../components/ui/button";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import {
   Card,
   CardContent,
@@ -13,17 +13,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+type ValidationError = {
+  msg: string;
+};
+
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState<ValidationError[]>([]);
 
   const PostUsers = async () => {
-    console.log(password);
-    console.log(email);
-
     fetch("/api/auth/login", {
       //google the differnce between pages and app folders
       method: "POST",
@@ -35,6 +37,25 @@ export function LoginForm({
         password,
       }),
     });
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrors([]);
+
+    const res = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setErrors(data.errors || []);
+    } else {
+      // redirect or success message
+    }
   };
 
   return (
@@ -61,14 +82,6 @@ export function LoginForm({
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              {/* <div className="flex items-center">
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div> */}
               <Input
                 id="password"
                 type="password"
@@ -78,11 +91,25 @@ export function LoginForm({
             <Button type="submit" className="w-full" onClick={PostUsers}>
               Login
             </Button>
+            {errors.length > 0 && (
+              <ul style={{ color: "red" }}>
+                {errors.map((error, idx) => (
+                  <li key={idx}>{error.msg}</li>
+                ))}
+              </ul>
+            )}
             <Link href="/signup">
               <Button variant="outline" className="w-full">
                 Sign Up
               </Button>
             </Link>
+            <Button
+              type="submit"
+              className="w-1/2 mx-auto"
+              // onClick={}
+            >
+              Forgot Password
+            </Button>
           </div>
         </form>
       </CardContent>

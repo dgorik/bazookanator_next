@@ -1,12 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
+import  { NextRequest, NextResponse } from "next/server";
+import validator from 'validator';
+
+type LoginRequestBody = {
+  email: string;
+  password: string;
+};
+
+type ValidationError = {
+  msg: string;
+};
 
 export async function POST( ///google this more
   req: NextRequest,
   res: NextResponse
 ) {
   if (req.method === "POST") {
-    // Extract email and name from the request body
-    const { email, password } = await req.json()
+    const {email, password} = await req.json()
+    const ValidationError = []
+
+    if (!validator.isEmail(email))
+      ValidationError.push({ msg: "Please enter a valid email address." });
+    if (!email.endsWith('@bazooka-inc.com')){
+      ValidationError.push({ msg: "Please enter bazooka-inc.com emails." });
+    }
+    if (ValidationError.length) {
+      return NextResponse.json({ error: ValidationError }, { status: 500 });
+    }
 
     // Log the email and name to the console
     console.log("Received email:", email);
