@@ -18,7 +18,7 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<{ msg: string }[]>([]); //this means you are storing an array of objects with initial value []
 
   const PostUsers = async () => {
     const res = await fetch("/api/auth/login", {
@@ -34,7 +34,7 @@ export function LoginForm({
     });
 
     const data = await res.json();
-    setMessage(data);
+    setErrors(data);
   };
 
   return (
@@ -91,7 +91,11 @@ export function LoginForm({
             </Button>
           </div>
         </form>
-        <div>{message ? message : "Loading"}</div>
+        <div style={{ color: "red" }}>
+          {errors.map((err, index) => (
+            <p key={index}>{err.msg}</p>
+          ))}
+        </div>
       </CardContent>
     </Card>
     // </div>
