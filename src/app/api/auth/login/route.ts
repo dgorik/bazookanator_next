@@ -3,7 +3,7 @@ import validator from 'validator';
 
 type LoginRequestBody = {
   email: string;
-  password: string;
+  password: number;
 };
 
 type ValidationError = {
@@ -18,14 +18,16 @@ export async function POST( ///google this more
     const {email, password} = await req.json()
     const ValidationError = []
 
-    if (!validator.isEmail(email))
-      ValidationError.push({ msg: "Please enter a valid email address." });
-    if (!email.endsWith('@bazooka-inc.com')){
-      ValidationError.push({ msg: "Please enter bazooka-inc.com emails." });
-    }
-    if (!ValidationError.length) {
-      return NextResponse.json({ message: "hiiiii"}, { status: 200 });
-    }
+    return NextResponse.json("this is nextresponse")
+
+    // if (!validator.isEmail(email))
+    //   ValidationError.push({ msg: "Please enter a valid email address." });
+    // if (!email.endsWith('@bazooka-inc.com')){
+    //   ValidationError.push({ msg: "Please enter bazooka-inc.com emails." });
+    // }
+    // if (!ValidationError.length) {
+    //   return NextResponse.redirect("https://www.tomatotimers.com/")
+    // }
 
     // Log the email and name to the console
     console.log("Received email:", email);

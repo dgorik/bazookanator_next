@@ -12,10 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-type ValidationError = {
-  msg: string;
-};
-
 export function LoginForm({
   className,
   ...props
@@ -38,8 +34,7 @@ export function LoginForm({
     });
 
     const data = await res.json();
-    console.log(data);
-    setMessage(data.message);
+    setMessage(data);
   };
 
   return (
