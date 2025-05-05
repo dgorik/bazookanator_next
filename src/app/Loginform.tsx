@@ -20,7 +20,7 @@ export function LoginForm({
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<{ msg: string }[]>([]); //this means you are storing an array of objects with initial value []
 
-  const PostUsers = async (e: React.FormEvent) => {
+  const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -61,7 +61,7 @@ export function LoginForm({
                 id="email"
                 type="email"
                 placeholder="@bazooka-inc.com"
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 // required
               />
             </div>
@@ -70,10 +70,12 @@ export function LoginForm({
               <Input
                 id="password"
                 type="password"
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
             </div>
-            <Button type="submit" className="w-full" onClick={PostUsers}>
+            <Button type="submit" className="w-full" onClick={handlePostUsers}>
               Login
             </Button>
             {/* {errors.length > 0 && (
