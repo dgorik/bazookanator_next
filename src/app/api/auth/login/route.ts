@@ -25,11 +25,6 @@ export async function POST( ///google this more
     }
     if (validator.isEmpty(password))
       ValidationError.push({ msg: "Password cannot be blank." });
-
-    if (!validator.isLength(password, { min: 8 }))
-      ValidationError.push({
-        msg: "Password must be at least 8 characters long",
-      });
   
     if (ValidationError.length) {
       return NextResponse.json(ValidationError)

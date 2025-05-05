@@ -20,7 +20,13 @@ export function LoginForm({
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<{ msg: string }[]>([]); //this means you are storing an array of objects with initial value []
 
-  const PostUsers = async () => {
+  const PostUsers = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      setErrors([{ msg: "Enter a password and an email" }]);
+      return;
+    }
     const res = await fetch("/api/auth/login", {
       //google the differnce between pages and app folders
       method: "POST",
