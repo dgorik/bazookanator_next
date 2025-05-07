@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Button } from "../(components)/ui/button";
 import { useState } from "react";
 import {
@@ -20,6 +21,7 @@ export function LoginForm({
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState(""); //this means you are storing an array of objects with initial value []
+  const router = useRouter();
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,13 +35,8 @@ export function LoginForm({
     if (res?.error) {
       setErrors(res.error);
     } else {
-      // Handle successful login, e.g., redirect or show success message
-      alert("Login successful");
+      router.push("/Member");
     }
-
-    // const data = await res.json();
-    // setErrors(data);
-    ///maybe you should refresh the page after getting error messages?
   };
 
   return (
@@ -100,7 +97,9 @@ export function LoginForm({
             </Button>
           </div>
         </form>
-        <div style={{ color: "red" }}>{<p>{errors}</p>}</div>
+        <div>
+          {<p className="flex justify-center text-red-600">{errors}</p>}
+        </div>
       </CardContent>
     </Card>
     // </div>

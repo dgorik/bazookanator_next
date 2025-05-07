@@ -54,4 +54,14 @@ export const options = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }: { token: any; user?: any }) { //revisit these types
+      if (user) token.role = user.role;
+      return token;
+    },
+    async session({ session, token }:{ session?: any; token: any }) {
+      if (session?.user) session.user.role = token.role;
+      return session;
+    },
+  },
 };
