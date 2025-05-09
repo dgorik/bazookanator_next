@@ -3,7 +3,8 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "../(components)/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -38,6 +39,17 @@ export function LoginForm({
       router.push("/Member");
     }
   };
+
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
+
+  console.log(message);
+
+  useEffect(() => {
+    if (message) {
+      setErrors(message);
+    }
+  }, [message]);
 
   return (
     // <div className={cn("flex flex-col gap-6", className)} {...props}>

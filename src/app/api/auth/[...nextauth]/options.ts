@@ -61,6 +61,7 @@ export const options = {
     },
     async session({ session, token }:{ session?: any; token: any }) {
       if (session?.user) session.user.role = token.role;
+      console.log(session)
       return session;
     },
   },
