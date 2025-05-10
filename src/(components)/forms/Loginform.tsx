@@ -1,17 +1,16 @@
 "use client";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { Button } from "../(components)/ui/button";
+import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../(components)/ui/card";
+} from "../ui/card";
 import { Input } from "@/(components)/ui/input";
 import { Label } from "@/(components)/ui/label";
 
@@ -42,8 +41,6 @@ export function LoginForm({
 
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
-
-  console.log(message);
 
   useEffect(() => {
     if (message) {
