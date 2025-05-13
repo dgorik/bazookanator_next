@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -18,7 +17,7 @@ export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrors] = useState<string[]>([]); //we are initializing a state with an empty array and we are  explicitly typing the state as an array of strings: string[].
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,6 +45,12 @@ export default function SignupForm({
       return; // Prevent form submission if there are errors
     }
   };
+
+  useEffect(() => {
+    if (errors.length >= 1) {
+      alert("oooops error");
+    }
+  }, [errors]);
 
   return (
     <Card className="w-full max-w-md mx-auto">
