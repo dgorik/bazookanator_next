@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Button } from "../ui/button";
@@ -11,10 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Input } from "@/(components)/ui/input";
-import { Label } from "@/(components)/ui/label";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
-export function LoginForm({
+export default function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
@@ -107,7 +108,7 @@ export function LoginForm({
           </div>
         </form>
         <div>
-          {<p className="flex justify-center text-red-600">{errors}</p>}
+          {<p className="flex justify-center mt-2 text-red-600">{errors}</p>}
         </div>
       </CardContent>
     </Card>

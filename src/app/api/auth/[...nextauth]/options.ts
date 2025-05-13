@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import User from "@/(models)/User";
+import User from "../../../../(models)/User";
 import bcrypt from "bcryptjs";
 import validator from "validator";
 
@@ -28,6 +28,8 @@ export const options = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required");
         }
+
+        //it would make more sense to check the validity of inputs (format) on the client site (unless we are checking the credintials against the database)
 
         if (!validator.isEmail(credentials.email)) {
           throw new Error("Please enter a valid email address");
