@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
-import connectEmail from "../connect_email/route"
+import connectEmail from "../../../../config/connect_email"
 
 // Email transporter setup
 const transporter = await connectEmail()
