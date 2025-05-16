@@ -17,40 +17,57 @@ export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [errors, setErrors] = useState<string[]>([]); //we are initializing a state with an empty array and we are  explicitly typing the state as an array of strings: string[].
+  const [errors, setErrors] = useState<string[]>([]);
+  const [messages, setMessages] = useState<string[]>([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState(""); // added if needed for registration
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors: string[] = [];
+    const newMessages: string[] = [];
 
-    // Validation logic
     if (!email) {
       newErrors.push("Email is required.");
     } else if (!email.endsWith("@bazooka-inc.com")) {
-      newErrors.push("Please enter a @bazooka-inc email");
+      newErrors.push("Please enter a @bazooka-inc email.");
     }
 
     if (password.length < 6) {
       newErrors.push("Password must be at least 6 characters.");
     }
 
-    // If there are validation errors, update the state
-    if (newErrors.length >= 1) {
-      //returns a length of the array
-      //if (newErrors) is always truthy because an object is never falsy in Javascript
+    if (newErrors.length) {
       setErrors(newErrors);
-      return; // Prevent form submission if there are errors
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        newMessages.push("Please check your email to verify your account.");
+        setMessages(newMessages);
+        setEmail("");
+        setPassword("");
+        setName("");
+      } else {
+        newErrors.push(data.error || "Registration failed.");
+        setErrors(newErrors);
+      }
+    } catch (error) {
+      newErrors.push("An unexpected error occurred. Please try again.");
+      setErrors(newErrors);
     }
   };
-
-  useEffect(() => {
-    if (errors.length >= 1) {
-      alert("oooops error");
-    }
-  }, [errors]);
 
   return (
     <Card className="w-full max-w-md mx-auto">
@@ -102,6 +119,11 @@ export default function SignupForm({
             </Button>
           </div>
         </form>
+        <div className="flex justify-center mt-2 text-red-600">
+          {messages.map((msg, index) => (
+            <p key={index}>{msg}</p>
+          ))}
+        </div>
         <div className="flex justify-center mt-2 text-red-600">
           {errors.map((err, index) => (
             <p key={index}>{err}</p>

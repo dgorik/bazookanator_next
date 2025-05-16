@@ -2,7 +2,7 @@ import LoginForm from "@/(components)/auth/LoginForm";
 
 const RegisterPage = () => {
   return (
-    <div className="xl:w-1/4 md:w-1/2 w-full px-10 sm:px-0">
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <LoginForm />
     </div>
   );
