@@ -1,4 +1,4 @@
-import LoginForm from "@/(components)/auth/LoginForm";
+import LoginForm from "@/app/sign-in/components/LoginForm";
 import Header from "@/(components)/Header";
 import { connectDB } from "../database/mongodb";
 
