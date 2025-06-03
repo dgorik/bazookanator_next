@@ -23,9 +23,9 @@ export default async function MemberLayout({
   return (
     <SessionWrapper session={session}>
       <SidebarProvider>
-        <div className="flex flex-row justify-between w-screen py-4">
+        <div className="flex justify-between w-full py-4">
           {/* Sidebar on the left */}
-          <div className="flex items-start">
+          <div className="flex flex-row">
             <AppSidebar />
             <SidebarTrigger />
           </div>

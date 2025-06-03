@@ -40,7 +40,7 @@ export default function ChatBox() {
       const response = await fetch("/api/sales/us_consolidated", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userQuestion: inputValue }), // key must match backend
+        body: JSON.stringify({ userQuestion: inputValue }),
       });
 
       const data = await response.json();
@@ -65,9 +65,9 @@ export default function ChatBox() {
   };
 
   return (
-    <Card className="flex flex-col h-[80vh] bg-white shadow-lg">
-      <CardContent className="flex-grow overflow-hidden">
-        <ScrollArea className="h-full pr-4">
+    <div className="flex flex-col justify-end-safe">
+      <Card className="flex justify-end">
+        <CardContent className="flex-grow overflow-hidden">
           <div className="flex flex-col gap-3 p-2">
             {messages.map((msg) => (
               <div
@@ -82,20 +82,20 @@ export default function ChatBox() {
               </div>
             ))}
           </div>
-        </ScrollArea>
-      </CardContent>
-      <CardFooter className="p-4 pt-0 border-t bg-gray-50">
-        <div className="flex w-full gap-2">
-          <Input
-            placeholder="Type a message..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <Button onClick={handleSend} size="icon" type="button">
-            <Send className="w-4 h-4" />
-          </Button>
-        </div>
-      </CardFooter>
-    </Card>
+        </CardContent>
+        <CardFooter className="p-4 pt-0 border-t bg-gray-50">
+          <div className="flex w-full gap-2">
+            <Input
+              placeholder="Type a message..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            <Button onClick={handleSend} size="icon" type="button">
+              <Send className="w-4 h-4" />
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }

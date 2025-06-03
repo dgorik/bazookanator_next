@@ -32,12 +32,6 @@ export function SideBarFooter() {
               className="w-[--radix-popper-anchor-width]"
             >
               <DropdownMenuItem>
-                <span>Account</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Billing</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
                 <Link href="/api/auth/signout?callbackUrl=/">
                   <span> Sign Out</span>
                 </Link>
