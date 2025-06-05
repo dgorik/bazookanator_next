@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
-  verification_token: { type: String, required: true },
+  hashed_token: { type: String, required: true },
   expiresAt: { type: Date, required: true },
 });
 

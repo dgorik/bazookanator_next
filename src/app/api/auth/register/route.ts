@@ -1,7 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
-import addPendingUser from "@/lib/auth/addPendingUser"
-import hashPassword from "@/lib/auth/hashPassword"
+import generateHash from "@/lib/auth/generateHash"
+import compareTokens from "@/lib/auth/compareTokens"
+import {addPendingUser} from "@/lib/db/users"
 import { sendVerificationEmail } from "@/lib/auth/sendVerificationEmail"
 import { connectMongoDB } from "@/lib/clients/mongodb"
 
@@ -15,17 +16,18 @@ export async function POST(request: NextRequest) {
 
     
     const verification_token = crypto.randomBytes(32).toString("hex")
-    const expiresAt = new Date(Date.now() + 1000) //change this
-    const verification_token_expires = new Date(Date.now() + 24 * 60 * 60 * 1000) // change this
-    const hashed_password = await hashPassword(password)
+    const hashed_token = await generateHash(verification_token)
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000) //change this
 
-    await addPendingUser(email, hashed_password, first_name, last_name, verification_token, expiresAt);
+    const hashed_password = await generateHash(password)
+
+    await addPendingUser(email, hashed_password, first_name, last_name, hashed_token, expiresAt);
 
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    const verificationUrl = `${baseUrl}/auth/verify-email?token=${verification_token}`
+    const verificationUrl = `${baseUrl}/auth/verify-email?token=${verification_token}&email=${encodeURIComponent(email)}`
 
-    await sendVerificationEmail(verificationUrl, verification_token_expires)
+    await sendVerificationEmail(verificationUrl, expiresAt)
 
     
     return NextResponse.json({
