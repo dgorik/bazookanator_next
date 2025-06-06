@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     // Generate verification URL
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    const verificationUrl = `${baseUrl}/verify-email?token=${verification_token}&email=${encodeURIComponent(email)}`
+    const verificationUrl = `${baseUrl}/api/auth/verify-email?token=${verification_token}}`
 
     // Send verification email
     await transporter.sendMail({
