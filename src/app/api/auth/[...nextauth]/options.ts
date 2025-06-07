@@ -23,7 +23,7 @@ export const options = {
           label: "Password:",
           type: "password",
           placeholder: "your-password",
-        },
+        }
       },
       async authorize(credentials: Credentials | undefined) {
         await connectMongoDB()
@@ -54,9 +54,14 @@ export const options = {
         if (!isMatch) {
           throw new Error("Incorrect password");
         }
-        return user
-      },
-    }),
+        return {
+          email: user.email,
+          name: user.first_name,
+          image: null, 
+          role: null
+        } as any
+      }
+    })
   ],
   callbacks: {
     async jwt({ token, user }: { token: any; user?: any }) { //revisit these types

@@ -13,11 +13,15 @@ const Member = async () => {
   }
 
   return (
-    <div className="flex-row">
-      <h1>Member Server Session</h1>
-      <p>{session?.user?.email}</p>
-      <div>
+    <div className="relative min-h-screen">
+      <div className="absolute top-4 right-4 ">
+        <h1>Member Server Session</h1>
+        <p>{session?.user?.email}</p>
+        <p>{session?.user?.name}</p>
         <LogOut />
+      </div>
+
+      <div className="absolute bottom-4 right-4 ">
         <ChatBox />
       </div>
     </div>
