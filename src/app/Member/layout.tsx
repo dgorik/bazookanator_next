@@ -5,16 +5,16 @@ import {
 import { AppSidebar } from "./components/sidebar/AppSidebar";
 import { SessionWrapper } from "./components/SessionWrapper";
 import MemberHeader from "./components/MemberHeader";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { options } from "@/app/api/auth/[...nextauth]/options";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 export default async function MemberLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(options);
+  const session = await getServerSession(authOptions);
 
   if (!session) {
     // Redirect unauthenticated users to login page

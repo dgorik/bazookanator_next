@@ -9,7 +9,7 @@ type Credentials = {
     password: string;
   };
 
-export const options = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -63,18 +63,22 @@ export const options = {
       }
     })
   ],
+  session: {
+    // strategy: "jwt",
+    maxAge: 5, 
+  },
   pages: {
     signIn: "/auth/signin",
     signOut: "/auth/signout",
   },
-  callbacks: {
-    // async jwt({ token, user }: { token: any; user?: any }) { //revisit these types
-    //   if (user) token.role = user.role;
-    //   return token;
-    // },
-    async session({ session, token }:{ session?: any; token: any }) {
-      if (session?.user) session.user.role = token.role;
-      return session;
-    },
-  },
+  // callbacks: {
+  //   // // async jwt({ token, user }: { token: any; user?: any }) { //revisit these types
+  //   // //   if (user) token.role = user.role;
+  //   // //   return token;
+  //   // // },
+  //   // async session({ session, token }:{ session?: any; token: any }) {
+  //   //   if (session?.user) session.user.role = token.role;
+  //   //   return session;
+  //   // },
+  // },
 };
