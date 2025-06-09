@@ -50,7 +50,6 @@ export default function LoginForm({
   }, [message]);
 
   return (
-    // <div className={cn("flex flex-col gap-6", className)} {...props}>
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
@@ -60,7 +59,7 @@ export default function LoginForm({
       </CardHeader>
       <CardContent>
         <form>
-          <div className="flex flex-col gap-6 mb-3">
+          <div className="flex flex-col gap-6 mb-3 ">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -86,25 +85,16 @@ export default function LoginForm({
             <Button type="submit" className="w-full" onClick={handlePostUsers}>
               Login
             </Button>
-            {/* {errors.length > 0 && (
-              <ul style={{ color: "red" }}>
-                {errors.map((error, idx) => (
-                  <li key={idx}>{error.msg}</li>
-                ))}
-              </ul>
-            )} */}
-            <Link href="/signup">
+            <Link href="/auth/signup">
               <Button variant="outline" className="w-full">
                 Sign Up
               </Button>
             </Link>
-            <Button
-              type="submit"
-              className="w-1/2 mx-auto" //
-              // onClick={}
-            >
-              Forgot Password
-            </Button>
+            <Link href="/auth/forgot-password">
+              <Button type="submit" className="w-1/2 mx-auto block">
+                Forgot Password
+              </Button>
+            </Link>
           </div>
         </form>
         <div>
@@ -112,6 +102,5 @@ export default function LoginForm({
         </div>
       </CardContent>
     </Card>
-    // </div>
   );
 }

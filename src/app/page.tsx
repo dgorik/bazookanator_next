@@ -1,11 +1,10 @@
-import LoginForm from "@/app/auth/signin/components/LoginForm";
+import SignInPage from "./auth/signin/page";
 
-export default async function Home() {
+export default function Home() {
   return (
     <div>
-      <div className=" flex flex-col items-center justify-center min-h-screen">
-        <LoginForm />
-      </div>
+      {/* maybe we can render something fun that a user can click on and the app will take them to signinpage */}
+      <SignInPage />
     </div>
   );
 }

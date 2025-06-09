@@ -1,6 +1,6 @@
 import LoginForm from "@/app/auth/signin/components/LoginForm";
 
-const RegisterPage = () => {
+const SignInPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <LoginForm />
@@ -8,4 +8,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default SignInPage;
