@@ -1,3 +1,7 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -12,13 +16,15 @@ import {
 } from "@/components/ui/other/dropdown-menu";
 
 export function SideBarFooter() {
+  const { data: session } = useSession();
+
   return (
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton>Username Pic</SidebarMenuButton>
+              <SidebarMenuButton>{session?.user?.email}</SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               side="top"

@@ -1,4 +1,5 @@
-// components/ui/sidebar/SidebarGroupApplication.tsx
+"use client";
+
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 import {
   SidebarGroup,

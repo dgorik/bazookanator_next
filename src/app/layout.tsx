@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import HeaderWrapper from "@/components/HeaderWrapper";
 import "./globals.css";
 
