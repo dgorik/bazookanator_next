@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { email} = body
 
+
     // Here you would check if the user already exists in your database
     // For example:
     // const existingUser = await db.user.findUnique({ where: { email } })
@@ -46,7 +47,7 @@ export async function POST(request: NextRequest) {
     // Send verification email
     await transporter.sendMail({
       from: `"Your App" <${process.env.EMAIL_USERNAME}>`,
-      to: email,
+      to: "dg186533@gmail.com",
       subject: "Please verify your email address",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
