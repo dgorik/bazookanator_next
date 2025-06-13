@@ -13,13 +13,18 @@ export default function SetPassword({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [password, setPassword] = useState("");
+  const [confirm_password, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState(""); //this means you are storing an array of objects with initial value []
   const router = useRouter();
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    router.push("/");
+    if (password != confirm_password) {
+      setErrors("Passwords must match");
+    } else {
+      router.push("/");
+    }
   };
 
   const searchParams = useSearchParams();
@@ -50,11 +55,11 @@ export default function SetPassword({
             <div className="grid gap-2">
               <Label htmlFor="password">Confirm Password</Label>
               <Input
-                id="password"
+                id="confirm_password"
                 type="password"
                 required={true}
                 onChange={(e) => {
-                  setPassword(e.target.value);
+                  setConfirmPassword(e.target.value);
                 }}
               />
             </div>
