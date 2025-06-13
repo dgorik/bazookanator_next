@@ -1,7 +1,7 @@
 "use client";
 
-import { Textarea } from "@/(components)/ui/textarea";
-import { Button } from "@/(components)/ui/button";
+import { Textarea } from "@/components/ui/other/textarea";
+import { Button } from "@/components/ui/buttons/button";
 import { useState } from "react";
 
 export default function ChatBox({

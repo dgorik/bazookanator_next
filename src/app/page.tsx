@@ -1,5 +1,5 @@
 import LoginForm from "@/app/sign-in/components/LoginForm";
-import Header from "@/(components)/Header";
+import Header from "@/components/Header";
 
 export default async function Home() {
   //this page is rendered on a server because it's using async

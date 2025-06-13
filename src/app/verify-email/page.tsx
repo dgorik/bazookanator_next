@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { ButtonLoading } from "@/(components)/ui/button_loading";
+import { ButtonLoading } from "@/components/ui/buttons/button_loading";
 
 export default function VerifyEmailPage() {
   const router = useRouter();

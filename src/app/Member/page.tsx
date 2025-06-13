@@ -13,15 +13,14 @@ const Member = async () => {
   }
 
   return (
-    <div className="relative min-h-screen">
-      <div className="absolute top-4 right-4 ">
+    <div className="flex flex-col justify-between min-h-screen py-4">
+      <div>
         <h1>Member Server Session</h1>
         <p>{session?.user?.email}</p>
         <p>{session?.user?.name}</p>
         <LogOut />
       </div>
-
-      <div className="absolute bottom-4 right-4 ">
+      <div>
         <ChatBox />
       </div>
     </div>

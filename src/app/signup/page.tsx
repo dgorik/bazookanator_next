@@ -1,5 +1,5 @@
 import SignupForm from "@/app/signup/components/SignupForm";
-import Header from "@/(components)/Header";
+import Header from "@/components/Header";
 
 export default async function Signup() {
   return (
