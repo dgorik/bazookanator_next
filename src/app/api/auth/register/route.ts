@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
 import connectEmail from "../../../../config/connect_email"
+import AddUser from "@/(components)/auth/AddUser"
 
 // Email transporter setup
 const transporter = await connectEmail()
@@ -9,7 +10,9 @@ export async function POST(request: NextRequest) {
   try {
     // Parse the request body
     const body = await request.json()
-    const { email} = body
+    const { email, password, first_name, last_name} = body
+
+    await AddUser(email, password, first_name, last_name);
 
 
     // Here you would check if the user already exists in your database
