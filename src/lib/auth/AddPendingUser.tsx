@@ -1,20 +1,21 @@
 import React from "react";
-import User from "@/(models)/User";
+import PendingUser from "@/(models)/PendingUser";
 
-export default async function AddUser(
+export default async function AddPendingUser(
   email: string,
   password: string,
   first_name: string,
   last_name: string,
-  verification_token: string
+  verification_token: string,
+  createdAt: Date
 ) {
-  const newUser = new User({
+  const newUser = new PendingUser({
     email,
     password,
     first_name,
     last_name,
     verification_token,
-    verified: true,
+    createdAt,
   });
 
   await newUser.save();

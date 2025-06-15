@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
 import connectEmail from "../../../../config/connect_email"
-import AddUser from "@/(components)/auth/AddUser"
+import AddPendingUser from "@/lib/auth/AddPendingUser"
 import hashPassword from "@/lib/auth/hashPassword"
 
 // Email transporter setup
@@ -25,10 +25,11 @@ export async function POST(request: NextRequest) {
 
     // Generate verification token
     const verification_token = crypto.randomBytes(32).toString("hex")
+    const createdAt = new Date(Date.now())
     const verification_token_expires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
     const hashed_password = await hashPassword(password)
 
-    await AddUser(email, hashed_password, first_name, last_name, verification_token);
+    await AddPendingUser(email, hashed_password, first_name, last_name, verification_token, createdAt);
 
     // Here you would create the user in your database
     // For example:
