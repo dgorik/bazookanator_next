@@ -12,8 +12,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { email, password, first_name, last_name} = body
 
-    await AddUser(email, password, first_name, last_name);
-
 
     // Here you would check if the user already exists in your database
     // For example:
@@ -26,8 +24,10 @@ export async function POST(request: NextRequest) {
     // }
 
     // Generate verification token
-    const verificationToken = crypto.randomBytes(32).toString("hex")
-    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+    const verification_token = crypto.randomBytes(32).toString("hex")
+    const verification_token_expires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+
+    await AddUser(email, password, first_name, last_name, verification_token);
 
     // Here you would create the user in your database
     // For example:
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     // Generate verification URL
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    const verificationUrl = `${baseUrl}/verify-email?token=${verificationToken}&email=${encodeURIComponent(email)}`
+    const verificationUrl = `${baseUrl}/verify-email?token=${verification_token}&email=${encodeURIComponent(email)}`
 
     // Send verification email
     await transporter.sendMail({
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
           </div>
           <p>If the button doesn't work, you can also click on this link or copy it to your browser:</p>
           <p><a href="${verificationUrl}">${verificationUrl}</a></p>
-          <p>This link will expire at ${verificationExpires}.</p>
+          <p>This link will expire at ${verification_token_expires}.</p>
           <p>If you did not create an account, please ignore this email.</p>
           <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center; color: #666; font-size: 12px;">
             <p>This is an automated email, please do not reply.</p>

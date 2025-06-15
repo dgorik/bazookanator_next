@@ -7,7 +7,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import AddUser from "./AddUser";
 
 export default function SetPassword({
   className,
