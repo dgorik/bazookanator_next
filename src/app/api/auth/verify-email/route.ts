@@ -10,6 +10,10 @@ export async function GET (req: NextRequest) {
     const token = url.searchParams.get('token');
     const pendingUser = await PendingUser.findOne({ verification_token: token})
 
+    if(!pendingUser){
+      console.log("User not found")
+    }
+
     await User.create({
       email: pendingUser.email,
       password: pendingUser.password,
@@ -17,9 +21,7 @@ export async function GET (req: NextRequest) {
       last_name: pendingUser.last_name,
     })
 
-    if(!pendingUser){
-      console.log("User not found")
-    }
+    await PendingUser.deleteOne({ _id: pendingUser._id });
 
     return NextResponse.json({ message: 'Verified, redirecting....' });
 
