@@ -30,27 +30,13 @@ export async function POST(request: NextRequest) {
 
     await addPendingUser(email, hashed_password, first_name, last_name, verification_token, createdAt);
 
-    // Here you would create the user in your database
-    // For example:
-    // const hashedPassword = await hashPassword(password)
-    // const user = await db.user.create({
-    //   data: {
-    //     email,
-    //     name,
-    //     password: hashedPassword,
-    //     verificationToken,
-    //     verificationExpires,
-    //     isVerified: false,
-    //   },
-    // })
 
-    // Generate verification URL
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
     const verificationUrl = `${baseUrl}/verify-email?token=${verification_token}`
 
     await sendVerificationEmail(verificationUrl, verification_token_expires)
 
-    // Send verification email
+    
     return NextResponse.json({
       success: true,
       message: "Registration successful. Please check your email to verify your account.",
