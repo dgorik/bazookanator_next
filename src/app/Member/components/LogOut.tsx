@@ -1,11 +1,14 @@
 import React from "react";
 import Link from "next/link";
+import { Button } from "@/(components)/ui/button";
 
 const LogOut = () => {
   return (
-    <div>
-      <Link href="/api/auth/signout?callbackUrl=/">Logout</Link>
-    </div>
+    <Link href="/api/auth/signout?callbackUrl=/">
+      <Button className="w-full" variant="outline">
+        Logout
+      </Button>
+    </Link>
   );
 };
 

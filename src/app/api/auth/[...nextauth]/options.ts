@@ -2,6 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "../../../../(models)/User";
 import bcrypt from "bcryptjs";
 import validator from "validator";
+import { connectMongoDB } from "@/lib/database/mongodb";
 
 type Credentials = {
     email: string;
@@ -25,6 +26,7 @@ export const options = {
         },
       },
       async authorize(credentials: Credentials | undefined) {
+        await connectMongoDB()
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required");
         }

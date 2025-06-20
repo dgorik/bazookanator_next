@@ -1,12 +1,10 @@
 import LoginForm from "@/app/sign-in/components/LoginForm";
 import Header from "@/(components)/Header";
-import { connectDB } from "../database/mongodb";
-import { connectSuperbase } from "@/database/superbase";
 
 export default async function Home() {
   //this page is rendered on a server because it's using async
-  await connectDB(); // Connect to the DB before the page is rendered
-  await connectSuperbase();
+  // await connectDB(); // Connect to the DB before the page is rendered
+  // await connectSuperbase();
 
   return (
     <div>

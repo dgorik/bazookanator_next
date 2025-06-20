@@ -1,7 +1,7 @@
 // app/api/verify-email.ts
 import { NextRequest, NextResponse  } from 'next/server';
-import PendingUser from '@/(models)/PendingUser';
-import User from '@/(models)/User';
+import PendingUser from '@/(models)/PendingUser'
+import addUser from '@/lib/auth/addUser';
 
 export async function GET (req: NextRequest) {
 
@@ -14,12 +14,7 @@ export async function GET (req: NextRequest) {
       console.log("User not found")
     }
 
-    await User.create({
-      email: pendingUser.email,
-      password: pendingUser.password,
-      first_name: pendingUser.first_name,
-      last_name: pendingUser.last_name,
-    })
+    await addUser(pendingUser.email, pendingUser.password, pendingUser.first_name, pendingUser.last_name);
 
     await PendingUser.deleteOne({ _id: pendingUser._id });
 
