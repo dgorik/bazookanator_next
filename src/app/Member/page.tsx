@@ -13,16 +13,12 @@ const Member = async () => {
   }
 
   return (
-    <div className="flex flex-col justify-between min-h-screen py-4">
-      <div>
-        <h1>Member Server Session</h1>
-        <p>{session?.user?.email}</p>
-        <p>{session?.user?.name}</p>
-        <LogOut />
-      </div>
-      <div>
-        <ChatBox />
-      </div>
+    <div className="flex flex-col justify-between">
+      <h1>Member Server Session</h1>
+      <p>{session?.user?.email}</p>
+      <p>{session?.user?.name}</p>
+      <LogOut />
+      <ChatBox />
     </div>
   );
 };

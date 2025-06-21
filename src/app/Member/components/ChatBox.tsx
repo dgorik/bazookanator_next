@@ -27,15 +27,18 @@ export default function ChatBox({
     }
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="flex flex-col h-[80vh]">
+      <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
         <Textarea
+          className="flex-grow "
           placeholder="Type your message here."
           value={userMessage}
           onChange={(e) => setUserMessage(e.target.value)}
         />
-        <Button type="submit">Fire away a question</Button>
       </form>
+      <div>
+        <Button type="submit">Fire away a question</Button>
+      </div>
     </div>
   );
 }

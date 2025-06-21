@@ -9,7 +9,6 @@ export default async function Home() {
   return (
     <div>
       <div className=" flex flex-col items-center justify-center min-h-screen">
-        <Header />
         <LoginForm />
       </div>
     </div>
