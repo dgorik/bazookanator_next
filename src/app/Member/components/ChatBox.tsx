@@ -35,10 +35,10 @@ export default function ChatBox({
           value={userMessage}
           onChange={(e) => setUserMessage(e.target.value)}
         />
+        <div>
+          <Button type="submit">Fire away a question</Button>
+        </div>
       </form>
-      <div>
-        <Button type="submit">Fire away a question</Button>
-      </div>
     </div>
   );
 }

@@ -5,10 +5,11 @@ export async function POST(request: NextRequest){
     try{
         const body = await request.json()
         const {userMessage} = body
-        const { data, error } = await supabase
-          .from('Test')
-          .select()
+        let { data, error } = await supabase
+          .from('OP Database')
+          .select('Measure')
         console.log(data)
+        
         return NextResponse.json({
           success: true,
           message: "Registration successful. Please check your email to verify your account.",

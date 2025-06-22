@@ -1,4 +1,3 @@
-import LogOut from "./components/LogOut";
 import ChatBox from "./components/ChatBox";
 
 export default async function Member() {
@@ -7,7 +6,6 @@ export default async function Member() {
       {/* <h1>Member Server Session</h1>
       <p>{session?.user?.email}</p>
       <p>{session?.user?.name}</p> */}
-      <LogOut />
       <ChatBox />
     </div>
   );

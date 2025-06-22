@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 import {
@@ -37,7 +38,9 @@ export function SideBarFooter() {
                 <span>Billing</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <span>Sign out</span>
+                <Link href="/api/auth/signout?callbackUrl=/">
+                  <span> Sign Out</span>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
