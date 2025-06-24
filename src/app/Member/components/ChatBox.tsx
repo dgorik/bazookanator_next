@@ -8,7 +8,7 @@ export default function ChatBox({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [userMessage, setUserMessage] = useState("");
+  const [userQuestion, setUserQuestion] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,7 +18,7 @@ export default function ChatBox({
       const response = await fetch("/api/sales/us_consolidated", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userMessage }),
+        body: JSON.stringify({ userQuestion }),
       });
 
       const data = await response.json();
@@ -32,8 +32,8 @@ export default function ChatBox({
         <Textarea
           className="flex-grow "
           placeholder="Type your message here."
-          value={userMessage}
-          onChange={(e) => setUserMessage(e.target.value)}
+          value={userQuestion}
+          onChange={(e) => setUserQuestion(e.target.value)}
         />
         <div>
           <Button type="submit">Fire away a question</Button>

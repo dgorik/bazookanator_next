@@ -1,14 +1,11 @@
-import { salesSchema } from "../schema/sales";
+import { openai_client } from "@/lib/clients/openai";
 
-export function buildSQLPrompt(userQuestion: string) {
-  return `
-You are a helpful assistant that converts natural language into SQL.
+export async function generateSQL(prompt: string) {
+  const response = await openai_client.responses.create({
+    model: "gpt-4o-mini",
+    input: prompt,
+  });
 
-${salesSchema}
-
-Convert this user question into a valid PostgreSQL SELECT query:
-"${userQuestion}"
-
-Only output SQL. Do not include any explanation.
-`;
+  return response.output_text;
 }
+
