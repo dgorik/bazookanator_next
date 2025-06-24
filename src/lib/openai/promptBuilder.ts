@@ -9,6 +9,6 @@ ${salesSchema}
 Convert this user question into a valid PostgreSQL SELECT query:
 "${userQuestion}"
 
-Only output SQL. Do not include any explanation.
+- Return clean SQL only
 `;
 }
