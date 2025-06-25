@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/other/input";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/buttons/button";
 import { ScrollArea } from "@/components/ui/other/scroll-area";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
 interface Message {
   id: string;
@@ -23,15 +23,6 @@ export default function ChatBox() {
   ]);
 
   const [inputValue, setInputValue] = useState("");
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // scroll to bottom on message update
-    scrollRef.current?.scrollTo({
-      top: scrollRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [messages]);
 
   const handleSend = async () => {
     if (!inputValue.trim()) return;
@@ -56,7 +47,7 @@ export default function ChatBox() {
 
       const botReply: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.result || "Sorry, I didn’t catch that.",
+        content: data.summary || "Sorry, I didn’t catch that.",
         sender: "bot",
       };
 
@@ -77,7 +68,7 @@ export default function ChatBox() {
     <Card className="flex flex-col h-[80vh] bg-white shadow-lg">
       <CardContent className="flex-grow overflow-hidden">
         <ScrollArea className="h-full pr-4">
-          <div className="flex flex-col gap-3 p-2" ref={scrollRef}>
+          <div className="flex flex-col gap-3 p-2">
             {messages.map((msg) => (
               <div
                 key={msg.id}
