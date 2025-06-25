@@ -10,5 +10,6 @@ Convert this user question into a valid PostgreSQL SELECT query:
 "${userQuestion}"
 
 - Return clean SQL only
+- 
 `;
 }
