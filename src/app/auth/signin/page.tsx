@@ -1,4 +1,4 @@
-import LoginForm from "@/app/sign-in/components/LoginForm";
+import LoginForm from "@/app/auth/signin/components/LoginForm";
 
 const RegisterPage = () => {
   return (

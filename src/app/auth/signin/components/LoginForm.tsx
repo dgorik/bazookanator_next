@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import { Button } from "../../../components/ui/buttons/button";
+import { Button } from "../../../../components/ui/buttons/button";
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
@@ -11,9 +11,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/other/card";
-import { Input } from "../../../components/ui/other/input";
-import { Label } from "../../../components/ui/other/label";
+} from "../../../../components/ui/other/card";
+import { Input } from "../../../../components/ui/other/input";
+import { Label } from "../../../../components/ui/other/label";
 
 export default function LoginForm({
   className,
@@ -28,7 +28,7 @@ export default function LoginForm({
     e.preventDefault();
 
     const res = await signIn("credentials", {
-      redirect: false, // Do not redirect immediately after signIn
+      redirect: false,
       email,
       password,
     });
