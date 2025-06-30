@@ -3,36 +3,27 @@ import crypto from "crypto"
 import addPendingUser from "@/lib/auth/addPendingUser"
 import hashPassword from "@/lib/auth/hashPassword"
 import { sendVerificationEmail } from "@/lib/auth/sendVerificationEmail"
+import { connectMongoDB } from "@/lib/clients/mongodb"
 
 // Email transporter setup
 
 export async function POST(request: NextRequest) {
   try {
-    // Parse the request body
+    await connectMongoDB()
     const body = await request.json()
     const { email, password, first_name, last_name} = body
 
-    // Here you would check if the user already exists in your database
-    // For example:
-    // const existingUser = await db.user.findUnique({ where: { email } })
-    // if (existingUser) {
-    //   return NextResponse.json(
-    //     { success: false, message: "User already exists" },
-    //     { status: 400 }
-    //   )
-    // }
-
-    // Generate verification token
+    
     const verification_token = crypto.randomBytes(32).toString("hex")
-    const createdAt = new Date(Date.now())
-    const verification_token_expires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+    const expiresAt = new Date(Date.now() + 1000) //change this
+    const verification_token_expires = new Date(Date.now() + 24 * 60 * 60 * 1000) // change this
     const hashed_password = await hashPassword(password)
 
-    await addPendingUser(email, hashed_password, first_name, last_name, verification_token, createdAt);
+    await addPendingUser(email, hashed_password, first_name, last_name, verification_token, expiresAt);
 
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    const verificationUrl = `${baseUrl}/verify-email?token=${verification_token}`
+    const verificationUrl = `${baseUrl}/auth/verify-email?token=${verification_token}`
 
     await sendVerificationEmail(verificationUrl, verification_token_expires)
 

@@ -30,7 +30,9 @@ export default function ForgotPasswordForm({
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(data.message);
+        setMessage(
+          "If the email is registered, a password reset link has been sent."
+        );
       } else {
         setMessage(data.message);
       }

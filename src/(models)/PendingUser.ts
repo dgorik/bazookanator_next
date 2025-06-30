@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
   verification_token: { type: String, required: true },
-  createdAt: { type: Date, required: true },
+  expiresAt: { type: Date, required: true },
 });
 
   

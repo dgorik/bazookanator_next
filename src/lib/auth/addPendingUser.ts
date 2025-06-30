@@ -6,7 +6,7 @@ export default async function addPendingUser(
   first_name: string,
   last_name: string,
   verification_token: string,
-  createdAt: Date
+  expiresAt: Date
 ) {
   const newUser = new PendingUser({
     email,
@@ -14,7 +14,7 @@ export default async function addPendingUser(
     first_name,
     last_name,
     verification_token,
-    createdAt,
+    expiresAt,
   });
 
   await newUser.save();
