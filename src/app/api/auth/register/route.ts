@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
 import generateHash from "@/lib/auth/generateHash"
-import compareTokens from "@/lib/auth/compareTokens"
 import {addPendingUser} from "@/lib/db/users"
 import { sendVerificationEmail } from "@/lib/auth/sendVerificationEmail"
 import { connectMongoDB } from "@/lib/clients/mongodb"
