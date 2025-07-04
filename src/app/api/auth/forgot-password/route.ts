@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   const { email } = body
 
-  if (!email || typeof email !== "string") {
+  if (!email) { //check what this will return for a blank field
     return NextResponse.json(
       {
         success: false,
@@ -33,56 +33,33 @@ export async function POST(req: NextRequest) {
   }
 
   let user
+  
   try {
     user = await User.findOne({ email })
   } catch (error) {
-    console.error("DB error while finding user:", error)
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Something went wrong. Please try again later.",
-      },
-      { status: 500 }
-    )
+    return NextResponse.json({ success: false, message: "Something went wrong." }, { status: 500 })
   }
 
-  if (!user) {
-    return NextResponse.json({
-      success: true,
-      message: "If an account with that email exists, a password reset email has been sent.",
-    })
-  }
+  if (user) {
+    const token = crypto.randomBytes(32).toString("hex")
+    const hashedToken = await generateHash(token)
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000)
 
-  const token = crypto.randomBytes(32).toString("hex")
-  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
-  const hashed_token = await generateHash(token)
+    try {
+      await addPasswordResetToken(email, hashedToken, expiresAt)
+    } catch (error) {
+      console.error("Error saving reset token:", error)
+      return NextResponse.json({ success: false, message: "Failed to save the token." }, { status: 500 })
+    }
 
-  try {
-    await addPasswordResetToken(email, hashed_token, expiresAt)
-  } catch (error) {
-    console.error("Error saving reset token:", error)
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to save the token to the database.",
-      },
-      { status: 500 }
-    )
-  }
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+    const verificationUrl = `${baseUrl}/auth/reset-password?token=${token}`
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-  const verificationUrl = `${baseUrl}/auth/reset-password?token=${token}`
-
-  try {
-    await sendPasswordResetEmail(verificationUrl, expiresAt)
-  } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to send an email with a token.",
-      },
-      { status: 500 }
-    )
+    try {
+      await sendPasswordResetEmail(verificationUrl, expiresAt)
+    } catch (error) {
+      return NextResponse.json({ success: false, message: "Failed to send email." }, { status: 500 })
+    }
   }
 
   return NextResponse.json({

@@ -15,8 +15,7 @@ export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [errors, setErrors] = useState("");
-  const [messages, setMessages] = useState("");
+  const [status, setStatus] = useState({ type: "", message: "" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -26,13 +25,19 @@ export default function SignupForm({
     e.preventDefault();
 
     if (!email) {
-      setErrors("Email is required.");
+      setStatus({ type: "error", message: "Email is required." });
     } else if (!email.endsWith("@bazooka-inc.com")) {
-      setErrors("Please enter a @bazooka-inc email.");
+      setStatus({
+        type: "error",
+        message: "Please enter a @bazooka-inc email.",
+      });
     }
 
     if (password.length < 6) {
-      setErrors("Password must be at least 6 characters.");
+      setStatus({
+        type: "error",
+        message: "Password must be at least 6 characters.",
+      });
     }
 
     try {
@@ -44,17 +49,17 @@ export default function SignupForm({
 
       const data = await response.json();
 
-      if (response.ok) {
-        setMessages("Please check your email to verify your account.");
+      if (!response.ok) {
+        setStatus({ type: "error", message: data.message });
         setEmail("");
         setPassword("");
         setFirstName("");
         setLastName("");
       } else {
-        setErrors(data.error || "Registration failed.");
+        setStatus({ type: "success", message: data.message });
       }
     } catch (error) {
-      setErrors("An unexpected error occurred. Please try again.");
+      setStatus({ type: "success", message: "An unknown error occurred" });
     }
   };
 
@@ -117,10 +122,17 @@ export default function SignupForm({
             </Button>
           </div>
         </form>
-        <div className="flex justify-center mt-2 text-green-600">
-          {messages}
-        </div>
-        <div className="flex justify-center mt-2 text-red-600">{errors}</div>
+
+        {status.type === "success" && (
+          <div className="flex justify-center mt-2 text-green-600">
+            {status.message}
+          </div>
+        )}
+        {status.type === "error" && (
+          <div className="flex justify-center mt-2 text-red-600">
+            {status.message}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
