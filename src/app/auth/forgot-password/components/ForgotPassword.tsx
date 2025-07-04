@@ -17,7 +17,7 @@ export default function ForgotPasswordForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState({ type: "", message: "" });
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,16 +28,13 @@ export default function ForgotPasswordForm({
         body: JSON.stringify({ email }),
       });
       const data = await response.json();
-
-      if (response.ok) {
-        setMessage(
-          "If the email is registered, a password reset link has been sent."
-        );
+      if (!response.ok) {
+        setStatus({ type: "error", message: data.message }); //this line catches 400, 404, 500 return statuses
       } else {
-        setMessage(data.message);
+        setStatus({ type: "success", message: data.message });
       }
     } catch (error) {
-      setMessage("Network booom");
+      setStatus({ type: "success", message: "An unknown error occurred" });
     }
   };
   return (
@@ -71,7 +68,16 @@ export default function ForgotPasswordForm({
           </div>
         </form>
         <div>
-          <p> {message}</p>
+          {status.type === "success" && (
+            <div className="flex justify-center mt-2 text-green-600">
+              {status.message}
+            </div>
+          )}
+          {status.type === "error" && (
+            <div className="flex justify-center mt-2 text-red-600">
+              {status.message}
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
