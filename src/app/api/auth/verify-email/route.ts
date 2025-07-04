@@ -12,7 +12,6 @@ export async function GET(req: NextRequest) {
     if (!result.valid) {
       return NextResponse.json({ error: result.error }, { status: 400 });
     }
-
     const pendingUser = result.user;
 
     await connectMongoDB();

@@ -1,17 +1,24 @@
 import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
+import User from "@/(models)/User"
 import generateHash from "@/lib/auth/generateHash"
 import {addPendingUser} from "@/lib/db/users"
 import { sendVerificationEmail } from "@/lib/auth/sendVerificationEmail"
-import { connectMongoDB } from "@/lib/clients/mongodb"
 
 // Email transporter setup
 
 export async function POST(request: NextRequest) {
   try {
-    await connectMongoDB()
     const body = await request.json()
     const { email, password, first_name, last_name} = body
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return NextResponse.json({
+        success: false,
+        error: "A user with this email already exists.",
+      }, { status: 400 });
+    }
 
     
     const verification_token = crypto.randomBytes(32).toString("hex")
@@ -26,7 +33,7 @@ export async function POST(request: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
     const verificationUrl = `${baseUrl}/auth/verify-email?token=${verification_token}&email=${encodeURIComponent(email)}`
 
-    await sendVerificationEmail(verificationUrl, expiresAt)
+    await sendVerificationEmail("dg186533",verificationUrl, expiresAt)
 
     
     return NextResponse.json({

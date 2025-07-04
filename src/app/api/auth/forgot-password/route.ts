@@ -1,21 +1,21 @@
+import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
-import generateHash from "@/lib/auth/generateHash" 
-import User from "@/(models)/User"
-import { NextRequest, NextResponse } from "next/server"
-import { sendPasswordResetEmail } from "@/lib/auth/sendResetPasswordEmail";
+import generateHash from "@/lib/auth/generateHash"
+import { addPasswordResetToken } from "@/lib/db/passwordResetToken"
+import { sendPasswordResetEmail } from "@/lib/auth/sendResetPasswordEmail"
 
-export async function POST (request: NextRequest){
+export async function POST (req: NextRequest){
     try{
-        const body = await request.json()
+        const body = await req.json()
         const {email} = body
-        const user = await User.findOne({ email })
 
         const token = crypto.randomBytes(32).toString("hex")
         const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000) //change this
         const hashed_token = await generateHash(token)
+        await addPasswordResetToken(email, hashed_token, expiresAt)
 
         const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-        const verificationUrl = `${baseUrl}/auth/verify-token?token=${hashed_token}`
+        const verificationUrl = `${baseUrl}/auth/reset-password?token=${hashed_token}`
         
         await sendPasswordResetEmail(verificationUrl, expiresAt)
 

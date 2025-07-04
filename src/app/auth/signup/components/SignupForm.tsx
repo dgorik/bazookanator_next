@@ -17,8 +17,8 @@ export default function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [errors, setErrors] = useState<string[]>([]);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [errors, setErrors] = useState("");
+  const [messages, setMessages] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -27,22 +27,14 @@ export default function SignupForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newErrors: string[] = [];
-    const newMessages: string[] = [];
-
     if (!email) {
-      newErrors.push("Email is required.");
+      setErrors("Email is required.");
     } else if (!email.endsWith("@bazooka-inc.com")) {
-      newErrors.push("Please enter a @bazooka-inc email.");
+      setErrors("Please enter a @bazooka-inc email.");
     }
 
     if (password.length < 6) {
-      newErrors.push("Password must be at least 6 characters.");
-    }
-
-    if (newErrors.length) {
-      setErrors(newErrors);
-      return;
+      setErrors("Password must be at least 6 characters.");
     }
 
     try {
@@ -55,19 +47,16 @@ export default function SignupForm({
       const data = await response.json();
 
       if (response.ok) {
-        newMessages.push("Please check your email to verify your account.");
-        setMessages(newMessages);
+        setMessages("Please check your email to verify your account.");
         setEmail("");
         setPassword("");
         setFirstName("");
         setLastName("");
       } else {
-        newErrors.push(data.error || "Registration failed.");
-        setErrors(newErrors);
+        setErrors(data.error || "Registration failed.");
       }
     } catch (error) {
-      newErrors.push("An unexpected error occurred. Please try again.");
-      setErrors(newErrors);
+      setErrors("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -135,16 +124,8 @@ export default function SignupForm({
             </Button>
           </div>
         </form>
-        <div className="flex justify-center mt-2 text-red-600">
-          {messages.map((msg, index) => (
-            <p key={index}>{msg}</p>
-          ))}
-        </div>
-        <div className="flex justify-center mt-2 text-red-600">
-          {errors.map((err, index) => (
-            <p key={index}>{err}</p>
-          ))}
-        </div>
+        <div className="flex justify-center mt-2 text-red-600">{messages}</div>
+        <div className="flex justify-center mt-2 text-red-600">{errors}</div>
       </CardContent>
     </Card>
   );

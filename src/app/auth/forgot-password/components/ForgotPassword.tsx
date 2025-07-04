@@ -66,7 +66,7 @@ export default function ForgotPasswordForm({
               className="w-full"
               onClick={handleResetPassword}
             >
-              Login
+              Reset
             </Button>
           </div>
         </form>

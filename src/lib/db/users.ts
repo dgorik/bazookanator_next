@@ -1,5 +1,6 @@
 import User from "@/(models)/User";
 import PendingUser from "@/(models)/PendingUser";
+import { connectMongoDB } from "../clients/mongodb";
 
 
 export async function addUser(
@@ -8,6 +9,7 @@ export async function addUser(
   first_name: string,
   last_name: string,
 ) {
+  await connectMongoDB()
   const newUser = new User({
     email,
     password,
@@ -27,6 +29,7 @@ export async function addPendingUser(
   hashed_token: string,
   expiresAt: Date
 ) {
+  await connectMongoDB()
   const newPendingUser = new PendingUser({
     email,
     password,
