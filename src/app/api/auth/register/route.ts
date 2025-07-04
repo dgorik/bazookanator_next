@@ -20,28 +20,23 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    
     const verification_token = crypto.randomBytes(32).toString("hex")
     const hashed_token = await generateHash(verification_token)
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000) //change this
-
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000) 
     const hashed_password = await generateHash(password)
 
     await addPendingUser(email, hashed_password, first_name, last_name, hashed_token, expiresAt);
 
-
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
     const verificationUrl = `${baseUrl}/auth/verify-email?token=${verification_token}&email=${encodeURIComponent(email)}`
 
-    await sendVerificationEmail("dg186533",verificationUrl, expiresAt)
+    await sendVerificationEmail("dg186533@gmail.com", verificationUrl, expiresAt)
 
-    
     return NextResponse.json({
       success: true,
       message: "Registration successful. Please check your email to verify your account.",
     })
   } catch (error) {
-    console.error("Registration error:", error)
-    return NextResponse.json({ success: false, message: "An error occurred during registration" }, { status: 500 })
+    return NextResponse.json({ success: false, error: "An error occurred during registration" }, { status: 500 })
   }
 }

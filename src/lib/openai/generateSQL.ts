@@ -1,4 +1,4 @@
-import { openai_client } from "@/lib/clients/openai";
+import { openai_client } from "@/config/clients/openai";
 import { cleanedSQL } from "./data_clean/sqlUtils";
 
 export async function generateSQL(prompt: string) {

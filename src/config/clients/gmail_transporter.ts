@@ -10,7 +10,6 @@ export default async function connectEmail(){
                 pass: process.env.EMAIL_PASSWORD  // Set this environment variable
             },
         });
-
     return transporter;
   } catch (error) {
     console.error('Failed to create transporter:', error);

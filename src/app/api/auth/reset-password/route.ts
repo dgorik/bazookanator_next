@@ -1,7 +1,7 @@
 import User from "@/(models)/User"
 import compareTokens from "@/lib/auth/compareTokens"
 import { NextRequest, NextResponse  } from 'next/server';
-import { connectMongoDB } from '@/lib/clients/mongodb';
+import { connectMongoDB } from '@/config/clients/mongodb';
 import { addUser } from '@/lib/db/users';
 
 export async function GET(req: NextRequest) {

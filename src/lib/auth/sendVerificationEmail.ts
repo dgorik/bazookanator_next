@@ -1,4 +1,4 @@
-import connectEmail from "@/config/connect_email";
+import connectEmail from "@/config/clients/gmail_transporter";
 
 export async function sendVerificationEmail(
   toEmail: string,
@@ -10,7 +10,7 @@ export async function sendVerificationEmail(
 
     await transporter.sendMail({
       from: `"Your App" <${process.env.EMAIL_USERNAME}>`,
-      to: "dg186533@gmail.com",
+      to:  "dg186533@gmail.com",
       subject: "Please verify your email address",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">

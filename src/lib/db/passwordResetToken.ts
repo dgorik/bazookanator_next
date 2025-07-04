@@ -1,5 +1,5 @@
 import PasswordResetToken from "@/(models)/PasswordResetToken";
-import { connectMongoDB } from "../clients/mongodb";
+import { connectMongoDB } from "../../config/clients/mongodb";
 
 export async function addPasswordResetToken(
   email: string,

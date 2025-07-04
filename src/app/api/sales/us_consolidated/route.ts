@@ -1,4 +1,4 @@
-import { superbase } from "@/lib/clients/superbase"
+import { superbase } from "@/config/clients/superbase"
 import { buildSQLPrompt } from "@/lib/openai/promptBuilder";
 import { generateSQL } from "@/lib/openai/generateSQL";
 import { type NextRequest, NextResponse } from "next/server"

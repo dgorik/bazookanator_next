@@ -1,6 +1,4 @@
 "use client";
-
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Button } from "../../../../components/ui/buttons/button";
 import {
@@ -103,8 +101,6 @@ export default function SignupForm({
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="@bazooka-inc.com"
               />
-              {/* {errors.email && <p className="text-red-600">{errors.email}</p>} */}
-              {/* if errors.email is truthy it will render a warning, if not - it won't render anything */}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
@@ -115,16 +111,15 @@ export default function SignupForm({
                 required={true}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {/* {errors.password && (
-                <p className="text-red-600">{errors.password}</p>
-              )} */}
             </div>
             <Button type="submit" className="w-full">
               Submit
             </Button>
           </div>
         </form>
-        <div className="flex justify-center mt-2 text-red-600">{messages}</div>
+        <div className="flex justify-center mt-2 text-green-600">
+          {messages}
+        </div>
         <div className="flex justify-center mt-2 text-red-600">{errors}</div>
       </CardContent>
     </Card>

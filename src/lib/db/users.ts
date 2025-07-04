@@ -1,6 +1,6 @@
 import User from "@/(models)/User";
 import PendingUser from "@/(models)/PendingUser";
-import { connectMongoDB } from "../clients/mongodb";
+import { connectMongoDB } from "../../config/clients/mongodb";
 
 
 export async function addUser(

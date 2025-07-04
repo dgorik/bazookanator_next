@@ -15,19 +15,19 @@ export async function POST (req: NextRequest){
         await addPasswordResetToken(email, hashed_token, expiresAt)
 
         const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-        const verificationUrl = `${baseUrl}/auth/reset-password?token=${hashed_token}`
+        const verificationUrl = `${baseUrl}/auth/reset-password?token=${token}`
         
         await sendPasswordResetEmail(verificationUrl, expiresAt)
 
         return NextResponse.json({
             success: true,
-            message: email
+           message: "If an account with that email exists, a password reset email has been sent.",
         })
 
     }
     catch(error){
         return NextResponse.json({
-            success: false,
+            success: true,
             message: "If an account with that email exists, a password reset email has been sent.",
         })
     }

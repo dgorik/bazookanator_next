@@ -1,11 +1,11 @@
-import connectEmail from "@/config/connect_email"
+import connectEmail from "@/config/clients/gmail_transporter"
 
 const transporter = await connectEmail()
 
 export async function sendPasswordResetEmail(resetUrl: string, resetTokenExpires: Date ){
-    await transporter.sendMail({
+  await transporter.sendMail({
   from: `"Your App" <${process.env.EMAIL_USERNAME}>`,
-  to: "dg186533@gmail.com", // or dynamic user email
+  to: "dg186533@gmail.com", 
   subject: "Reset your password",
   html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
