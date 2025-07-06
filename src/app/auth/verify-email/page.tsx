@@ -21,9 +21,7 @@ export default function VerifyEmailPage() {
         .then((data) => {
           if (data.message) {
             setMessage(data.message);
-            setTimeout(() => {
-              router.push("/");
-            }, 5000);
+            router.push("/");
           } else {
             setMessage(data.error || "Verification failed");
           }
