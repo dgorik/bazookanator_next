@@ -4,6 +4,7 @@ import crypto from "crypto"
 import generateHash from "@/lib/auth/generateHash"
 import { addPasswordResetToken } from "@/lib/db/passwordResetToken"
 import { sendPasswordResetEmail } from "@/lib/auth/sendResetPasswordEmail"
+import { connectMongoDB } from "@/config/clients/mongodb"
 
 export async function POST(req: NextRequest) {
   let body
@@ -35,20 +36,20 @@ export async function POST(req: NextRequest) {
   let user
   
   try {
+    await connectMongoDB();
     user = await User.findOne({ email })
   } catch (error) {
-    return NextResponse.json({ success: false, message: "Something went wrong." }, { status: 500 })
+    return NextResponse.json({ success: false, message: error }, { status: 500 })
   }
 
   if (user) {
     const token = crypto.randomBytes(32).toString("hex")
-    const hashedToken = await generateHash(token)
+    const hashed_token = await generateHash(token)
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000)
 
     try {
-      await addPasswordResetToken(email, hashedToken, expiresAt)
+      await addPasswordResetToken(email, hashed_token, expiresAt)
     } catch (error) {
-      console.error("Error saving reset token:", error)
       return NextResponse.json({ success: false, message: "Failed to save the token." }, { status: 500 })
     }
 

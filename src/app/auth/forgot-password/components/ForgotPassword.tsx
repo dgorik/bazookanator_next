@@ -42,7 +42,7 @@ export default function ForgotPasswordForm({
       <CardHeader>
         <CardTitle className="text-2xl">Reset Password</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your email below to reset the password
         </CardDescription>
       </CardHeader>
       <CardContent>

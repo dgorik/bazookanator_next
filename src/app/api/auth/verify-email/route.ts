@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse  } from 'next/server';
-import User from "@/(models)/User"
 import PendingUser from '@/(models)/PendingUser'
 import { addUser } from '@/lib/db/users';
 import { verifyToken } from '@/lib/auth/verifyToken';

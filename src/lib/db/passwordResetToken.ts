@@ -3,13 +3,13 @@ import { connectMongoDB } from "../../config/clients/mongodb";
 
 export async function addPasswordResetToken(
   email: string,
-  hashed_token: string,
+  hashedToken: string,
   expiresAt: Date
 ) {
   await connectMongoDB()
   const newToken = new PasswordResetToken({
     email,
-    hashed_token,
+    hashedToken,
     expiresAt,
   });
 

@@ -1,5 +1,5 @@
 import PendingUser from '@/(models)/PendingUser'
-import User from "@/(models)/User"
+import User from '@/(models)/User';
 import { connectMongoDB } from '@/config/clients/mongodb';
 import compareTokens from "@/lib/auth/compareTokens"
 
@@ -34,24 +34,24 @@ export async function verifyToken(urlStr: string, collection_type: string) {
       return { valid: true, user: pendingUser }; // ✅ return user if needed
     }
 
-    // if (collection_type === "User") {
-    //   const user = await User.findOne({ email });
-    //   if (!user) {
-    //     return { valid: false, error: 'User not found' };
-    //   }
+    if (collection_type === "User") {
+      const user = await User.findOne({ email });
+      if (!user) {
+        return { valid: false, error: 'User not found' };
+      }
 
-    //   const isValid = await compareTokens(token, user.hashed_token);
-    //   if (!isValid) {
-    //     return { valid: false, error: 'Invalid Token' };
-    //   }
+      const isValid = await compareTokens(token, user.hashed_token);
+      if (!isValid) {
+        return { valid: false, error: 'Invalid Token' };
+      }
 
-    //   const now = new Date();
-    //   if (user.expiresAt < now) {
-    //     return { valid: false, error: 'Token has expired' };
-    //   }
+      const now = new Date();
+      if (user.expiresAt < now) {
+        return { valid: false, error: 'Token has expired' };
+      }
 
-    //   return { valid: true, user };
-    // }
+      return { valid: true, user };
+    }
 
     return { valid: false, error: "Unknown collection type" };
 
