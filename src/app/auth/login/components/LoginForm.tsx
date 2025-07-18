@@ -1,10 +1,10 @@
 'use client'
 
-import Link from 'next/link'
-import { signIn } from 'next-auth/react'
-import { Button } from '@/src/components/ui/buttons/button'
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import Link from 'next/link'
+import { Button } from '@/src/components/ui/buttons/button'
 import {
   Card,
   CardContent,
@@ -19,10 +19,20 @@ export default function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<'div'>) {
-  const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
-  const [errors, setErrors] = useState('') //this means you are storing an array of objects with initial value []
+  const [password, setPassword] = useState('')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [successMsg, setSuccessMsg] = useState<string | null>(null)
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const error = searchParams.get('errors')
+    const success = searchParams.get('success')
+
+    if (error) setErrorMsg(error)
+    if (success) setSuccessMsg(success)
+  }, [searchParams])
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,91 +44,63 @@ export default function LoginForm({
     })
 
     if (res?.error) {
-      setErrors(res.error)
+      setErrorMsg(res.error)
     } else {
-      router.push('/Member')
+      router.push('/Member?success=logged_in')
     }
   }
 
-  function SearchParamHandler({
-    setErrors,
-  }: {
-    setErrors: (msg: string) => void
-  }) {
-    const searchParams = useSearchParams()
-    const message = searchParams.get('message')
-
-    useEffect(() => {
-      if (message) {
-        setErrors(message)
-      }
-    }, [message, setErrors])
-
-    return null
-  }
-
   return (
-    <>
-      <Suspense fallback={'...Loading'}>
-        <SearchParamHandler setErrors={setErrors} />
-      </Suspense>
-
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <div className="flex flex-col gap-6 mb-3 ">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  required={true}
-                  placeholder="@bazooka-inc.com"
-                  onChange={(e) => setEmail(e.target.value)}
-                  // required
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  required={true}
-                  onChange={(e) => {
-                    setPassword(e.target.value)
-                  }}
-                />
-              </div>
-              <Button
-                type="submit"
-                className="w-full"
-                onClick={handlePostUsers}
-              >
-                Login
-              </Button>
-              <Link href="/auth/signup">
-                <Button variant="outline" className="w-full">
-                  Sign Up
-                </Button>
-              </Link>
-              <Link href="/auth/forgot-password">
-                <Button type="submit" className="w-1/2 mx-auto block">
-                  Forgot Password
-                </Button>
-              </Link>
-            </div>
-          </form>
-          <div>
-            {<p className="flex justify-center mt-2 text-red-600">{errors}</p>}
+    <Card className={`w-full max-w-md mx-auto ${className}`} {...props}>
+      <CardHeader>
+        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardDescription>
+          Enter your email below to login to your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handlePostUsers} className="flex flex-col gap-6 mb-3">
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              required
+              placeholder="@bazooka-inc.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
-        </CardContent>
-      </Card>
-    </>
+
+          <div className="grid gap-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <Button type="submit" className="w-full">
+            Login
+          </Button>
+          <Link href="/auth/signup">
+            <Button variant="outline" className="w-full">
+              Sign Up
+            </Button>
+          </Link>
+          <Link href="/auth/forgot-password">
+            <Button className="w-1/2 mx-auto block">Forgot Password</Button>
+          </Link>
+        </form>
+
+        <div className="mt-2 text-center">
+          {errorMsg && <p className="text-red-600">{errorMsg}</p>}
+          {successMsg && <p className="text-green-600">{successMsg}</p>}
+        </div>
+      </CardContent>
+    </Card>
   )
 }

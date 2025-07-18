@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const token_hash = searchParams.get('token_hash')
   const type = searchParams.get('type') as EmailOtpType | null
-  const next = '/Member'
+  const next = 'auth/login'
 
   // Create redirect link without the secret token
   const redirectTo = request.nextUrl.clone()
@@ -24,11 +24,12 @@ export async function GET(request: NextRequest) {
     })
     if (!error) {
       redirectTo.searchParams.delete('next')
+      redirectTo.searchParams.set('success', 'Blow a bubble gum, you are verified - login')
       return NextResponse.redirect(redirectTo)
     }
   }
 
   // return the user to an error page with some instructions
-  redirectTo.pathname = '/error'
+  redirectTo.pathname = 'auth/error'
   return NextResponse.redirect(redirectTo)
 }
