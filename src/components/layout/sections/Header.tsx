@@ -96,7 +96,7 @@ export default function Header() {
       </div>
       <div className="hidden lg:flex gap-2">
         <Button>
-          <Link href="/auth/signin">Sign In</Link>
+          <Link href="/auth/login">Sign In</Link>
         </Button>
         <Button>
           <Link href="/auth/signup">Sign Up</Link>

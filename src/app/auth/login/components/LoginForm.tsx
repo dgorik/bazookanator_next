@@ -14,6 +14,7 @@ import {
 } from '@/src/components/ui/other/card'
 import { Input } from '@/src/components/ui/other/input'
 import { Label } from '@/src/components/ui/other/label'
+import { login } from '@/src/app/api/auth/login/actions'
 
 export default function LoginForm({
   className,
@@ -21,32 +22,31 @@ export default function LoginForm({
 }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMsg, setErrorMsg] = useState<string | null>(null)
-  const [successMsg, setSuccessMsg] = useState<string | null>(null)
-  const router = useRouter()
+  const [status, setStatus] = useState({ type: '', message: '' })
   const searchParams = useSearchParams()
 
   useEffect(() => {
     const error = searchParams.get('errors')
     const success = searchParams.get('success')
 
-    if (error) setErrorMsg(error)
-    if (success) setSuccessMsg(success)
+    if (error) setStatus({ type: 'error', message: error })
+    if (success) setStatus({ type: 'success', message: success })
   }, [searchParams])
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault()
+    try {
+      const response = await login({
+        email,
+        password,
+      })
 
-    const res = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    })
-
-    if (res?.error) {
-      setErrorMsg(res.error)
-    } else {
-      router.push('/Member?success=logged_in')
+      if (response?.error) {
+        setStatus({ type: 'error', message: response.error })
+        return
+      }
+    } catch (err: any) {
+      setStatus({ type: 'error', message: err.message })
     }
   }
 
@@ -96,10 +96,16 @@ export default function LoginForm({
           </Link>
         </form>
 
-        <div className="mt-2 text-center">
-          {errorMsg && <p className="text-red-600">{errorMsg}</p>}
-          {successMsg && <p className="text-green-600">{successMsg}</p>}
-        </div>
+        {status.type === 'success' && (
+          <div className="flex justify-center mt-2 text-green-600">
+            {status.message}
+          </div>
+        )}
+        {status.type === 'error' && (
+          <div className="flex justify-center mt-2 text-red-600">
+            {status.message}
+          </div>
+        )}
       </CardContent>
     </Card>
   )

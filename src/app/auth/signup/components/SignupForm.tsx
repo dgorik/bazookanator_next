@@ -11,7 +11,7 @@ import {
 import { Input } from '@/src/components/ui/other/input'
 import { Label } from '@/src/components/ui/other/label'
 
-import { signupAction } from '@/src/app/api/auth/signup/actions'
+import { signup } from '@/src/app/api/auth/signup/actions'
 
 export default function SignupForm({
   className,
@@ -47,7 +47,7 @@ export default function SignupForm({
     }
 
     try {
-      const response = await signupAction({
+      const response = await signup({
         email,
         password,
         first_name: firstName,

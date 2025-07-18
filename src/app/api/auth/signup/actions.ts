@@ -9,7 +9,7 @@ interface FormData {
   last_name: string
 }
 
-export async function signupAction(formData: FormData) {
+export async function signup(formData: FormData) {
 
   const email = formData.email
   const password = formData.password
