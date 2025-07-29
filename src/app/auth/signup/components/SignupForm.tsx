@@ -1,17 +1,17 @@
 'use client'
 import { useState } from 'react'
-import { Button } from '../../../../components/ui/buttons/button'
+import { Button } from '@/src/components/ui/buttons/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../../components/ui/other/card'
-import { Input } from '../../../../components/ui/other/input'
-import { Label } from '../../../../components/ui/other/label'
+} from '@/src/components/ui/other/card'
+import { Input } from '@/src/components/ui/other/input'
+import { Label } from '@/src/components/ui/other/label'
 
-import { signupAction } from '@/app/api/auth/signup/actions'
+import { signupAction } from '@/src/app/api/auth/signup/actions'
 
 export default function SignupForm({
   className,
@@ -29,13 +29,14 @@ export default function SignupForm({
     if (!email) {
       setStatus({ type: 'error', message: 'Email is required.' })
       return
-    } else if (!email.endsWith('@bazooka-inc.com')) {
-      setStatus({
-        type: 'error',
-        message: 'Please enter a @bazooka-inc email.',
-      })
-      return
     }
+    // } else if (!email.endsWith('@bazooka-inc.com')) {
+    //   setStatus({
+    //     type: 'error',
+    //     message: 'Please enter a @bazooka-inc email.',
+    //   })
+    //   return
+    // }
 
     if (password.length < 6) {
       setStatus({

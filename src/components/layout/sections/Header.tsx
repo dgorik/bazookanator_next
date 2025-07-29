@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { ChevronsDown, Menu } from 'lucide-react'
-import { Button } from '@/components/ui/buttons/button'
+import { Button } from '@/src/components/ui/buttons/button'
 import {
   Sheet,
   SheetContent,
@@ -11,7 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet/sheet'
+} from '@/src/components/ui/sheet/sheet'
 
 interface RouteProps {
   href: string

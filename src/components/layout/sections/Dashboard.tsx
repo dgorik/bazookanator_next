@@ -5,8 +5,8 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/ui/other/card'
-import { ProgressCircle } from '@/components/ui/progress_circle/progress-circle'
+} from '@/src/components/ui/other/card'
+import { ProgressCircle } from '@/src/components/ui/progress_circle/progress-circle'
 import CountUp from 'react-countup'
 
 interface AnalyticsProps {

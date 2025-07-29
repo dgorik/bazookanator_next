@@ -1,4 +1,4 @@
-import { Badge } from '@/components/ui/badge/badge'
+import { Badge } from '@/src/components/ui/badge/badge'
 
 export default function HeroSection() {
   return (

@@ -3,7 +3,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion/accordion'
+} from '@/src/components/ui/accordion/accordion'
 
 export default function FAQSection() {
   interface FAQProps {

@@ -6,11 +6,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../../components/ui/other/card'
+} from '@/src/components/ui/other/card'
 import { useState } from 'react'
-import { Button } from '../../../../components/ui/buttons/button'
-import { Input } from '../../../../components/ui/other/input'
-import { Label } from '../../../../components/ui/other/label'
+import { Button } from '@/src/components/ui/buttons/button'
+import { Input } from '@/src/components/ui/other/input'
+import { Label } from '@/src/components/ui/other/label'
 
 export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')

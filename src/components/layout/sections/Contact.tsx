@@ -5,7 +5,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from '@/components/ui/other/card'
+} from '@/src/components/ui/other/card'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,10 +16,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form/form'
-import { Input } from '@/components/ui/other/input'
-import { Button } from '@/components/ui/buttons/button'
-import { Textarea } from '@/components/ui/other/textarea'
+} from '@/src/components/ui/form/form'
+import { Input } from '@/src/components/ui/other/input'
+import { Button } from '@/src/components/ui/buttons/button'
+import { Textarea } from '@/src/components/ui/other/textarea'
 
 const formSchema = z.object({
   firstName: z.string().min(2).max(255),
