@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
+import { Suspense } from 'react'
 import { Button } from '../../../../components/ui/buttons/button'
 import { useState, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -50,57 +51,63 @@ export default function LoginForm({
   }, [message])
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="flex flex-col gap-6 mb-3 ">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                required={true}
-                placeholder="@bazooka-inc.com"
-                onChange={(e) => setEmail(e.target.value)}
-                // required
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                required={true}
-                onChange={(e) => {
-                  setPassword(e.target.value)
-                }}
-              />
-            </div>
-            <Button type="submit" className="w-full" onClick={handlePostUsers}>
-              Login
-            </Button>
-            <Link href="/auth/signup">
-              <Button variant="outline" className="w-full">
-                Sign Up
+    <Suspense fallback={<div>Loading...</div>}>
+      <Card className="w-full max-w-md mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardDescription>
+            Enter your email below to login to your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div className="flex flex-col gap-6 mb-3 ">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  required={true}
+                  placeholder="@bazooka-inc.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  // required
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  required={true}
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                  }}
+                />
+              </div>
+              <Button
+                type="submit"
+                className="w-full"
+                onClick={handlePostUsers}
+              >
+                Login
               </Button>
-            </Link>
-            <Link href="/auth/forgot-password">
-              <Button type="submit" className="w-1/2 mx-auto block">
-                Forgot Password
-              </Button>
-            </Link>
+              <Link href="/auth/signup">
+                <Button variant="outline" className="w-full">
+                  Sign Up
+                </Button>
+              </Link>
+              <Link href="/auth/forgot-password">
+                <Button type="submit" className="w-1/2 mx-auto block">
+                  Forgot Password
+                </Button>
+              </Link>
+            </div>
+          </form>
+          <div>
+            {<p className="flex justify-center mt-2 text-red-600">{errors}</p>}
           </div>
-        </form>
-        <div>
-          {<p className="flex justify-center mt-2 text-red-600">{errors}</p>}
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Suspense>
   )
 }
