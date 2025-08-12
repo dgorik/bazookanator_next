@@ -28,7 +28,7 @@ interface CounterProps {
 export default function Dashboard() {
   const analyticsData: AnalyticsProps[] = [
     { name: 'Mass & Club', percentage: 75, comparison: 'vs. Z' },
-    { name: 'Grocery & Channels', percentage: 50, comparison: 'vs. X' },
+    { name: 'Grocery & Channels', percentage: 49, comparison: 'vs. X' },
     { name: 'Convenience', percentage: 90, comparison: 'vs. Y' },
   ]
 
@@ -88,8 +88,6 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         ))}
-
-        {/* KPI Progress Cards */}
         {analyticsData.map((item, index) => (
           <Card
             key={index}
