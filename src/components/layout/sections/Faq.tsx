@@ -46,13 +46,10 @@ export default function FAQSection() {
   ]
 
   return (
-    <section
-      id="faq"
-      className="container mx-auto md: w-[700px] py-24 sm: py-32"
-    >
+    <section id="faq" className="container mx-auto md:w-[700px] py-24 sm:py-32">
       <div className="text-center mb-8">
         <h2>FAQ</h2>
-        <h2 className="text-3xl md: text:4xl font-bold">Common Questions</h2>
+        <h2 className="text-3xl md:text:4xl font-bold">Common Questions</h2>
       </div>
       <Accordion type="single" collapsible>
         {faqs.map((faq, index) => (

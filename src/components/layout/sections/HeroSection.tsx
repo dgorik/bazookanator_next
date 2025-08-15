@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge/badge'
 
 export default function HeroSection() {
   return (
-    <section className="container mx-auto p-4">
+    <section id="herosection" className="container mx-auto p-4">
       <div className="grid place-items-center lg:max-w-screen-xl gap-8 mx-auto py-20 md:py-32">
         <div className="text-center space-y-4 rounded-2xl">
           <Badge variant="outline">

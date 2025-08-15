@@ -50,28 +50,30 @@ export default function AnimatedCounter() {
   ]
 
   return (
-    <div className="grid lg:grid-cols-3 gap-4 text-center">
-      {boxes.map((box, index) => (
-        <Card
-          key={index}
-          className="bg-muted/50 dark:bg-card hover:bg-background transition-all delay-75 group/number"
-        >
-          <CardHeader>
-            <CountUp
-              className='"text-24xl font-bold"'
-              end={box.counter}
-              duration={box.duration}
-              prefix={box.prefix}
-              suffix={box.suffix}
-              style={box.style}
-            />
-          </CardHeader>
-          <CardContent>
-            <CardTitle>{box.title}</CardTitle>
-            <span>{box.description}</span>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+    <section id="animatedcounter" className="w-full">
+      <div className="grid lg:grid-cols-3 gap-6 p-4 py-24 sm:py-32">
+        {boxes.map((box, index) => (
+          <Card
+            key={index}
+            className="bg-muted/50 dark:bg-card hover:bg-background transition-all delay-75 group/number"
+          >
+            <CardHeader>
+              <CountUp
+                className='"text-9xl font-bold"'
+                end={box.counter}
+                duration={box.duration}
+                prefix={box.prefix}
+                suffix={box.suffix}
+                style={box.style}
+              />
+            </CardHeader>
+            <CardContent>
+              <CardTitle>{box.title}</CardTitle>
+              <span>{box.description}</span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
   )
 }
