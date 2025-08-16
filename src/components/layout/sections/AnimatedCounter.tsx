@@ -31,7 +31,7 @@ export default function AnimatedCounter() {
     },
     {
       title: 'Pieces of Bazooka Bubblegum ',
-      description: 'sold annually',
+      description: 'Sold annually',
       counter: 500,
       duration: 4,
       prefix: '',
@@ -65,9 +65,9 @@ export default function AnimatedCounter() {
               suffix={box.suffix}
               style={box.style}
             />
-            <CardTitle>{box.title}</CardTitle>
           </CardHeader>
           <CardContent>
+            <CardTitle>{box.title}</CardTitle>
             <span>{box.description}</span>
           </CardContent>
         </Card>
