@@ -1,10 +1,11 @@
-import SignInPage from "./auth/signin/page";
+import AnimatedCounter from '@/components/layout/sections/AnimatedCounter'
+import HeroSection from '@/components/layout/sections/HeroSection'
 
 export default function Home() {
   return (
     <div>
-      {/* maybe we can render something fun that a user can click on and the app will take them to signinpage */}
-      <SignInPage />
+      <HeroSection />
+      <AnimatedCounter />
     </div>
-  );
+  )
 }
