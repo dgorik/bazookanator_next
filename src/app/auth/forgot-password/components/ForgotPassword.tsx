@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Card,
@@ -6,34 +6,34 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../../../components/ui/other/card";
-import { useState } from "react";
-import { Button } from "../../../../components/ui/buttons/button";
-import { Input } from "../../../../components/ui/other/input";
-import { Label } from "../../../../components/ui/other/label";
+} from '../../../../components/ui/other/card'
+import { useState } from 'react'
+import { Button } from '../../../../components/ui/buttons/button'
+import { Input } from '../../../../components/ui/other/input'
+import { Label } from '../../../../components/ui/other/label'
 
-export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<"div">) {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState({ type: "", message: "" });
+export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'div'>) {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState({ type: '', message: '' })
 
   const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const response = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
-      });
-      const data = await response.json();
+      })
+      const data = await response.json()
       if (!response.ok) {
-        setStatus({ type: "error", message: data.message }); //this line catches 400, 404, 500 return statuses
+        setStatus({ type: 'error', message: data.message }) //this line catches 400, 404, 500 return statuses
       } else {
-        setStatus({ type: "success", message: data.message });
+        setStatus({ type: 'success', message: data.message })
       }
     } catch (error) {
-      setStatus({ type: "success", message: "An unknown error occurred" });
+      setStatus({ type: 'success', message: 'An unknown error occurred' })
     }
-  };
+  }
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
@@ -65,12 +65,12 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<"d
           </div>
         </form>
         <div>
-          {status.type === "success" && (
+          {status.type === 'success' && (
             <div className="flex justify-center mt-2 text-green-600">
               {status.message}
             </div>
           )}
-          {status.type === "error" && (
+          {status.type === 'error' && (
             <div className="flex justify-center mt-2 text-red-600">
               {status.message}
             </div>
@@ -78,5 +78,5 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<"d
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

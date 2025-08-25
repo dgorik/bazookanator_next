@@ -1,7 +1,7 @@
 // components/ui/sidebar/AppSidebar.tsx
-import { Sidebar } from "@/components/ui/sidebar/sidebar";
-import { SideBarContent } from "./SideBarContent";
-import { SideBarFooter } from "./SideBarFooter";
+import { Sidebar } from '../../../../components/ui/sidebar/sidebar'
+import { SideBarContent } from './SideBarContent'
+import { SideBarFooter } from './SideBarFooter'
 
 export function AppSidebar() {
   return (
@@ -9,5 +9,5 @@ export function AppSidebar() {
       <SideBarContent />
       <SideBarFooter />
     </Sidebar>
-  );
+  )
 }

@@ -2,7 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "../../../../(models)/User";
 import bcrypt from "bcryptjs";
 import validator from "validator";
-import { connectMongoDB } from "@/config/clients/mongodb";
+import { connectMongoDB } from "../../../../config/clients/mongodb";
 
 type Credentials = {
     email: string;

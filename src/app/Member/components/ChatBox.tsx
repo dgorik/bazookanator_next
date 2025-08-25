@@ -1,67 +1,71 @@
-"use client";
+'use client'
 
-import { Card, CardContent, CardFooter } from "@/components/ui/other/card";
-import { Input } from "@/components/ui/other/input";
-import { Send } from "lucide-react";
-import { Button } from "@/components/ui/buttons/button";
-import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+} from '../../../components/ui/other/card'
+import { Input } from '../../../components/ui/other/input'
+import { Send } from 'lucide-react'
+import { Button } from '../../../components/ui/buttons/button'
+import { useState } from 'react'
 
 interface Message {
-  id: string;
-  content: string;
-  sender: "user" | "bot";
+  id: string
+  content: string
+  sender: 'user' | 'bot'
 }
 
 export default function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: "1",
-      content: "How can I help you?",
-      sender: "bot",
+      id: '1',
+      content: 'How can I help you?',
+      sender: 'bot',
     },
-  ]);
+  ])
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('')
 
   const handleSend = async () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim()) return
 
     const userMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
-      sender: "user",
-    };
+      sender: 'user',
+    }
 
-    setMessages((prev) => [...prev, userMessage]);
-    setInputValue("");
+    setMessages((prev) => [...prev, userMessage])
+    setInputValue('')
 
     try {
-      const response = await fetch("/api/sales/us_consolidated", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/sales/us_consolidated', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userQuestion: inputValue }),
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
 
       const botReply: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.summary || "Sorry, I didn’t catch that.",
-        sender: "bot",
-      };
+        content: data.summary || 'Sorry, I didn’t catch that.',
+        sender: 'bot',
+      }
 
-      setMessages((prev) => [...prev, botReply]);
+      setMessages((prev) => [...prev, botReply])
     } catch (error) {
       setMessages((prev) => [
         ...prev,
         {
           id: (Date.now() + 1).toString(),
-          content: "Something went wrong. Please try again.",
-          sender: "bot",
+          content: 'Something went wrong. Please try again.',
+          sender: 'bot',
         },
-      ]);
+      ])
     }
-  };
+  }
 
   return (
     <div className="flex flex-col justify-end-safe">
@@ -72,9 +76,9 @@ export default function ChatBox() {
               <div
                 key={msg.id}
                 className={`max-w-[80%] px-3 py-2 rounded-md text-sm ${
-                  msg.sender === "user"
-                    ? "ml-auto bg-blue-100 text-right"
-                    : "mr-auto bg-gray-100 text-left"
+                  msg.sender === 'user'
+                    ? 'ml-auto bg-blue-100 text-right'
+                    : 'mr-auto bg-gray-100 text-left'
                 }`}
               >
                 {msg.content}
@@ -96,5 +100,5 @@ export default function ChatBox() {
         </CardFooter>
       </Card>
     </div>
-  );
+  )
 }

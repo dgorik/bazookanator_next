@@ -1,6 +1,6 @@
 import PendingUser from '@/(models)/PendingUser'
 import User from '@/(models)/User';
-import { connectMongoDB } from '@/config/clients/mongodb';
+import { connectMongoDB } from '../../config/clients/mongodb';
 import compareTokens from "@/lib/auth/compareTokens"
 
 export async function verifyToken(urlStr: string, collection_type: string) {

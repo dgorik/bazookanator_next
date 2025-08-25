@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -9,36 +9,36 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarContent,
-} from "@/components/ui/sidebar/sidebar";
+} from '../../../../components/ui/sidebar/sidebar'
 
 // Menu items array
 const items = [
   {
-    title: "Home",
-    url: "#",
+    title: 'Home',
+    url: '#',
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: 'Inbox',
+    url: '#',
     icon: Inbox,
   },
   {
-    title: "Calendar",
-    url: "#",
+    title: 'Calendar',
+    url: '#',
     icon: Calendar,
   },
   {
-    title: "Search",
-    url: "#",
+    title: 'Search',
+    url: '#',
     icon: Search,
   },
   {
-    title: "Settings",
-    url: "#",
+    title: 'Settings',
+    url: '#',
     icon: Settings,
   },
-];
+]
 
 export function SideBarContent() {
   return (
@@ -61,5 +61,5 @@ export function SideBarContent() {
         </SidebarGroupContent>
       </SidebarGroup>
     </SidebarContent>
-  );
+  )
 }

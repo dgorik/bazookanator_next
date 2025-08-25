@@ -1,53 +1,53 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { signIn } from "next-auth/react";
-import { Button } from "../../../../components/ui/buttons/button";
-import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import Link from 'next/link'
+import { signIn } from 'next-auth/react'
+import { Button } from '../../../../components/ui/buttons/button'
+import { useState, useEffect } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../../../components/ui/other/card";
-import { Input } from "../../../../components/ui/other/input";
-import { Label } from "../../../../components/ui/other/label";
+} from '../../../../components/ui/other/card'
+import { Input } from '../../../../components/ui/other/input'
+import { Label } from '../../../../components/ui/other/label'
 
 export default function LoginForm({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState(""); //this means you are storing an array of objects with initial value []
-  const router = useRouter();
+}: React.ComponentPropsWithoutRef<'div'>) {
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [errors, setErrors] = useState('') //this means you are storing an array of objects with initial value []
+  const router = useRouter()
 
   const handlePostUsers = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const res = await signIn("credentials", {
+    const res = await signIn('credentials', {
       redirect: false,
       email,
       password,
-    });
+    })
 
     if (res?.error) {
-      setErrors(res.error);
+      setErrors(res.error)
     } else {
-      router.push("/Member");
+      router.push('/Member')
     }
-  };
+  }
 
-  const searchParams = useSearchParams();
-  const message = searchParams.get("message");
+  const searchParams = useSearchParams()
+  const message = searchParams.get('message')
 
   useEffect(() => {
     if (message) {
-      setErrors(message);
+      setErrors(message)
     }
-  }, [message]);
+  }, [message])
 
   return (
     <Card className="w-full max-w-md mx-auto">
@@ -78,7 +78,7 @@ export default function LoginForm({
                 type="password"
                 required={true}
                 onChange={(e) => {
-                  setPassword(e.target.value);
+                  setPassword(e.target.value)
                 }}
               />
             </div>
@@ -102,5 +102,5 @@ export default function LoginForm({
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

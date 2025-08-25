@@ -4,7 +4,7 @@ import crypto from "crypto"
 import generateHash from "@/lib/auth/generateHash"
 import { addPasswordResetToken } from "@/lib/db/passwordResetToken"
 import { sendPasswordResetEmail } from "@/lib/auth/sendResetPasswordEmail"
-import { connectMongoDB } from "@/config/clients/mongodb"
+import { connectMongoDB } from "../../../../config/clients/mongodb"
 
 export async function POST(req: NextRequest) {
   let body

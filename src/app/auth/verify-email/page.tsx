@@ -1,18 +1,18 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { ButtonLoading } from "@/components/ui/buttons/button_loading";
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { ButtonLoading } from '../../../components/ui/buttons/button_loading'
 
 export default function VerifyEmailPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const email = searchParams.get("email");
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const token = searchParams.get('token')
+  const email = searchParams.get('email')
 
-  const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true)
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     if (token && email) {
@@ -20,16 +20,16 @@ export default function VerifyEmailPage() {
         .then((res) => res.json())
         .then((data) => {
           if (data.message) {
-            setMessage(data.message);
-            router.push("/");
+            setMessage(data.message)
+            router.push('/')
           } else {
-            setMessage(data.error || "Verification failed");
+            setMessage(data.error || 'Verification failed')
           }
         })
-        .catch(() => setMessage("Verification failed, please try again"))
-        .finally(() => setLoading(false));
+        .catch(() => setMessage('Verification failed, please try again'))
+        .finally(() => setLoading(false))
     }
-  }, [token]);
+  }, [token])
 
   return (
     <div>
@@ -43,5 +43,5 @@ export default function VerifyEmailPage() {
         </p>
       )}
     </div>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import connectEmail from "@/config/clients/gmail_transporter"
+import connectEmail from "../../config/clients/gmail_transporter"
 
 const transporter = await connectEmail()
 

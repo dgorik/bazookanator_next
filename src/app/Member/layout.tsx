@@ -1,24 +1,24 @@
 import {
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar/sidebar";
-import { AppSidebar } from "./components/sidebar/AppSidebar";
-import { SessionWrapper } from "./components/SessionWrapper";
-import MemberHeader from "./components/MemberHeader";
-import { getServerSession } from "next-auth/next";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+} from '../../components/ui/sidebar/sidebar'
+import { AppSidebar } from './components/sidebar/AppSidebar'
+import { SessionWrapper } from './components/SessionWrapper'
+import MemberHeader from './components/MemberHeader'
+import { getServerSession } from 'next-auth/next'
+import { redirect } from 'next/navigation'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 
 export default async function MemberLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
   if (!session) {
     // Redirect unauthenticated users to login page
-    redirect("/");
+    redirect('/')
   }
   return (
     <SessionWrapper session={session}>
@@ -34,5 +34,5 @@ export default async function MemberLayout({
         </div>
       </SidebarProvider>
     </SessionWrapper>
-  );
+  )
 }

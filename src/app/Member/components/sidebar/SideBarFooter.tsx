@@ -1,23 +1,23 @@
-"use client";
+'use client'
 
-import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
+import { useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarFooter,
-} from "@/components/ui/sidebar/sidebar";
+} from '../../../../components/ui/sidebar/sidebar'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/other/dropdown-menu";
+} from '../../../../components/ui/other/dropdown-menu'
 
 export function SideBarFooter() {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   return (
     <SidebarFooter>
@@ -32,7 +32,7 @@ export function SideBarFooter() {
               className="w-[--radix-popper-anchor-width]"
             >
               <DropdownMenuItem>
-                <span onClick={() => signOut({ callbackUrl: "/" })}>
+                <span onClick={() => signOut({ callbackUrl: '/' })}>
                   Sign Out
                 </span>
               </DropdownMenuItem>
@@ -41,5 +41,5 @@ export function SideBarFooter() {
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarFooter>
-  );
+  )
 }
