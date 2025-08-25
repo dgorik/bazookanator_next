@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -9,42 +11,66 @@ import CountUp from 'react-countup'
 export default function AnimatedCounter() {
   interface CounterProps {
     title: string
-    desripttion: string
+    description: string
     counter: number
+    duration: number
     prefix: string
-    postfix: string
+    suffix: string
+    style: React.CSSProperties | undefined
   }
 
   const boxes: CounterProps[] = [
     {
-      title: 'Users',
-      desripttion: '',
-      counter: 1000,
+      title: 'Ring Pops',
+      description: 'Produced every year',
+      counter: 400,
+      duration: 4,
       prefix: '',
-      postfix: '+',
+      suffix: ' M',
+      style: { color: 'red', fontWeight: 'bold', fontSize: '2rem' },
     },
     {
-      title: 'Projects',
-      desripttion: '',
+      title: 'Pieces of Bazooka Bubblegum ',
+      description: 'sold annually',
       counter: 500,
+      duration: 4,
       prefix: '',
-      postfix: '+',
+      suffix: ' M',
+      style: { color: 'blue', fontWeight: 'bold', fontSize: '2rem' },
     },
     {
-      title: 'Satisfaction',
-      desripttion: '',
-      counter: 100,
+      title: 'Daily Sales Trackers',
+      description: 'Sent out internally',
+      counter: 75000,
+      duration: 4,
       prefix: '',
-      postfix: '%',
+      suffix: '',
+      style: { color: 'green', fontWeight: 'bold', fontSize: '2rem' },
     },
   ]
 
   return (
-    <div className="grid lg:grid-cols-3">
+    <div className="grid lg:grid-cols-3 gap-4 text-center">
       {boxes.map((box, index) => (
-        <div key={index} className="flex flex-col items-center">
-          <span className="text-4xl font-bold">{box.title}</span>
-        </div>
+        <Card
+          key={index}
+          className="bg-muted/50 dark:bg-card hover:bg-background transition-all delay-75 group/number"
+        >
+          <CardHeader>
+            <CountUp
+              className='"text-24xl font-bold"'
+              end={box.counter}
+              duration={box.duration}
+              prefix={box.prefix}
+              suffix={box.suffix}
+              style={box.style}
+            />
+            <CardTitle>{box.title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <span>{box.description}</span>
+          </CardContent>
+        </Card>
       ))}
     </div>
   )
