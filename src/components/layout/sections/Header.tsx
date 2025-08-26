@@ -47,7 +47,7 @@ export default function Header() {
       </Link>
 
       {/* <!-- Desktop --> */}
-      <div className="hidden lg:flex">
+      <div className="hidden lg:block mx-auto">
         <nav>
           {routeList.map(({ href, label }) => (
             <Link key={href} href={href} className="text-base px-2">
@@ -55,14 +55,7 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex gap-2">
-          <Button>
-            <Link href="/auth/signin">Sign In</Link>
-          </Button>
-          <Button>
-            <Link href="/auth/signin">Sign Up</Link>
-          </Button>
-        </div>
+        <div className="flex gap-2"></div>
       </div>
 
       {/* <!-- Mobile --> */}
@@ -100,6 +93,14 @@ export default function Header() {
             </div>
           </SheetContent>
         </Sheet>
+      </div>
+      <div className="hidden lg:flex gap-2">
+        <Button>
+          <Link href="/auth/signin">Sign In</Link>
+        </Button>
+        <Button>
+          <Link href="/auth/signin">Sign Up</Link>
+        </Button>
       </div>
     </header>
   )

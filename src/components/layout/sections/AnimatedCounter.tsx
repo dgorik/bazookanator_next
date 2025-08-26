@@ -55,7 +55,7 @@ export default function AnimatedCounter() {
         {boxes.map((box, index) => (
           <Card
             key={index}
-            className="bg-muted/50 dark:bg-card hover:bg-background transition-all delay-75 group/number"
+            className="w-1/2 mx-auto bg-muted/50 dark:bg-card hover:bg-background transition-all delay-75 group/number"
           >
             <CardHeader>
               <CountUp
