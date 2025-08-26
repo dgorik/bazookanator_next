@@ -8,13 +8,13 @@ import { ButtonLoading } from '../../../components/ui/buttons/button_loading'
 export default function VerifyEmailPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const token = searchParams.get('token')
-  const email = searchParams.get('email')
 
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState('')
 
   useEffect(() => {
+    const token = searchParams.get('token')
+    const email = searchParams.get('email')
     if (token && email) {
       fetch(`/api/auth/verify-email?token=${token}&email=${email}`)
         .then((res) => res.json())
@@ -29,7 +29,7 @@ export default function VerifyEmailPage() {
         .catch(() => setMessage('Verification failed, please try again'))
         .finally(() => setLoading(false))
     }
-  }, [token])
+  }, [searchParams])
 
   return (
     <div>

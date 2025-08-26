@@ -42,16 +42,16 @@ export default function LoginForm({
   }
 
   const searchParams = useSearchParams()
-  const message = searchParams.get('message')
 
   useEffect(() => {
+    const message = searchParams.get('message')
     if (message) {
       setErrors(message)
     }
-  }, [message])
+  }, [searchParams])
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <>
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
@@ -108,6 +108,6 @@ export default function LoginForm({
           </div>
         </CardContent>
       </Card>
-    </Suspense>
+    </>
   )
 }
