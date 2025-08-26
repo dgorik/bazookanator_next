@@ -2,9 +2,8 @@
 
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
-import { Suspense } from 'react'
 import { Button } from '../../../../components/ui/buttons/button'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import {
   Card,
@@ -41,17 +40,29 @@ export default function LoginForm({
     }
   }
 
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
+  function SearchParamHandler({
+    setErrors,
+  }: {
+    setErrors: (msg: string) => void
+  }) {
+    const searchParams = useSearchParams()
     const message = searchParams.get('message')
-    if (message) {
-      setErrors(message)
-    }
-  }, [searchParams])
+
+    useEffect(() => {
+      if (message) {
+        setErrors(message)
+      }
+    }, [message, setErrors])
+
+    return null
+  }
 
   return (
     <>
+      <Suspense fallback={'...Loading'}>
+        <SearchParamHandler setErrors={setErrors} />
+      </Suspense>
+
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
