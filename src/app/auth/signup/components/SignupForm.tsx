@@ -11,6 +11,8 @@ import {
 import { Input } from '../../../../components/ui/other/input'
 import { Label } from '../../../../components/ui/other/label'
 
+import { signupAction } from '@/app/api/auth/signup/actions'
+
 export default function SignupForm({
   className,
   ...props
@@ -18,19 +20,21 @@ export default function SignupForm({
   const [status, setStatus] = useState({ type: '', message: '' })
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [first_name, setFirstName] = useState('')
-  const [last_name, setLastName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!email) {
       setStatus({ type: 'error', message: 'Email is required.' })
+      return
     } else if (!email.endsWith('@bazooka-inc.com')) {
       setStatus({
         type: 'error',
         message: 'Please enter a @bazooka-inc email.',
       })
+      return
     }
 
     if (password.length < 6) {
@@ -38,28 +42,31 @@ export default function SignupForm({
         type: 'error',
         message: 'Password must be at least 6 characters.',
       })
+      return
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, first_name, last_name }),
+      const response = await signupAction({
+        email,
+        password,
+        first_name: firstName,
+        last_name: lastName,
       })
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        setStatus({ type: 'error', message: data.message })
-        setEmail('')
-        setPassword('')
-        setFirstName('')
-        setLastName('')
-      } else {
-        setStatus({ type: 'success', message: data.message })
+      if (response?.error) {
+        setStatus({ type: 'error', message: response.error })
+        return
       }
-    } catch (error) {
-      setStatus({ type: 'success', message: 'An unknown error occurred' })
+      setStatus({
+        type: 'success',
+        message: 'Signup successful! Redirecting...',
+      })
+      setEmail('')
+      setPassword('')
+      setFirstName('')
+      setLastName('')
+    } catch (err: any) {
+      setStatus({ type: 'error', message: err.message })
     }
   }
 
@@ -78,7 +85,7 @@ export default function SignupForm({
                 <Input
                   id="first_name"
                   type="first_name"
-                  value={first_name}
+                  value={firstName}
                   required={true}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="Bazooka"
@@ -89,7 +96,7 @@ export default function SignupForm({
                 <Input
                   id="last_name"
                   type="last_name"
-                  value={last_name}
+                  value={lastName}
                   required={true}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Joe"
