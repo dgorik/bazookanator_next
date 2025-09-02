@@ -60,7 +60,7 @@ export default function SignupForm({
       }
       setStatus({
         type: 'success',
-        message: 'Signup successful! Redirecting...',
+        message: 'Please check your email to confirm your account.',
       })
       setEmail('')
       setPassword('')

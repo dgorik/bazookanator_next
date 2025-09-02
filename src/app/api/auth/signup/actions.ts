@@ -1,7 +1,6 @@
 "use server"
 
-import { createClient } from "../../../../../utils/supabase/server"
-import { redirect } from "next/navigation"
+import { createClient } from "@/utils/supabase/server"
 
 interface FormData {
   email: string
@@ -34,6 +33,6 @@ export async function signupAction(formData: FormData) {
     return { error: error.message }
   }
 
-  redirect('/Member')
+  return
 
 }
