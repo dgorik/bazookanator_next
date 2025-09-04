@@ -11,27 +11,33 @@ import { useState } from 'react'
 import { Button } from '@/src/components/ui/buttons/button'
 import { Input } from '@/src/components/ui/other/input'
 import { Label } from '@/src/components/ui/other/label'
+import { resetPassword } from '@/src/app/api/auth/reset-password/actions'
 
 export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState({ type: '', message: '' })
 
-  const handleResetPassword = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!email) {
+      setStatus({ type: 'error', message: 'Email is required.' })
+      return
+    }
+
     try {
-      const response = await fetch('/api/auth/forgot-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-      const data = await response.json()
-      if (!response.ok) {
-        setStatus({ type: 'error', message: data.message }) //this line catches 400, 404, 500 return statuses
-      } else {
-        setStatus({ type: 'success', message: data.message })
+      const response = await resetPassword({ email })
+      if (response?.error) {
+        setStatus({ type: 'error', message: response.error })
+        return
       }
-    } catch (error) {
-      setStatus({ type: 'success', message: 'An unknown error occurred' })
+      setStatus({
+        type: 'success',
+        message: 'Please check your email to verify your account',
+      })
+      setEmail('')
+    } catch (err: any) {
+      setStatus({ type: 'error', message: err.message })
     }
   }
   return (
@@ -43,7 +49,7 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'d
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-6 mb-3 ">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
@@ -55,11 +61,7 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'d
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <Button
-              type="submit"
-              className="w-full"
-              onClick={handleResetPassword}
-            >
+            <Button type="submit" className="w-full">
               Reset
             </Button>
           </div>
