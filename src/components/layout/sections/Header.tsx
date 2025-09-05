@@ -72,12 +72,12 @@ export default function Header() {
               <SheetTitle>Menu</SheetTitle>
               <SheetDescription>Select an option below.</SheetDescription>
             </SheetHeader>
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-col gap-4 mt-4 px-2">
               {routeList.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="text-base px-2"
+                  className="text-base"
                   onClick={() => setIsOpen(false)}
                 >
                   {label}

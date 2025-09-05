@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/src/components/ui/buttons/button'
 import {
@@ -22,15 +21,12 @@ export default function LoginForm({
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState({ type: '', message: '' })
-  const searchParams = useSearchParams()
 
-  useEffect(() => {
-    const error = searchParams.get('errors')
-    const success = searchParams.get('success')
+  // useEffect(() => {
 
-    if (error) setStatus({ type: 'error', message: error })
-    if (success) setStatus({ type: 'success', message: success })
-  }, [searchParams])
+  //   if (status.type == 'error') setStatus({ type: 'error', message: error })
+  //   if (status.type == 'success') setStatus({ type: 'success', message: success })
+  // }, [status])
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault()
