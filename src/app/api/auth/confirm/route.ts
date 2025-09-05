@@ -24,12 +24,12 @@ export async function GET(request: NextRequest) {
     if (!error) {
       if(next === 'auth/login') {
       redirectTo.searchParams.delete('next')
-      redirectTo.searchParams.set('success', 'Blow a bubble gum, you are verified - login')
+      redirectTo.searchParams.set('success', 'You are verified - please login')
       return NextResponse.redirect(redirectTo)
       }
       else{
         redirectTo.searchParams.delete('next')
-        redirectTo.searchParams.set('success', 'Blow a bubble gum, you are verified - reset password time')
+        redirectTo.searchParams.set('success', 'You are verified - reset password time')
         return NextResponse.redirect(redirectTo)
       }
     }

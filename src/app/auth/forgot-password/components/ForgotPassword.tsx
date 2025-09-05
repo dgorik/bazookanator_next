@@ -33,7 +33,7 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'d
       }
       setStatus({
         type: 'success',
-        message: 'Please check your email to verify your account',
+        message: 'If the email exists, a reset link has been sent.',
       })
       setEmail('')
     } catch (err: any) {
@@ -66,18 +66,13 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'d
             </Button>
           </div>
         </form>
-        <div>
-          {status.type === 'success' && (
-            <div className="flex justify-center mt-2 text-green-600">
-              {status.message}
-            </div>
-          )}
-          {status.type === 'error' && (
-            <div className="flex justify-center mt-2 text-red-600">
-              {status.message}
-            </div>
-          )}
-        </div>
+        {status.type && (
+          <div
+            className={`mx-auto mt-2 ${status.type === 'error' ? 'text-red-600' : 'text-green-600'}`}
+          >
+            {status.message}
+          </div>
+        )}
       </CardContent>
     </Card>
   )

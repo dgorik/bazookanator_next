@@ -1,32 +1,25 @@
 "use server"
 
-import { type NextRequest, NextResponse } from 'next/server'
-
 import { createClient } from "@/utils/supabase/server"
-import { redirect } from 'next/dist/server/api-utils'
 
 interface FormData {
   password: string
 }
 
 export async function updateUser(formData: FormData) {
-
-  const password = formData.password
-
+  const { password } = formData
   const supabase = await createClient()
 
-  const { data, error } = await supabase.auth.updateUser({
-    password: password,
-  })
+  const { data: { user }, error: userError } = await supabase.auth.getUser()
 
+  if (userError || !user) {
+    return { error: "User not authenticated or session invalid" }
+  }
+  const { error } = await supabase.auth.updateUser({ password })
+  
   if (error) {
     return { error: error.message }
   }
-  if(!error && data.user){
-    return {success: 'Password updated successfully'}
 
-  }
-
-  return
-
+  return { success: "Password updated successfully" }
 }
