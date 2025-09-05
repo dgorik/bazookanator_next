@@ -20,7 +20,10 @@ export default function LoginForm({
 }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [status, setStatus] = useState({ type: '', message: '' })
+  const [status, setStatus] = useState<{
+    type: string
+    message: string
+  } | null>(null)
 
   // useEffect(() => {
 
@@ -30,6 +33,7 @@ export default function LoginForm({
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault()
+    setStatus(null)
     try {
       const response = await login({
         email,
@@ -90,13 +94,12 @@ export default function LoginForm({
             <Button className="w-1/2 mx-auto block">Forgot Password</Button>
           </Link>
         </form>
-
-        {status.type === 'success' && (
+        {status?.type === 'success' && (
           <div className="flex justify-center mt-2 text-green-600">
             {status.message}
           </div>
         )}
-        {status.type === 'error' && (
+        {status?.type === 'error' && (
           <div className="flex justify-center mt-2 text-red-600">
             {status.message}
           </div>
