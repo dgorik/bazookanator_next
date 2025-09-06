@@ -1,12 +1,19 @@
 "use server"
 
+import { redirect } from 'next/navigation';
+import { type NextRequest, NextResponse } from 'next/server'
 import { createClient } from "@/utils/supabase/server"
 
 interface FormData {
   password: string
 }
 
-export async function updateUser(formData: FormData) {
+interface UpdateResponse{
+    error?: string,
+    success?: string
+}
+
+export async function updateUser(formData: FormData): Promise <UpdateResponse> {
   const { password } = formData
   const supabase = await createClient()
 
@@ -21,5 +28,7 @@ export async function updateUser(formData: FormData) {
     return { error: error.message }
   }
 
-  return { success: "Password updated successfully" }
+  const redirectUrl = new URL('/auth/login', process.env.NEXT_PUBLIC_SITE_URL)
+  redirectUrl.searchParams.set('success', 'Your password has been reset successfully, login in')
+  redirect(`${redirectUrl}`)
 }

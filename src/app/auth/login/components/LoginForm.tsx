@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/src/components/ui/buttons/button'
 import {
@@ -24,12 +25,14 @@ export default function LoginForm({
     type: string
     message: string
   } | null>(null)
+  const searchParams = useSearchParams()
 
-  // useEffect(() => {
-
-  //   if (status.type == 'error') setStatus({ type: 'error', message: error })
-  //   if (status.type == 'success') setStatus({ type: 'success', message: success })
-  // }, [status])
+  const success = searchParams.get('success')
+  useEffect(() => {
+    if (success) {
+      setStatus({ type: 'success', message: success })
+    }
+  }, [success])
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -94,13 +97,10 @@ export default function LoginForm({
             <Button className="w-1/2 mx-auto block">Forgot Password</Button>
           </Link>
         </form>
-        {status?.type === 'success' && (
-          <div className="flex justify-center mt-2 text-green-600">
-            {status.message}
-          </div>
-        )}
-        {status?.type === 'error' && (
-          <div className="flex justify-center mt-2 text-red-600">
+        {status?.type && (
+          <div
+            className={`flex justify-center mt-2 ${status.type === 'error' ? 'text-red-600' : 'text-green-600'}`}
+          >
             {status.message}
           </div>
         )}

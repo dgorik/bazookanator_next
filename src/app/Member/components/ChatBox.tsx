@@ -39,32 +39,32 @@ export default function ChatBox() {
     setMessages((prev) => [...prev, userMessage])
     setInputValue('')
 
-    // try {
-    //   const response = await fetch('/api/sales/us_consolidated', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ userQuestion: inputValue }),
-    //   })
+    try {
+      const response = await fetch('/api/sales/us_consolidated', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userQuestion: inputValue }),
+      })
 
-    //   const data = await response.json()
+      const data = await response.json()
 
-    //   const botReply: Message = {
-    //     id: (Date.now() + 1).toString(),
-    //     content: data.summary || 'Sorry, I didn’t catch that.',
-    //     sender: 'bot',
-    //   }
+      const botReply: Message = {
+        id: (Date.now() + 1).toString(),
+        content: data.summary || 'Sorry, I didn’t catch that.',
+        sender: 'bot',
+      }
 
-    //   setMessages((prev) => [...prev, botReply])
-    // } catch (error) {
-    //   setMessages((prev) => [
-    //     ...prev,
-    //     {
-    //       id: (Date.now() + 1).toString(),
-    //       content: 'Something went wrong. Please try again.',
-    //       sender: 'bot',
-    //     },
-    //   ])
-    // }
+      setMessages((prev) => [...prev, botReply])
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: (Date.now() + 1).toString(),
+          content: 'Something went wrong. Please try again.',
+          sender: 'bot',
+        },
+      ])
+    }
   }
 
   return (

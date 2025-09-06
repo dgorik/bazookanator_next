@@ -20,13 +20,18 @@ export default function UpdatePassword({
 }: React.ComponentPropsWithoutRef<'div'>) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [status, setStatus] = useState({ type: '', message: '' })
+  const [status, setStatus] = useState<{
+    type: string
+    message: string
+  } | null>(null)
   const searchParams = useSearchParams()
 
+  const success = searchParams.get('success')
   useEffect(() => {
-    const success = searchParams.get('success')
-    if (success) setStatus({ type: 'success', message: success })
-  }, [searchParams])
+    if (success) {
+      setStatus({ type: 'success', message: success })
+    }
+  }, [success])
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,9 +52,12 @@ export default function UpdatePassword({
         password,
       })
 
-      if (response?.error) {
+      if (response.error) {
         setStatus({ type: 'error', message: response.error })
         return
+      }
+      if (response.success) {
+        setStatus({ type: 'success', message: response.success })
       }
     } catch (err: any) {
       setStatus({ type: 'error', message: err.message })
@@ -71,7 +79,10 @@ export default function UpdatePassword({
               type="password"
               required
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value)
+                setStatus(null)
+              }}
             />
           </div>
           <div className="grid gap-2">
@@ -81,7 +92,10 @@ export default function UpdatePassword({
               type="password"
               required
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value)
+                setStatus(null)
+              }}
             />
           </div>
 
@@ -90,7 +104,7 @@ export default function UpdatePassword({
           </Button>
         </form>
 
-        {status.type && (
+        {status?.type && (
           <div
             className={`flex justify-center mt-2 ${status.type === 'error' ? 'text-red-600' : 'text-green-600'}`}
           >
