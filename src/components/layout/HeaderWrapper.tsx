@@ -2,7 +2,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Header from './sections/Header'
+import Header from './sections/header/Header'
 
 export default function HeaderWrapper() {
   const pathname = usePathname()
