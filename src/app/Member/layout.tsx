@@ -12,13 +12,13 @@ export default async function MemberLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex justify-between w-full py-4">
+      <div className="flex w-full py-4">
         {/* Sidebar on the left */}
         <div className="flex flex-row">
           <AppSidebar />
           <SidebarTrigger />
         </div>
-        <MemberHeader />
+        {/* <MemberHeader /> */}
         <div> {children}</div>
       </div>
     </SidebarProvider>

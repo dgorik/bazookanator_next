@@ -15,10 +15,15 @@ import { resetPassword } from '@/src/app/api/auth/reset-password/actions'
 
 export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState({ type: '', message: '' })
+  const [status, setStatus] = useState<{
+    type: string
+    message: string
+  } | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    setStatus(null)
 
     if (!email) {
       setStatus({ type: 'error', message: 'Email is required.' })
@@ -35,7 +40,6 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'d
         type: 'success',
         message: 'If the email exists, a reset link has been sent.',
       })
-      setEmail('')
     } catch (err: any) {
       setStatus({ type: 'error', message: err.message })
     }
@@ -66,9 +70,9 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'d
             </Button>
           </div>
         </form>
-        {status.type && (
+        {status?.type && (
           <div
-            className={`mx-auto mt-2 ${status.type === 'error' ? 'text-red-600' : 'text-green-600'}`}
+            className={`flex justify-center mt-2 ${status.type === 'error' ? 'text-red-600' : 'text-green-600'}`}
           >
             {status.message}
           </div>

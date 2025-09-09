@@ -21,20 +21,25 @@ export async function GET(request: NextRequest) {
       type,
       token_hash,
     })
-    if (!error) {
-      if(next === 'auth/login') {
-      redirectTo.searchParams.delete('next')
-      redirectTo.searchParams.set('success', 'You are verified - please login')
-      return NextResponse.redirect(redirectTo)
-      }
-      else{
+    if (error) {
+      redirectTo.pathname = 'auth/error';
+      return NextResponse.redirect(redirectTo);
+    }
+    switch (type){
+      case 'signup':
+        redirectTo.searchParams.delete('next')
+        redirectTo.searchParams.set('success', 'You are verified - please login')
+        return NextResponse.redirect(redirectTo)
+      case 'recovery':
         redirectTo.searchParams.delete('next')
         redirectTo.searchParams.set('success', 'You are verified - reset password time')
         return NextResponse.redirect(redirectTo)
-      }
+      default:
+      redirectTo.pathname = 'auth/error';
+      return NextResponse.redirect(redirectTo);
     }
-    console.log(error)
   }
-  redirectTo.pathname = 'auth/error'
-  return NextResponse.redirect(redirectTo)
+  
+  redirectTo.pathname = 'auth/error';
+  return NextResponse.redirect(redirectTo);
 }
