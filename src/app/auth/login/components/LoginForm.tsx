@@ -80,6 +80,7 @@ export default function LoginForm({
               id="password"
               type="password"
               required
+              placeholder="enter your password..."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
