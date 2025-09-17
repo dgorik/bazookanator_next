@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/src/components/ui/other/dropdown-menu'
 
-export function SideBarFooter() {
+export function SideBarFooter({ user }: { user: any }) {
   const router = useRouter()
   const handleClick = async () => {
     const response = await signOut()
@@ -30,7 +30,7 @@ export function SideBarFooter() {
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton>email will be there</SidebarMenuButton>
+              <SidebarMenuButton>{user.email}</SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               side="top"
