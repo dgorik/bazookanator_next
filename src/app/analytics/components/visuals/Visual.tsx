@@ -1,13 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import { RadioGroup } from '@headlessui/react'
-import { BarChart } from '@tremor/react'
+import useSWR from 'swr'
+
+import { fetcher } from '@/src/lib/fetcher/fetcher'
 
 export default function Visual() {
-  return (
-    <>
-      <div className="w-full px-4 py-16"> This is a visual component </div>
-    </>
-  )
+  const { data, error, isLoading } = useSWR('op-database', fetcher)
+
+  if (error) return <div>failed to load</div>
+  if (isLoading) return <div>loading...</div>
+
+  // render data
+  return <div> {data?.[0]?.division}!</div>
 }
