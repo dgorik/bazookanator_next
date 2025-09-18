@@ -29,11 +29,15 @@ export default function LoginForm({
   const router = useRouter()
 
   const success = searchParams.get('success')
+  const error = searchParams.get('error')
   useEffect(() => {
     if (success) {
       setStatus({ type: 'success', message: success })
     }
-  }, [success])
+    if (error) {
+      setStatus({ type: 'error', message: error })
+    }
+  }, [success, error])
 
   const handlePostUsers = async (e: React.FormEvent) => {
     e.preventDefault()

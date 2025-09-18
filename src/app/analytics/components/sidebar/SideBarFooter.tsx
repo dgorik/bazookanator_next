@@ -1,6 +1,7 @@
 'use client'
 
 import { signOut } from '@/src/app/api/auth/signout/actions'
+import { useRouter } from 'next/navigation'
 
 import {
   SidebarMenu,
@@ -16,9 +17,12 @@ import {
 } from '@/src/components/ui/other/dropdown-menu'
 
 export function SideBarFooter() {
+  const router = useRouter()
   const handleClick = async () => {
-    const result = await signOut()
-    console.log(result)
+    const response = await signOut()
+    if (response?.message) {
+      router.push('/')
+    }
   }
   return (
     <SidebarFooter>
