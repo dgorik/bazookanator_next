@@ -1,21 +1,25 @@
 'use client'
 
-import { signOut } from 'next-auth/react'
+import { signOut } from '@/src/app/api/auth/signout/actions'
 
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarFooter,
-} from '../../../../components/ui/sidebar/sidebar'
+} from '@/src/components/ui/sidebar/sidebar'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../../../../components/ui/other/dropdown-menu'
+} from '@/src/components/ui/other/dropdown-menu'
 
 export function SideBarFooter() {
+  const handleClick = async () => {
+    const result = await signOut()
+    console.log(result)
+  }
   return (
     <SidebarFooter>
       <SidebarMenu>
@@ -29,9 +33,7 @@ export function SideBarFooter() {
               className="w-[--radix-popper-anchor-width]"
             >
               <DropdownMenuItem>
-                <span onClick={() => signOut({ callbackUrl: '/' })}>
-                  Sign Out
-                </span>
+                <span onClick={handleClick}>Sign Out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

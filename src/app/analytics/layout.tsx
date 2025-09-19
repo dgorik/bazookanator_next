@@ -3,7 +3,6 @@ import {
   SidebarTrigger,
 } from '../../components/ui/sidebar/sidebar'
 import { AppSidebar } from './components/sidebar/AppSidebar'
-import MemberHeader from './components/MemberHeader'
 
 export default async function MemberLayout({
   children,
@@ -18,7 +17,6 @@ export default async function MemberLayout({
           <AppSidebar />
           <SidebarTrigger />
         </div>
-        {/* <MemberHeader /> */}
         <div> {children}</div>
       </div>
     </SidebarProvider>

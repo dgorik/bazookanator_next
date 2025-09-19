@@ -22,6 +22,8 @@ export async function login(formData: FormData) {
   if (error) {
     return { error: error.message }
   }
-  revalidatePath('/', 'layout')
-  redirect('/Member')
+  
+  return { message: "Signed out successfully" }
+  // revalidatePath('/', 'layout') //not deleting yet - need to research what this is for
+  redirect('/analytics')
 }

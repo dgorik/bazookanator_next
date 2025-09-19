@@ -7,7 +7,7 @@ import Header from './sections/header/Header'
 export default function HeaderWrapper() {
   const pathname = usePathname()
 
-  if (pathname.startsWith('/Member') || pathname.startsWith('/auth'))
+  if (pathname.startsWith('/analytics') || pathname.startsWith('/auth'))
     return null
 
   return <Header />

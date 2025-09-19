@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/src/components/ui/buttons/button'
 import {
@@ -26,6 +26,7 @@ export default function LoginForm({
     message: string
   } | null>(null)
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   const success = searchParams.get('success')
   useEffect(() => {
@@ -42,6 +43,10 @@ export default function LoginForm({
         email,
         password,
       })
+
+      if (response?.message) {
+        router.push('/analytics')
+      }
 
       if (response?.error) {
         setStatus({ type: 'error', message: response.error })
