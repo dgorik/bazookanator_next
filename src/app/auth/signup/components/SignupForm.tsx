@@ -10,6 +10,7 @@ import {
 } from '@/src/components/ui/other/card'
 import { Input } from '@/src/components/ui/other/input'
 import { Label } from '@/src/components/ui/other/label'
+import { LoadingSpinner } from '@/src/components/ui/loading_spinner/loading_spinner'
 
 import { signup } from '@/src/app/api/auth/signup/actions'
 
@@ -18,6 +19,7 @@ export default function SignupForm({
   ...props
 }: React.ComponentPropsWithoutRef<'div'>) {
   const [status, setStatus] = useState({ type: '', message: '' })
+  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -39,6 +41,7 @@ export default function SignupForm({
     // }
 
     if (password.length < 6) {
+      setLoading(false)
       setStatus({
         type: 'error',
         message: 'Password must be at least 6 characters.',
@@ -53,20 +56,25 @@ export default function SignupForm({
         first_name: firstName,
         last_name: lastName,
       })
+      //later handle already registered user error
+      setLoading(false)
 
       if (response?.error) {
+        setLoading(false)
         setStatus({ type: 'error', message: response.error })
         return
       }
       setStatus({
         type: 'success',
-        message: 'Please check your email to confirm your account.',
+        message:
+          'If this email is not registered yet, you’ll receive a confirmation email shortly.',
       })
       setEmail('')
       setPassword('')
       setFirstName('')
       setLastName('')
     } catch (err: any) {
+      setLoading(false)
       setStatus({ type: 'error', message: err.message })
     }
   }
@@ -126,7 +134,8 @@ export default function SignupForm({
               />
             </div>
             <Button type="submit" className="w-full">
-              Submit
+              {loading && <LoadingSpinner size={16} color="blue" />}
+              {loading ? 'Loading...' : 'Create Account'}
             </Button>
           </div>
         </form>
