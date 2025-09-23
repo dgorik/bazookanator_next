@@ -4,7 +4,7 @@ import {
 } from '@/src/components/ui/sidebar/sidebar'
 import { AppSidebar } from './components/sidebar/AppSidebar'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/src/lib/client/supabase/server'
 import { userAgent } from 'next/server'
 
 export default async function MemberLayout({
@@ -18,7 +18,6 @@ export default async function MemberLayout({
     redirect('/auth/login?error=No+cheating!+You+need+to+sign+in')
   }
   const user = data.user
-  console.log(user)
   return (
     <SidebarProvider>
       <div className="flex w-full py-4">

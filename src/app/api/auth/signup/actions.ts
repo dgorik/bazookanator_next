@@ -1,6 +1,6 @@
 "use server"
 
-import { createClient } from "@/utils/supabase/server"
+import { createClient } from "@/src/lib/client/supabase/server"
 
 interface FormData {
   email: string

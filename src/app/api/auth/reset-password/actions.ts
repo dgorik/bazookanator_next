@@ -1,5 +1,5 @@
 'use server'
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/src/lib/client/supabase/server'
 
 const SITE_URL =
   process.env.NODE_ENV === 'production'

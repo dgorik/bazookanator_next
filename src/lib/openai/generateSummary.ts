@@ -1,4 +1,4 @@
-import { openai_client } from "../../../utils/openai/openai";
+import { openai_client } from "../client/openai";
 
 
 export async function generateSummary(sqlResult: object) {
