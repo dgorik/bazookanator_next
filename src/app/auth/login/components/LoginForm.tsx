@@ -13,6 +13,7 @@ import {
 } from '@/src/components/ui/other/card'
 import { Input } from '@/src/components/ui/other/input'
 import { Label } from '@/src/components/ui/other/label'
+import { LoadingSpinner } from '@/src/components/ui/loading_spinner/loading_spinner'
 import { login } from '@/src/app/api/auth/login/actions'
 
 export default function LoginForm({
@@ -20,6 +21,7 @@ export default function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState<{
     type: string
@@ -40,6 +42,7 @@ export default function LoginForm({
   }, [success, error])
 
   const handlePostUsers = async (e: React.FormEvent) => {
+    setLoading(true)
     e.preventDefault()
     setStatus(null)
     try {
@@ -53,10 +56,12 @@ export default function LoginForm({
       }
 
       if (response?.error) {
+        setLoading(false)
         setStatus({ type: 'error', message: response.error })
         return
       }
     } catch (err: any) {
+      setLoading(false)
       setStatus({ type: 'error', message: err.message })
     }
   }
@@ -96,7 +101,8 @@ export default function LoginForm({
           </div>
 
           <Button type="submit" className="w-full">
-            Login
+            {loading && <LoadingSpinner size={16} color="blue" />}
+            {loading ? 'Loading...' : 'Login'}
           </Button>
           <Link href="/auth/signup">
             <Button variant="outline" className="w-full">
