@@ -1,5 +1,5 @@
 import ChatBox from './components/ChatBox'
-import Visual from './components/visuals/Visual'
+import Visual from './components/visuals/Brand_comparison'
 
 export default async function Member() {
   return (
@@ -9,11 +9,11 @@ export default async function Member() {
           {' '}
           <Visual />{' '}
         </div>
+        {/* <div className="border-4 border-grey-200"> First Visual </div>
         <div className="border-4 border-grey-200"> First Visual </div>
         <div className="border-4 border-grey-200"> First Visual </div>
         <div className="border-4 border-grey-200"> First Visual </div>
-        <div className="border-4 border-grey-200"> First Visual </div>
-        <div className="border-4 border-grey-200"> First Visual </div>
+        <div className="border-4 border-grey-200"> First Visual </div> */}
       </div>
       <ChatBox />
     </div>

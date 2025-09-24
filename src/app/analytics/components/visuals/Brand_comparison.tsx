@@ -2,10 +2,14 @@
 
 import useSWR from 'swr'
 
-import { fetcher } from '@/src/lib/fetcher/fetcher'
+import { fetcher } from '@/src/lib/fetcher/brand_comparison/fetcher'
+import { groupBy } from '@/utils/visuals/general/arrayHelpers'
+import { BarChart } from '@tremor/react'
 
 export default function Visual() {
   const { data, error, isLoading } = useSWR('op-database', fetcher)
+  const grouped = data ? groupBy(data as any[], 'brand') : []
+  console.log(grouped)
 
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
