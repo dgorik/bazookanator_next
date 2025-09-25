@@ -3,21 +3,16 @@ import {
   SidebarTrigger,
 } from '@/src/components/ui/sidebar/sidebar'
 import { AppSidebar } from './components/sidebar/AppSidebar'
-import { redirect } from 'next/navigation'
-import { createClient } from '@/src/lib/client/supabase/server'
-import { userAgent } from 'next/server'
+import { requireUser, logoutIfSessionExpired } from '@/src/lib/auth/authHelpers'
 
 export default async function MemberLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const supabase = await createClient()
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect('/auth/login?error=No+cheating!+You+need+to+sign+in')
-  }
-  const user = data.user
+  const user = await requireUser()
+  await logoutIfSessionExpired(user)
+
   return (
     <SidebarProvider>
       <div className="flex w-full py-4">
