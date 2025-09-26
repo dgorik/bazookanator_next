@@ -4,6 +4,7 @@ import {
 } from '@/src/components/ui/sidebar/sidebar'
 import { AppSidebar } from './components/sidebar/AppSidebar'
 import { requireUser, logoutIfSessionExpired } from '@/src/lib/auth/authHelpers'
+import SessionTimer from './components/session-timer/SessionTimer'
 
 export default async function MemberLayout({
   children,
@@ -15,6 +16,7 @@ export default async function MemberLayout({
 
   return (
     <SidebarProvider>
+      <SessionTimer />
       <div className="flex w-full py-4">
         {/* Sidebar on the left */}
         <div className="flex flex-row">

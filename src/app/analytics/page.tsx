@@ -1,5 +1,5 @@
 import ChatBox from './components/ChatBox'
-import Visual from './components/visuals/Brand_comparison'
+import BrandComparison from './components/visuals/BrandComparison'
 
 export default async function Member() {
   return (
@@ -7,7 +7,7 @@ export default async function Member() {
       <div className="grid grid-cols-3 content-center gap-4">
         <div className="border-4 border-grey-200">
           {' '}
-          <Visual />{' '}
+          <BrandComparison />{' '}
         </div>
         {/* <div className="border-4 border-grey-200"> First Visual </div>
         <div className="border-4 border-grey-200"> First Visual </div>
