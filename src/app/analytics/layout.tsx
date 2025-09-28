@@ -4,6 +4,7 @@ import {
 } from '@/src/components/ui/sidebar/sidebar'
 import { AppSidebar } from './components/sidebar/AppSidebar'
 import { requireUser, logoutIfSessionExpired } from '@/src/lib/auth/authHelpers'
+import { useInactivitySignout } from '@/src/hooks/useInactivitySignout'
 import SessionTimer from './components/session-timer/SessionTimer'
 
 export default async function MemberLayout({
@@ -12,13 +13,11 @@ export default async function MemberLayout({
   children: React.ReactNode
 }) {
   const user = await requireUser()
-  await logoutIfSessionExpired(user)
 
   return (
     <SidebarProvider>
       <SessionTimer />
       <div className="flex w-full py-4">
-        {/* Sidebar on the left */}
         <div className="flex flex-row">
           <AppSidebar user={user} />
           <SidebarTrigger />

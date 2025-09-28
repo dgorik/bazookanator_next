@@ -2,6 +2,7 @@
 
 import { signOut } from '@/src/app/api/auth/signout/actions'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 import {
   SidebarMenu,
@@ -18,10 +19,14 @@ import {
 
 export function SideBarFooter({ user }: { user: any }) {
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
   const handleClick = async () => {
+    setLoading(true)
     const response = await signOut()
     if (response?.message) {
-      router.push('/')
+      router.replace('/')
+    } else {
+      setLoading(false)
     }
   }
   return (
@@ -37,7 +42,9 @@ export function SideBarFooter({ user }: { user: any }) {
               className="w-[--radix-popper-anchor-width]"
             >
               <DropdownMenuItem>
-                <span onClick={handleClick}>Sign Out</span>
+                <span onClick={handleClick}>
+                  {loading ? 'Signing out...' : 'Sign out'}
+                </span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
