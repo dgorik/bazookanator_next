@@ -22,18 +22,16 @@ export default function BrandComparison() {
 
   // render data
   return (
-    <div className="flex flex-col gap-16">
-      <BarChart
-        className="h-80"
-        data={groupedObj}
-        index="brand"
-        categories={['total_sales']}
-        valueFormatter={(value) => formatters.unit(value)}
-        colors={['blue']}
-        showLegend={false}
-        xAxisLabel="Brand"
-        yAxisLabel="Total Sales"
-      />
-    </div>
+    <BarChart
+      className="mt-4 hidden h-60 md:block"
+      data={groupedObj}
+      index="brand"
+      categories={['total_sales']}
+      valueFormatter={(value) => formatters.unit(value)}
+      colors={['blue']}
+      showLegend={false}
+      xAxisLabel="Brand"
+      yAxisLabel="Total Sales"
+    />
   )
 }
