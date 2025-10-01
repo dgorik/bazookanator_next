@@ -1,6 +1,6 @@
 'use client'
 
-import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react'
+import { Home, Search } from 'lucide-react'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -9,7 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarContent,
-} from '../../../../components/ui/sidebar/sidebar'
+} from '@/src/components/ui/sidebar/core/sidebar'
 
 // Menu items array
 const items = [
@@ -20,8 +20,8 @@ const items = [
   },
   {
     title: 'Details',
-    url: '#',
-    icon: Inbox,
+    url: '/analytics/details',
+    icon: Search,
   },
 ]
 

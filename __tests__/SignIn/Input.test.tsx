@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import LoginForm from '@/src/app/auth/login/components/LoginForm'
+import LoginForm from '@/src/components/auth/LoginForm'
 
 jest.mock('@/src/app/api/auth/login/actions', () => ({
   login: jest.fn(),

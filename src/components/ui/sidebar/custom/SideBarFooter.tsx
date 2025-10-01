@@ -9,7 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarFooter,
-} from '@/src/components/ui/sidebar/sidebar'
+} from '@/src/components/ui/sidebar/core/sidebar'
 import {
   DropdownMenu,
   DropdownMenuContent,

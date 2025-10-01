@@ -1,8 +1,8 @@
 import {
   SidebarProvider,
   SidebarTrigger,
-} from '@/src/components/ui/sidebar/sidebar'
-import { AppSidebar } from './components/sidebar/AppSidebar'
+} from '@/src/components/ui/sidebar/core/sidebar'
+import { AppSidebar } from '../../components/ui/sidebar/AppSidebar'
 import { requireUser } from '@/src/lib/auth/authHelpers'
 import SessionTimer from './components/session-timer/SessionTimer'
 
