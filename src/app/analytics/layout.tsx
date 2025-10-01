@@ -3,8 +3,7 @@ import {
   SidebarTrigger,
 } from '@/src/components/ui/sidebar/sidebar'
 import { AppSidebar } from './components/sidebar/AppSidebar'
-import { requireUser, logoutIfSessionExpired } from '@/src/lib/auth/authHelpers'
-import { useInactivitySignout } from '@/src/hooks/useInactivitySignout'
+import { requireUser } from '@/src/lib/auth/authHelpers'
 import SessionTimer from './components/session-timer/SessionTimer'
 
 export default async function MemberLayout({
@@ -15,15 +14,13 @@ export default async function MemberLayout({
   const user = await requireUser()
 
   return (
-    <SidebarProvider>
+    <div className="min-h-screen flex">
       <SessionTimer />
-      <div className="flex w-full py-4">
-        <div className="flex flex-row">
-          <AppSidebar user={user} />
-          <SidebarTrigger />
-        </div>
-        <div> {children}</div>
-      </div>
-    </SidebarProvider>
+      <SidebarProvider>
+        <AppSidebar user={user} />
+        <SidebarTrigger />
+        <div className="flex-1 p-2"> {children}</div>
+      </SidebarProvider>
+    </div>
   )
 }

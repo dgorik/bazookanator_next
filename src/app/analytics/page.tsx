@@ -3,19 +3,55 @@ import BrandComparison from './components/visuals/BrandComparison'
 
 export default async function Member() {
   return (
-    <div className="flex flex-col justify-between items-center min-h-screen">
-      {/* <div className="grid grid-cols-3 content-center gap-4"> */}
-      <div className="border-4 border-grey-200">
-        {' '}
-        <BrandComparison />{' '}
-      </div>
-      {/* <div className="border-4 border-grey-200"> First Visual </div>
-        <div className="border-4 border-grey-200"> First Visual </div>
-        <div className="border-4 border-grey-200"> First Visual </div>
-        <div className="border-4 border-grey-200"> First Visual </div>
-        <div className="border-4 border-grey-200"> First Visual </div> */}
-      {/* </div> */}
-      <ChatBox />
-    </div>
+    <>
+      <section>
+        <dl className="grid grid-cols-1 gap-x-14 gap-y-10 border-t border-gray-200 p-6 md:grid-cols-2 dark:border-gray-800">
+          <div className="flex flex-col justify-between p-0">
+            <div>
+              <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+                Inherent risk
+              </dt>
+              <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
+                Risk scenarios over time grouped by risk level
+              </dd>
+            </div>
+            <BrandComparison />
+          </div>
+          <div className="flex flex-col justify-between p-0">
+            <div>
+              <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+                Inherent risk
+              </dt>
+              <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
+                Risk scenarios over time grouped by risk level
+              </dd>
+            </div>
+            <BrandComparison />
+          </div>
+          <div className="flex flex-col justify-between p-0">
+            <div>
+              <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+                Inherent risk
+              </dt>
+              <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
+                Risk scenarios over time grouped by risk level
+              </dd>
+            </div>
+            <BrandComparison />
+          </div>
+          <div className="flex flex-col justify-between p-0">
+            <div>
+              <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+                Inherent risk
+              </dt>
+              <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
+                Risk scenarios over time grouped by risk level
+              </dd>
+            </div>
+            <BrandComparison />
+          </div>
+        </dl>
+      </section>
+    </>
   )
 }

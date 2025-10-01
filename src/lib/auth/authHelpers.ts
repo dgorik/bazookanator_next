@@ -11,12 +11,3 @@ export async function requireUser(){
   const user = data.user
   return user
 }
-
-export async function logoutIfSessionExpired(user: any) { 
-  const sessionStart = new Date(user.last_sign_in_at) 
-  const maxSessionDuration = 1000 * 60 * 60 * 2 // 2 hours in milliseconds
-
-  if (Date.now() - sessionStart.getTime() > maxSessionDuration) {
-    redirect('/auth/login?error=Your+session+has+expired,+please+log+in+again')
-  }
-}

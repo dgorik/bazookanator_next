@@ -4,6 +4,7 @@ import useSWR from 'swr'
 
 import { fetcher } from '@/src/lib/fetcher/brand_comparison/fetcher'
 import { BarChart } from '@tremor/react'
+import { formatters } from '@/src/lib/utils'
 
 export default function BrandComparison() {
   const { data, error, isLoading } = useSWR('op-database', fetcher)
@@ -21,15 +22,17 @@ export default function BrandComparison() {
 
   // render data
   return (
-    <div>
+    <div className="flex flex-col gap-16">
       <BarChart
-        className="h-72"
+        className="h-80"
         data={groupedObj}
         index="brand"
         categories={['total_sales']}
+        valueFormatter={(value) => formatters.unit(value)}
         colors={['blue']}
         showLegend={false}
-        // yAxisWidth={40}
+        xAxisLabel="Brand"
+        yAxisLabel="Total Sales"
       />
     </div>
   )
