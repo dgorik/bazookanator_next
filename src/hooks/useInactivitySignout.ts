@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef } from 'react';
 
 
-const InactivityTimeout = 1000 * 60 * 30 // 1 minute
+const InactivityTimeout = 1000 * 60 * 30 
 const LastActivityKey = 'lastActivityTimestamp'
 
 const supabase = createClient()

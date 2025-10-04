@@ -1,13 +1,9 @@
 'use client'
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from '../../../components/ui/other/card'
-import { Input } from '../../../components/ui/other/input'
+import { Card, CardContent, CardFooter } from '@/src/components/ui/other/card'
+import { Input } from '@/src/components/ui/other/input'
 import { Send } from 'lucide-react'
-import { Button } from '../../../components/ui/buttons/button'
+import { Button } from '@/src/components/ui/buttons/button'
 import { useState } from 'react'
 
 interface Message {

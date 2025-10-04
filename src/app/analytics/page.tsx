@@ -1,10 +1,12 @@
 import ChatBox from './components/ChatBox'
 import BrandComparison from './components/visuals/BrandComparison'
+import Filter from './components/data-filter/Filter'
 
 export default async function Member() {
   return (
     <>
       <section>
+        <Filter />
         <dl className="grid grid-cols-1 gap-x-14 gap-y-10 border-t border-gray-200 p-6 md:grid-cols-2 dark:border-gray-800">
           <div className="flex flex-col justify-between p-0">
             <div>
