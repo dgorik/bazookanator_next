@@ -10,9 +10,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/src/components/ui/other/card'
-import { Input } from '@/src/components/ui/other/input'
-import { Label } from '@/src/components/ui/other/label'
+} from '@/src/components/ui/other - shadcn/card'
+import { Input } from '@/src/components/ui/other - shadcn/input'
+import { Label } from '@/src/components/ui/other - shadcn/label'
 import { LoadingSpinner } from '@/src/components/ui/loading_spinner/loading_spinner'
 import { login } from '@/src/app/api/auth/login/actions'
 

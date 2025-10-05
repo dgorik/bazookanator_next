@@ -15,7 +15,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/src/components/ui/other/dropdown-menu'
+} from '@/src/components/ui/other - shadcn/dropdown-menu'
 
 export function SideBarFooter({ user }: { user: any }) {
   const router = useRouter()

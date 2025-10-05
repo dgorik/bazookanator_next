@@ -9,9 +9,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/src/components/ui/other/card'
-import { Input } from '@/src/components/ui/other/input'
-import { Label } from '@/src/components/ui/other/label'
+} from '@/src/components/ui/other - shadcn/card'
+import { Input } from '@/src/components/ui/other - shadcn/input'
+import { Label } from '@/src/components/ui/other - shadcn/label'
 import { updateUser } from '@/src/app/api/auth/update_user/actions'
 
 export default function UpdatePassword({

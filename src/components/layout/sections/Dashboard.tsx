@@ -1,6 +1,10 @@
 'use client'
 
-import { Card, CardContent, CardTitle } from '@/src/components/ui/other/card'
+import {
+  Card,
+  CardContent,
+  CardTitle,
+} from '@/src/components/ui/other - shadcn/card'
 import { ProgressCircle } from '@/src/components/ui/progress_circle/progress-circle'
 import CountUp from 'react-countup'
 

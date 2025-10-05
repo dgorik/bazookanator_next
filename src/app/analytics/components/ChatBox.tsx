@@ -1,7 +1,11 @@
 'use client'
 
-import { Card, CardContent, CardFooter } from '@/src/components/ui/other/card'
-import { Input } from '@/src/components/ui/other/input'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+} from '@/src/components/ui/other - shadcn/card'
+import { Input } from '@/src/components/ui/other - shadcn/input'
 import { Send } from 'lucide-react'
 import { Button } from '@/src/components/ui/buttons/button'
 import { useState } from 'react'

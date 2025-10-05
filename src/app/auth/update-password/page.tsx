@@ -1,4 +1,4 @@
-import UpdatePassword from '@/src/app/auth/update-password/components/UpdatePassword'
+import UpdatePassword from '@/src/components/auth/UpdatePassword'
 import { Suspense } from 'react'
 
 export default function UpdatePasswordPage() {

@@ -37,6 +37,7 @@
     "@remixicon/react": "^4.6.0",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.56.1",
+    "@tanstack/react-table": "^8.21.3",
     "@tremor/react": "^3.18.7",
     "@types/nodemailer": "^6.4.17",
     "bcryptjs": "^3.0.2",

@@ -4,7 +4,7 @@ import {
 } from '@/src/components/ui/sidebar/core/sidebar'
 import { AppSidebar } from '../../components/ui/sidebar/AppSidebar'
 import { requireUser } from '@/src/lib/auth/authHelpers'
-import SessionTimer from './components/session-timer/SessionTimer'
+import SessionTimer from '../../components/session/SessionTimer'
 
 export default async function MemberLayout({
   children,

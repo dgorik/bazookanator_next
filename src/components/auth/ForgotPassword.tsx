@@ -6,11 +6,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/src/components/ui/other/card'
+} from '@/src/components/ui/other - shadcn/card'
 import { useState } from 'react'
 import { Button } from '@/src/components/ui/buttons/button'
-import { Input } from '@/src/components/ui/other/input'
-import { Label } from '@/src/components/ui/other/label'
+import { Input } from '@/src/components/ui/other - shadcn/input'
+import { Label } from '@/src/components/ui/other - shadcn/label'
 import { resetPassword } from '@/src/app/api/auth/reset-password/actions'
 
 export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'div'>) {
