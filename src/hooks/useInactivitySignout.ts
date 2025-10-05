@@ -40,7 +40,7 @@ const resetTimer =
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
         } 
-        updateLastActivity();
+        updateLastActivity(); 
         timeoutRef.current = window.setTimeout(signOutUser, InactivityTimeout)
   }, [signOutUser])
 
@@ -54,14 +54,13 @@ const resetTimer =
     function handleStorageEvent(event: StorageEvent){
       // If another tab was active (updated the key), reset this tab's timer
       if (event.key === LastActivityKey) {
-        console.log('Storage event detected, resetting timer');
         resetTimer();
       }
     };
     window.addEventListener('storage', handleStorageEvent);
 
     return () => {
-        if (timeoutRef.current) {
+      if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
       activityEvents.forEach(event => {
@@ -70,4 +69,6 @@ const resetTimer =
       window.removeEventListener('storage', handleStorageEvent);
     }
   },[resetTimer])
+  // because we use useCallback for resetTimer, the useEffect will only run once on mount and when resetTimer changes (which it won't, unless signOutUser changes)
+  // The cleanup runs when the component unmounts or right before a re-run (if resetTimer changed). 
 }

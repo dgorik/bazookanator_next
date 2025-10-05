@@ -1,3 +1,7 @@
+'use client'
+
+import { useId } from 'react'
+
 import {
   Accordion,
   AccordionContent,
@@ -6,6 +10,8 @@ import {
 } from '@/src/components/ui/accordion/accordion'
 
 export default function FAQSection() {
+  const id = useId()
+
   interface FAQProps {
     question: string
     answer: string
