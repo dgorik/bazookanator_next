@@ -13,7 +13,7 @@ import * as React from 'react'
 import { DataTablePagination } from './DataTablePagination'
 
 // import { DataTableBulkEditor } from './DataTableBulkEditor'
-// import { Filterbar } from './DataTableFilterbar'
+import { Filterbar } from './DataTableFilterBar'
 // import { DataTablePagination } from './DataTablePagination'
 
 import {
@@ -57,7 +57,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   return (
     <>
       <div className="space-y-3">
-        {/* <Filterbar table={table} /> */}
+        <Filterbar table={table} />
         <div className="relative overflow-hidden overflow-x-auto">
           <Table>
             <TableHead>
