@@ -1,6 +1,7 @@
 'use client'
 
 import { Home, Search } from 'lucide-react'
+import Link from 'next/link'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -15,7 +16,7 @@ import {
 const items = [
   {
     title: 'Overview',
-    url: '#',
+    url: '/analytics',
     icon: Home,
   },
   {
