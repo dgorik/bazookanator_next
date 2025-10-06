@@ -10,6 +10,7 @@ import {
 } from '@/src/components/ui/table/Table'
 import { cx } from '@/src/lib/utils'
 import * as React from 'react'
+import { DataTablePagination } from './DataTablePagination'
 
 // import { DataTableBulkEditor } from './DataTableBulkEditor'
 // import { Filterbar } from './DataTableFilterbar'
@@ -25,20 +26,21 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
+//ColumnDef to type your column definitions
+//get*RowModel to enable features like sorting, filtering, pagination
+//useReactTable to create your table instance and hook it into your component state
+//flexRender to render the actual content
+
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[]
   data: TData[]
 }
 
 export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
-  const pageSize = 20
-  const [rowSelection, setRowSelection] = React.useState({})
+  const pageSize = 2
   const table = useReactTable({
     data,
     columns,
-    state: {
-      rowSelection,
-    },
     initialState: {
       pagination: {
         pageIndex: 0,
@@ -46,10 +48,9 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
       },
     },
     enableRowSelection: true,
+    getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onRowSelectionChange: setRowSelection,
-    getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
 
@@ -126,7 +127,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           </Table>
           {/* <DataTableBulkEditor table={table} rowSelection={rowSelection} /> */}
         </div>
-        {/* <DataTablePagination table={table} pageSize={pageSize} /> */}
+        <DataTablePagination table={table} pageSize={pageSize} />
       </div>
     </>
   )

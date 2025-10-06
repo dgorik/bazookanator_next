@@ -3,6 +3,7 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { DataTableColumnHeader } from './DataTableColumnHeader'
 
+//we are defining a row shape here
 type Usage = {
   brand: string
   le: number
