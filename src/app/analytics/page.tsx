@@ -1,8 +1,10 @@
-import ChatBox from './components/ChatBox'
 import BrandComparison from './components/visuals/BrandComparison'
 import Filter from './components/data-filter/Filter'
+import { getBrandComparisonData } from '@/src/lib/fetcher/brand_comparison/server'
 
 export default async function Member() {
+  const data = await getBrandComparisonData()
+
   return (
     <>
       <section>
@@ -17,7 +19,7 @@ export default async function Member() {
                 Risk scenarios over time grouped by risk level
               </dd>
             </div>
-            <BrandComparison />
+            <BrandComparison data={data} />
           </div>
           <div className="flex flex-col justify-between p-0">
             <div>
@@ -28,7 +30,7 @@ export default async function Member() {
                 Risk scenarios over time grouped by risk level
               </dd>
             </div>
-            <BrandComparison />
+            <BrandComparison data={data} />
           </div>
           <div className="flex flex-col justify-between p-0">
             <div>
@@ -39,7 +41,7 @@ export default async function Member() {
                 Risk scenarios over time grouped by risk level
               </dd>
             </div>
-            <BrandComparison />
+            <BrandComparison data={data} />
           </div>
           <div className="flex flex-col justify-between p-0">
             <div>
@@ -50,7 +52,7 @@ export default async function Member() {
                 Risk scenarios over time grouped by risk level
               </dd>
             </div>
-            <BrandComparison />
+            <BrandComparison data={data} />
           </div>
         </dl>
       </section>

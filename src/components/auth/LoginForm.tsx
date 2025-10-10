@@ -104,14 +104,12 @@ export default function LoginForm({
             {loading && <LoadingSpinner size={16} color="blue" />}
             {loading ? 'Loading...' : 'Login'}
           </Button>
-          <Link href="/auth/signup">
-            <Button variant="outline" className="w-full">
-              Sign Up
-            </Button>
-          </Link>
-          <Link href="/auth/forgot-password">
-            <Button className="w-1/2 mx-auto block">Forgot Password</Button>
-          </Link>
+          <Button asChild variant="outline" className="w-full">
+            <Link href="/auth/signup">Sign Up</Link>
+          </Button>
+          <Button asChild className="w-1/2 mx-auto block">
+            <Link href="/auth/forgot-password">Forgot Password</Link>
+          </Button>
         </form>
         {status?.type && (
           <div

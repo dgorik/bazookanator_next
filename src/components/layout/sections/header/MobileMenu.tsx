@@ -55,21 +55,25 @@ export default function MobileMenu() {
           </SheetHeader>
           <div className="flex flex-col gap-4 mt-4 px-2">
             {routeList.map(({ href, label }) => (
-              <Link
+              <a
                 key={href}
                 href={href}
                 className="text-base"
                 onClick={() => setIsOpen(false)}
               >
                 {label}
-              </Link>
+              </a>
             ))}
 
-            <Button className="w-1/4">
-              <Link href="/auth/login">Sign In</Link>
+            <Button asChild className="w-1/4">
+              <Link href="/auth/login" prefetch={false}>
+                Sign In
+              </Link>
             </Button>
-            <Button className="w-1/4">
-              <Link href="/auth/signup">Sign Up</Link>
+            <Button asChild className="w-1/4">
+              <Link href="/auth/signup" prefetch={false}>
+                Sign Up
+              </Link>
             </Button>
           </div>
         </SheetContent>

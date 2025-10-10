@@ -31,9 +31,9 @@ export default function Header() {
       <div className="hidden lg:block mx-auto">
         <nav>
           {routeList.map(({ href, label }) => (
-            <Link key={href} href={href} className="text-base px-2">
+            <a key={href} href={href} className="text-base px-2">
               {label}
-            </Link>
+            </a>
           ))}
         </nav>
         <div className="flex gap-2"></div>
@@ -42,11 +42,15 @@ export default function Header() {
       <MobileMenu />
       {/* <!-- Mobile --> */}
       <div className="hidden lg:flex gap-2">
-        <Button>
-          <Link href="/auth/login">Sign In</Link>
+        <Button asChild>
+          <Link href="/auth/login" prefetch={false}>
+            Sign In
+          </Link>
         </Button>
-        <Button>
-          <Link href="/auth/signup">Sign Up</Link>
+        <Button asChild>
+          <Link href="/auth/signup" prefetch={false}>
+            Sign Up
+          </Link>
         </Button>
       </div>
     </header>
