@@ -9,12 +9,6 @@ import { formatters } from '@/src/lib/utils'
 export default function BrandComparison() {
   const { data, error, isLoading } = useSWR('op-database', fetcher)
   const groupedObj = data || []
-  // ? groupBy(data as any[], 'brand') : {}
-  // const grouped = Object.entries(groupedObj).map(([brand, items]) => ({
-  //   brand,
-  //   count: items.length,
-  // }))
-  // console.log(grouped)
 
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
@@ -23,7 +17,7 @@ export default function BrandComparison() {
   // render data
   return (
     <BarChart
-      className="mt-4 hidden h-60 md:block"
+      className="mt-4 hidden h-80 md:block"
       data={groupedObj}
       index="brand"
       categories={['total_sales']}

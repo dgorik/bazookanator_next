@@ -5,16 +5,32 @@ import { DataTableColumnHeader } from './DataTableColumnHeader'
 
 //we are defining a row shape here
 type Usage = {
+  division: string
   brand: string
+  category: string
   le: number
   boardop: number
   plan2025: number
   sales2024: number
+  levsboardop?: number
+  planvsboardop?: number
+  salesvsplan?: number
 }
 
 const columnHelper = createColumnHelper<Usage>()
 
 export const columns = [
+  columnHelper.accessor('division', {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Division" />
+    ),
+    enableSorting: true,
+    enableHiding: false,
+    meta: {
+      className: 'text-left',
+      displayName: 'Division',
+    },
+  }),
   columnHelper.accessor('brand', {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Brand" />
@@ -24,6 +40,17 @@ export const columns = [
     meta: {
       className: 'text-left',
       displayName: 'Brand',
+    },
+  }),
+  columnHelper.accessor('category', {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Category" />
+    ),
+    enableSorting: true,
+    enableHiding: false,
+    meta: {
+      className: 'text-left',
+      displayName: 'Category',
     },
   }),
   columnHelper.accessor('le', {
@@ -61,7 +88,7 @@ export const columns = [
   }),
   columnHelper.accessor('sales2024', {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="2025 Plan" />
+      <DataTableColumnHeader column={column} title="2024 Sales" />
     ),
     enableSorting: true,
     enableHiding: false,

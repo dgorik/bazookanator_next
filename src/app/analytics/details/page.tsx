@@ -3,6 +3,7 @@ import { columns } from '@/src/components/ui/data-table/columns'
 
 export const usage = [
   {
+    division: 'B&M',
     brand: 'Acme Motors',
     category: 'Sedans',
     le: 75000000,
@@ -11,6 +12,7 @@ export const usage = [
     sales2024: 78000000,
   },
   {
+    division: 'B&M',
     brand: 'Globex Corp',
     category: 'Trucks',
     le: 120000000,
@@ -19,6 +21,7 @@ export const usage = [
     sales2024: 105000000,
   },
   {
+    division: 'Ecomm',
     brand: 'Soylent Foods',
     category: 'Snacks',
     le: 35000000,
@@ -27,6 +30,7 @@ export const usage = [
     sales2024: 38000000,
   },
   {
+    division: 'Ecomm',
     brand: 'Initech Solutions',
     category: 'Software',
     le: 95000000,
@@ -35,6 +39,7 @@ export const usage = [
     sales2024: 92000000,
   },
   {
+    division: 'B&M',
     brand: 'Genco Piles',
     category: 'Heavy Eq.',
     le: 22000000,

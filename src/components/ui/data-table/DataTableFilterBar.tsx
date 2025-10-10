@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/src/components/ui/buttons/button'
-import { divisions, brands } from '@/src/data/data'
+import { divisions, brands, categories } from '@/src/data/data'
 // import { formatters } from '@/lib/utils'
 import { Table } from '@tanstack/react-table'
 import { DataTableFilter } from './DataTableFilter'
@@ -25,11 +25,27 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             type="select"
           />
         )} */}
+        {table.getColumn('division')?.getIsVisible() && (
+          <DataTableFilter
+            column={table.getColumn('division')}
+            title="Divison"
+            options={divisions}
+            type="checkbox"
+          />
+        )}
         {table.getColumn('brand')?.getIsVisible() && (
           <DataTableFilter
             column={table.getColumn('brand')}
             title="Brand"
             options={brands}
+            type="checkbox"
+          />
+        )}
+        {table.getColumn('category')?.getIsVisible() && (
+          <DataTableFilter
+            column={table.getColumn('category')}
+            title="Category"
+            options={categories}
             type="checkbox"
           />
         )}

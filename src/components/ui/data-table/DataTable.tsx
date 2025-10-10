@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from '@/src/components/ui/table/Table'
+} from '@/src/components/ui/tremor/Table'
 import { cx } from '@/src/lib/utils'
 import * as React from 'react'
 import { DataTablePagination } from './DataTablePagination'
@@ -37,7 +37,7 @@ interface DataTableProps<TData> {
 }
 
 export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
-  const pageSize = 2
+  const pageSize = 20
   const table = useReactTable({
     data,
     columns,

@@ -20,8 +20,8 @@ export default function HeroSection() {
             </h1>
           </div>
           <p className="max-w-screen-md mx-auto text-lg text-muted-foreground">
-            We're more than just a tool, we're a community of passionate
-            creators. Get access to exclusive resources, tutorials, and support
+            Visualize, analyse and derive insights from your financial data. One
+            dollar at a time!
           </p>
         </div>
       </div>
