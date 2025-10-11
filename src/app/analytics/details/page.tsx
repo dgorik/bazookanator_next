@@ -1,4 +1,5 @@
-import { SimpleTable } from '@/src/components/ui/data-table/SimpleTable'
+import { DataTable } from '@/src/components/ui/data-table/DataTable'
+import { columns } from '@/src/components/ui/data-table/columns'
 import { usage } from '@/src/data/usage'
 
 export default function Details() {
@@ -8,7 +9,7 @@ export default function Details() {
         Details
       </h1>
       <div className="mt-4 sm:mt-6 lg:mt-10">
-        <SimpleTable data={usage} />
+        <DataTable data={usage} columns={columns} />
       </div>
     </>
   )
