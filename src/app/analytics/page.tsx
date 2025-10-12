@@ -1,77 +1,48 @@
-import BrandComparison from './components/visuals/BrandComparison'
+'use client'
+
+import { useState } from 'react'
 import Filter from './components/data-filter/Filter'
+import BrandComparison from './components/visuals/BrandComparison'
+import useSWR from 'swr'
 import { getBrandComparisonData } from '@/src/lib/fetcher/brand_comparison/server'
 
-export default async function Member() {
-  const data = await getBrandComparisonData({
-    measure1: '2024 Actuals',
-    measure2: 'Board OP3',
+export default function MemberClient() {
+  const [filters, setFilters] = useState({
+    measure1: '',
+    measure2: '',
   })
 
+  // SWR fetches data whenever filters change
+  const { data, error } = useSWR([filters.measure1, filters.measure2], () =>
+    getBrandComparisonData(filters),
+  )
+
+  const handleFilterChange = (selected: string[]) => {
+    setFilters({
+      measure1: selected[0] || '2024 Actuals',
+      measure2: selected[1] || 'Board OP3',
+    })
+  }
+
   return (
-    <>
-      <section>
-        <Filter />
-        <dl className="grid grid-cols-1 gap-x-14 gap-y-10 border-t border-gray-200 p-6 md:grid-cols-2 dark:border-gray-800">
-          <div className="flex flex-col justify-between p-0">
-            <div>
-              <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
-                Inherent risk
-              </dt>
-              <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
-                Risk scenarios over time grouped by risk level
-              </dd>
-            </div>
+    <section>
+      <Filter onChange={handleFilterChange} />
+      <dl className="grid grid-cols-1 gap-x-14 gap-y-10 border-t border-gray-200 p-6 md:grid-cols-2 dark:border-gray-800">
+        {data ? (
+          [1, 2, 3, 4].map((i) => (
             <BrandComparison
+              key={i}
               data={data}
-              measure1="2024 Actuals"
-              measure2="Board OP3"
+              measure1={filters.measure1}
+              measure2={filters.measure2}
+              title="Inherent risk"
+              description="Risk scenarios over time grouped by risk level"
             />
-          </div>
-          <div className="flex flex-col justify-between p-0">
-            <div>
-              <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
-                Inherent risk
-              </dt>
-              <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
-                Risk scenarios over time grouped by risk level
-              </dd>
-            </div>
-            <BrandComparison
-              data={data}
-              categories={['2024 Actuals', 'Board OP3']}
-            />
-          </div>
-          <div className="flex flex-col justify-between p-0">
-            <div>
-              <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
-                Inherent risk
-              </dt>
-              <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
-                Risk scenarios over time grouped by risk level
-              </dd>
-            </div>
-            <BrandComparison
-              data={data}
-              categories={['2024 Actuals', 'Board OP3']}
-            />
-          </div>
-          <div className="flex flex-col justify-between p-0">
-            <div>
-              <dt className="text-sm font-semibold text-gray-900 dark:text-gray-50">
-                Inherent risk
-              </dt>
-              <dd className="mt-0.5 text-sm/6 text-gray-500 dark:text-gray-500">
-                Risk scenarios over time grouped by risk level
-              </dd>
-            </div>
-            <BrandComparison
-              data={data}
-              categories={['2024 Actuals', 'Board OP3']}
-            />
-          </div>
-        </dl>
-      </section>
-    </>
+          ))
+        ) : (
+          <div>Loading...</div>
+        )}
+      </dl>
+    </section>
   )
 }
