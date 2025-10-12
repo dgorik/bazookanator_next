@@ -3,7 +3,10 @@ import Filter from './components/data-filter/Filter'
 import { getBrandComparisonData } from '@/src/lib/fetcher/brand_comparison/server'
 
 export default async function Member() {
-  const data = await getBrandComparisonData()
+  const data = await getBrandComparisonData({
+    measure1: '2024 Actuals',
+    measure2: 'Board OP3',
+  })
 
   return (
     <>
@@ -19,7 +22,11 @@ export default async function Member() {
                 Risk scenarios over time grouped by risk level
               </dd>
             </div>
-            <BrandComparison data={data} />
+            <BrandComparison
+              data={data}
+              measure1="2024 Actuals"
+              measure2="Board OP3"
+            />
           </div>
           <div className="flex flex-col justify-between p-0">
             <div>
@@ -30,7 +37,10 @@ export default async function Member() {
                 Risk scenarios over time grouped by risk level
               </dd>
             </div>
-            <BrandComparison data={data} />
+            <BrandComparison
+              data={data}
+              categories={['2024 Actuals', 'Board OP3']}
+            />
           </div>
           <div className="flex flex-col justify-between p-0">
             <div>
@@ -41,7 +51,10 @@ export default async function Member() {
                 Risk scenarios over time grouped by risk level
               </dd>
             </div>
-            <BrandComparison data={data} />
+            <BrandComparison
+              data={data}
+              categories={['2024 Actuals', 'Board OP3']}
+            />
           </div>
           <div className="flex flex-col justify-between p-0">
             <div>
@@ -52,7 +65,10 @@ export default async function Member() {
                 Risk scenarios over time grouped by risk level
               </dd>
             </div>
-            <BrandComparison data={data} />
+            <BrandComparison
+              data={data}
+              categories={['2024 Actuals', 'Board OP3']}
+            />
           </div>
         </dl>
       </section>
