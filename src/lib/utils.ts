@@ -3,17 +3,11 @@
 import clsx, { type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-// plain clsx (just concatenates classes)
-export function cx(...inputs: ClassValue[]) {
-  return clsx(...inputs);
-}
 
 // clsx + twMerge (deduplicates Tailwind conflicts)
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(...inputs));
 }
-
-// research this!
 
 // Tremor focusInput [v0.0.2]
 
