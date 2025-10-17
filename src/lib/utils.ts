@@ -92,10 +92,11 @@ export const formatters: FormatterFunctions = {
   },
 
   million: ({ number, decimals = 1 }: MillionParams): string => {
+    const inMillion = number / 1_000_000
     return `${new Intl.NumberFormat("en-US", {
       style: "decimal",
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
-    }).format(number)}M`
+    }).format(inMillion)}M`
   },
 }
