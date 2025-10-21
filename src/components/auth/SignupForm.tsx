@@ -41,13 +41,14 @@ export default function SignupForm({
     // }
 
     if (password.length < 6) {
-      setLoading(false)
       setStatus({
         type: 'error',
         message: 'Password must be at least 6 characters.',
       })
       return
     }
+
+    setLoading(true)
 
     try {
       const response = await signup({
