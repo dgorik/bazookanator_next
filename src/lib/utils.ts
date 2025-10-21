@@ -9,6 +9,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(...inputs));
 }
 
+export const cx = cn //temp fix
+
 // Tremor focusInput [v0.0.2]
 
 export const focusInput = [
