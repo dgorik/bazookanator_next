@@ -2,7 +2,7 @@
 
 import { RiEqualizer2Line } from '@remixicon/react'
 import { useState } from 'react'
-import { cx, focusInput } from '@/src/lib/utils'
+import { cn, focusInput } from '@/src/lib/utils'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -41,7 +41,7 @@ export default function Filter({ onChange }: FilterProps) {
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className={cx(
+            className={cn(
               focusInput,
               'flex items-center gap-x-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 shadow-sm transition hover:bg-gray-50 focus:z-10 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-50 hover:dark:bg-gray-950/50',
             )}

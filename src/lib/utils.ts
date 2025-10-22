@@ -97,4 +97,3 @@ export const formatters: FormatterFunctions = {
     }).format(number)}M`
   },
 }
-//this is a little utility function that helps you combine Tailwind classes in a conflict-free way
