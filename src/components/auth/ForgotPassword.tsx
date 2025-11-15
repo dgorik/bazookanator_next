@@ -53,7 +53,7 @@ export default function ForgotPasswordForm({}: React.ComponentPropsWithoutRef<'d
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} role="form" noValidate>
           <div className="flex flex-col gap-6 mb-3 ">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
