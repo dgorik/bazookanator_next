@@ -39,7 +39,8 @@ export default function BrandComparison({
   const categories = useMemo(() => [measure1, measure2], [measure1, measure2])
 
   const valueFormatter = useMemo(
-    () => (value: number) => formatters.million({ number: value, decimals: 1 }),
+    () => (value: number) =>
+      formatters.currency({ number: value, maxFractionDigits: 0 }),
     [],
   )
 
