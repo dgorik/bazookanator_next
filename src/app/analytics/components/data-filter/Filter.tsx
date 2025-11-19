@@ -13,10 +13,18 @@ import {
 
 interface FilterProps {
   onChange: (selected: string[]) => void
+  measures?: string[]
 }
 
-export default function Filter({ onChange }: FilterProps) {
-  const measures = ['2024 Actuals', 'Board OP3', 'OP6 LE', 'OP4 LE', 'OP3 LE']
+export default function Filter({ onChange, measures = [] }: FilterProps) {
+  const defaultMeasures = [
+    '2024 Actuals',
+    'Board OP3',
+    'OP6 LE',
+    'OP4 LE',
+    'OP3 LE',
+  ]
+  const availableMeasures = measures.length > 0 ? measures : defaultMeasures
   const [selectedMeasures, setSelectedMeasures] = useState<string[]>([])
 
   const toggleMeasure = (measure: string) => {
@@ -54,9 +62,12 @@ export default function Filter({ onChange }: FilterProps) {
             <span className="tabular-nums">({selectedMeasures.length})</span>
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent
+          align="end"
+          className="max-h-64 overflow-y-auto min-w-48"
+        >
           <DropdownMenuLabel>Measures</DropdownMenuLabel>
-          {measures.map((measure) => (
+          {availableMeasures.map((measure) => (
             <DropdownMenuCheckboxItem
               key={measure}
               checked={selectedMeasures.includes(measure)}

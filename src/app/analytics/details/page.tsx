@@ -3,7 +3,7 @@
 import { DataTable } from '@/src/components/ui/data-table/DataTable'
 import { columns } from '@/src/components/ui/data-table/columns'
 import { usage } from '@/src/data/usage'
-import { rawDataFetcher } from '@/src/lib/fetcher/raw_data_fetcher'
+import { rawDataFetcher } from '@/src/lib/fetcher/fetchers'
 import useSWR from 'swr'
 
 export default function Details() {

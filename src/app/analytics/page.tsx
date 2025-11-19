@@ -6,7 +6,8 @@ import BrandComparison from './components/visuals/BrandComparison'
 import KPICard from './components/KPICard'
 import KPISlicer from './components/KPISlicer'
 import useSWR from 'swr'
-import { getBrandComparisonData } from '@/src/lib/fetcher/brand_comparison/server'
+import { getBrandComparisonData } from '@/src/lib/fetcher/fetchers'
+import { getMeasures } from '@/src/lib/fetcher/fetchers'
 import { formatters } from '@/src/lib/utils'
 
 const MEASURES = ['2024 Actuals', 'Board OP3', 'OP6 LE', 'OP4 LE', 'OP3 LE']
@@ -32,8 +33,38 @@ export default function MemberClient() {
     measure2: '',
   })
 
+  const { data: measuresData, isLoading: isLoadingMeasures } = useSWR(
+    'measures',
+    getMeasures,
+  )
+
+  // Process measures data - filter out null values and convert to strings
+  const availableMeasures: string[] = useMemo(() => {
+    if (!measuresData || measuresData.length === 0) return MEASURES
+    return measuresData
+      .filter((m: string | null) => m != null && m.trim() !== '')
+      .map((m: string) => String(m).trim())
+  }, [measuresData])
+
   const [kpiValueMeasure, setKpiValueMeasure] = useState<string>('2024 Actuals')
-  const [kpiTargetMeasure, setKpiTargetMeasure] = useState<string>('Board OP3')
+  const [kpiTargetMeasure, setKpiTargetMeasure] = useState<string>('Board OP9')
+
+  // Compute valid measure values - use current state if valid, otherwise use first available
+  const validValueMeasure = useMemo(() => {
+    if (isLoadingMeasures || availableMeasures.length === 0)
+      return kpiValueMeasure
+    return availableMeasures.includes(kpiValueMeasure)
+      ? kpiValueMeasure
+      : availableMeasures[0] || '2024 Actuals'
+  }, [isLoadingMeasures, availableMeasures, kpiValueMeasure])
+
+  const validTargetMeasure = useMemo(() => {
+    if (isLoadingMeasures || availableMeasures.length === 0)
+      return kpiTargetMeasure
+    return availableMeasures.includes(kpiTargetMeasure)
+      ? kpiTargetMeasure
+      : availableMeasures[1] || availableMeasures[0] || 'Board OP3'
+  }, [isLoadingMeasures, availableMeasures, kpiTargetMeasure])
   const [selectedMonth, setSelectedMonth] = useState<string>(
     MONTHS[new Date().getMonth()],
   )
@@ -45,28 +76,28 @@ export default function MemberClient() {
 
   // Fetch data for KPI value measure
   const { data: kpiValueData } = useSWR(
-    kpiValueMeasure ? ['kpi-value', kpiValueMeasure] : null,
+    validValueMeasure ? ['kpi-value', validValueMeasure] : null,
     () =>
       getBrandComparisonData({
-        measure1: kpiValueMeasure,
-        measure2: kpiValueMeasure,
+        measure1: validValueMeasure,
+        measure2: validValueMeasure,
       }),
   )
 
   // Fetch data for KPI target measure
   const { data: kpiTargetData } = useSWR(
-    kpiTargetMeasure ? ['kpi-target', kpiTargetMeasure] : null,
+    validTargetMeasure ? ['kpi-target', validTargetMeasure] : null,
     () =>
       getBrandComparisonData({
-        measure1: kpiTargetMeasure,
-        measure2: kpiTargetMeasure,
+        measure1: validTargetMeasure,
+        measure2: validTargetMeasure,
       }),
   )
 
   const handleFilterChange = (selected: string[]) => {
     setFilters({
-      measure1: selected[0] || '2024 Actuals',
-      measure2: selected[1] || 'Board OP3',
+      measure1: selected[0] || availableMeasures[0] || '',
+      measure2: selected[1] || availableMeasures[1] || '',
     })
   }
 
@@ -107,7 +138,7 @@ export default function MemberClient() {
         </p>
       </div>
 
-      <Filter onChange={handleFilterChange} />
+      <Filter onChange={handleFilterChange} measures={availableMeasures} />
 
       <div className="flex flex-wrap items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
         <KPISlicer
@@ -118,15 +149,15 @@ export default function MemberClient() {
         />
         <KPISlicer
           label="Value Measure"
-          selectedMeasure={kpiValueMeasure}
+          selectedMeasure={validValueMeasure}
           onMeasureChange={setKpiValueMeasure}
-          measures={MEASURES}
+          measures={availableMeasures}
         />
         <KPISlicer
           label="Target Measure"
-          selectedMeasure={kpiTargetMeasure}
+          selectedMeasure={validTargetMeasure}
           onMeasureChange={setKpiTargetMeasure}
-          measures={MEASURES}
+          measures={availableMeasures}
         />
       </div>
 
