@@ -40,6 +40,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@tremor/react": "^3.18.7",
     "@types/nodemailer": "^6.4.17",
+    "@webdatarocks/react-webdatarocks": "^1.4.21",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
