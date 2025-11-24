@@ -8,6 +8,8 @@ import KPISlicer from './components/KPISlicer'
 import useSWR from 'swr'
 import { getBrandComparisonData } from '@/src/lib/fetcher/fetchers'
 import { getMeasures } from '@/src/lib/fetcher/fetchers'
+import { getKpiTargetValue } from '@/src/lib/fetcher/fetchers'
+import { getKpiValue } from '@/src/lib/fetcher/fetchers'
 import { formatters } from '@/src/lib/utils'
 
 const MEASURES = ['2024 Actuals', 'Board OP3', 'OP6 LE', 'OP4 LE', 'OP3 LE']
@@ -74,23 +76,21 @@ export default function MemberClient() {
     getBrandComparisonData(filters),
   )
 
-  // Fetch data for KPI value measure
+  // Fetch data for KPI value measure when validValueMeasure is not empty
   const { data: kpiValueData } = useSWR(
     validValueMeasure ? ['kpi-value', validValueMeasure] : null,
     () =>
-      getBrandComparisonData({
-        measure1: validValueMeasure,
-        measure2: validValueMeasure,
+      getKpiValue({
+        measure: validValueMeasure,
       }),
   )
 
-  // Fetch data for KPI target measure
+  // Fetch data for KPI value measure when validTargetMeasure is not empty
   const { data: kpiTargetData } = useSWR(
     validTargetMeasure ? ['kpi-target', validTargetMeasure] : null,
     () =>
-      getBrandComparisonData({
-        measure1: validTargetMeasure,
-        measure2: validTargetMeasure,
+      getKpiTargetValue({
+        measure: validTargetMeasure,
       }),
   )
 

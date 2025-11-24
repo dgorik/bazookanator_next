@@ -22,11 +22,15 @@ export const rawDataFetcher = async () => {
   }
 }
 
-// Brand Comparison Data Fetcher
-interface Filters {
+interface Measure {
+  measure?: string
+}
+
+interface Filters extends Measure {
   measure1: string
   measure2: string
 }
+
 
 export const getBrandComparisonData = async (filters: Filters) => {
   const supabase = getSupabaseClient()
@@ -45,6 +49,24 @@ export const getBrandComparisonData = async (filters: Filters) => {
 export const getMeasures = async () => {
   const supabase = getSupabaseClient()
   const { data, error } = await supabase.rpc('get_measures')
+  if (error) throw error
+  return data
+}
+
+export const getKpiTargetValue = async (measure: Measure) => {
+  const supabase = getSupabaseClient()
+  const { data, error } = await supabase.rpc('get_kpi_target_sales', {
+     measure_1: measure.measure,
+  })
+  if (error) throw error
+  return data
+}
+
+export const getKpiValue = async (measure: Measure) => {
+  const supabase = getSupabaseClient()
+  const { data, error } = await supabase.rpc('get_kpi_target_sales', {
+     measure_1: measure.measure,
+  })
   if (error) throw error
   return data
 }
