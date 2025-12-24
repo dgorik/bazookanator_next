@@ -1,3 +1,5 @@
+'use client'
+
 import dynamic from 'next/dynamic'
 import FAQSection from '@/src/components/layout/sections/Faq'
 import HeroSection from '@/src/components/layout/sections/HeroSection'
