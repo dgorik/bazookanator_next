@@ -107,7 +107,7 @@ export default function LoginForm({
           <Button asChild variant="outline" className="w-full">
             <Link href="/auth/signup">Sign Up</Link>
           </Button>
-          <Button asChild className="w-1/2 mx-auto block">
+          <Button asChild>
             <Link href="/auth/forgot-password">Forgot Password</Link>
           </Button>
         </form>
