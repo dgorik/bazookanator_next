@@ -1,4 +1,4 @@
-# Bazookanator
+# Bazookanator 2.0
 
 Bazookanator is an internal analytics platform built for Bazooka’s Sales, Finance, and Marketing teams. It turns static Excel- and spreadsheet-based workflows into a live, unified dashboard. With Bazookanator, you can track sales vs plan, monitor brand/SKU performance, view customer-level trends, and get on-demand analysis via an AI assistant.
 
