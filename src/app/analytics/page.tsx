@@ -1,131 +1,58 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import Filter from './components/data-filter/Filter'
-import BrandComparison from './components/visuals/BrandComparison'
-import KPICard from './components/KPICard'
-import KPISlicer from './components/KPISlicer'
 import useSWR from 'swr'
-import { getBrandComparisonData } from '@/src/lib/fetcher/fetchers'
-import { getMeasures } from '@/src/lib/fetcher/fetchers'
-import { getKpiTargetValue } from '@/src/lib/fetcher/fetchers'
-import { getKpiValue } from '@/src/lib/fetcher/fetchers'
-import { formatters } from '@/src/lib/utils'
-
-const MEASURES = ['2024 Actuals', 'Board OP3', 'OP6 LE', 'OP4 LE', 'OP3 LE']
-
-const MONTHS = [
-  'Jan Sales',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
+import KPICard from './components/visuals/KPICard'
+import AnalyticsFilterBar from './components/AnalyticsFilterBar'
+import {
+  getMeasuresFromProductData,
+  getMeasureTotal,
+} from '@/src/lib/fetcher/fetchers'
+import { DEFAULT_MEASURES, ANALYTICS_MONTHS } from '@/src/data/filter_data'
 
 export default function MemberClient() {
-  const [filters, setFilters] = useState({
-    measure1: '',
-    measure2: '',
-  })
-
-  const { data: measuresData, isLoading: isLoadingMeasures } = useSWR(
-    'measures',
-    getMeasures,
-  )
-
-  // Process measures data - filter out null values and convert to strings
-  const availableMeasures: string[] = useMemo(() => {
-    if (!measuresData || measuresData.length === 0) return MEASURES
-    return measuresData
-      .filter((m: string | null) => m != null && m.trim() !== '')
-      .map((m: string) => String(m).trim())
-  }, [measuresData])
-
-  const [kpiValueMeasure, setKpiValueMeasure] = useState<string>('2024 Actuals')
-  const [kpiTargetMeasure, setKpiTargetMeasure] = useState<string>('Board OP9')
-
-  // Compute valid measure values - use current state if valid, otherwise use first available
-  const validValueMeasure = useMemo(() => {
-    if (isLoadingMeasures || availableMeasures.length === 0)
-      return kpiValueMeasure
-    return availableMeasures.includes(kpiValueMeasure)
-      ? kpiValueMeasure
-      : availableMeasures[0] || '2024 Actuals'
-  }, [isLoadingMeasures, availableMeasures, kpiValueMeasure])
-
-  const validTargetMeasure = useMemo(() => {
-    if (isLoadingMeasures || availableMeasures.length === 0)
-      return kpiTargetMeasure
-    return availableMeasures.includes(kpiTargetMeasure)
-      ? kpiTargetMeasure
-      : availableMeasures[1] || availableMeasures[0] || 'Board OP3'
-  }, [isLoadingMeasures, availableMeasures, kpiTargetMeasure])
   const [selectedMonth, setSelectedMonth] = useState<string>(
-    MONTHS[new Date().getMonth()],
+    ANALYTICS_MONTHS[new Date().getMonth()] || ANALYTICS_MONTHS[0],
+  )
+  const [valueMeasure, setValueMeasure] = useState<string>(DEFAULT_MEASURES[0])
+  const [targetMeasure, setTargetMeasure] = useState<string>(
+    DEFAULT_MEASURES[1] || DEFAULT_MEASURES[0],
   )
 
-  // SWR fetches data whenever filters change
-  const { data, error } = useSWR([filters.measure1, filters.measure2], () =>
-    getBrandComparisonData(filters),
+  // Fetch available measures from DB
+  const { data: dbMeasures } = useSWR('measures', getMeasuresFromProductData)
+
+  const availableMeasures = useMemo(() => {
+    if (!dbMeasures || dbMeasures.length === 0) return ['OP9']
+    return dbMeasures.map((m: any) => m.measure || m).filter(Boolean)
+  }, [dbMeasures])
+
+  // Fetch KPI data
+  const { data: valueData, isLoading: isLoadingValue } = useSWR(
+    valueMeasure ? ['kpi-value', valueMeasure] : null,
+    () => getMeasureTotal(valueMeasure),
   )
 
-  // Fetch data for KPI value measure when validValueMeasure is not empty
-  const { data: kpiValueData } = useSWR(
-    validValueMeasure ? ['kpi-value', validValueMeasure] : null,
-    () =>
-      getKpiValue({
-        measure: validValueMeasure,
-      }),
+  const { data: targetData, isLoading: isLoadingTarget } = useSWR(
+    targetMeasure ? ['kpi-target', targetMeasure] : null,
+    () => getMeasureTotal(targetMeasure),
   )
 
-  // Fetch data for KPI value measure when validTargetMeasure is not empty
-  const { data: kpiTargetData } = useSWR(
-    validTargetMeasure ? ['kpi-target', validTargetMeasure] : null,
-    () =>
-      getKpiTargetValue({
-        measure: validTargetMeasure,
-      }),
-  )
+  // Calculate aggregated KPI values
+  const kpiMetrics = useMemo(() => {
+    const sumValue = (data: any[]) =>
+      data?.reduce((acc, curr) => acc + (Number(curr.sales) || 0), 0) || 0
 
-  const handleFilterChange = (selected: string[]) => {
-    setFilters({
-      measure1: selected[0] || availableMeasures[0] || '',
-      measure2: selected[1] || availableMeasures[1] || '',
-    })
-  }
-
-  // Calculate KPI values from data
-  const kpiData = useMemo(() => {
-    const value = kpiValueData
-      ? kpiValueData.reduce(
-          (sum: number, item: any) => sum + (item.measure_1_val || 0),
-          0,
-        )
-      : 0
-
-    const target = kpiTargetData
-      ? kpiTargetData.reduce(
-          (sum: number, item: any) => sum + (item.measure_2_val || 0),
-          0,
-        )
-      : 0
-
-    // Calculate growth percentage
-    const growth = target !== 0 ? ((value - target) / target) * 100 : 0
+    const val = sumValue(valueData || [])
+    const tgt = sumValue(targetData || [])
+    const growth = tgt !== 0 ? ((val - tgt) / tgt) * 100 : 0
 
     return {
-      value,
-      target,
-      growth,
+      value: val,
+      target: tgt,
+      growth: growth,
     }
-  }, [kpiValueData, kpiTargetData])
+  }, [valueData, targetData])
 
   return (
     <section className="space-y-6">
@@ -138,66 +65,48 @@ export default function MemberClient() {
         </p>
       </div>
 
-      <Filter onChange={handleFilterChange} measures={availableMeasures} />
-
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
-        <KPISlicer
-          label="Month"
-          selectedMeasure={selectedMonth}
-          onMeasureChange={setSelectedMonth}
-          measures={MONTHS}
-        />
-        <KPISlicer
-          label="Value Measure"
-          selectedMeasure={validValueMeasure}
-          onMeasureChange={setKpiValueMeasure}
-          measures={availableMeasures}
-        />
-        <KPISlicer
-          label="Target Measure"
-          selectedMeasure={validTargetMeasure}
-          onMeasureChange={setKpiTargetMeasure}
-          measures={availableMeasures}
-        />
-      </div>
+      <AnalyticsFilterBar
+        configs={[
+          {
+            label: 'Month',
+            value: selectedMonth,
+            options: ANALYTICS_MONTHS,
+            onChange: setSelectedMonth,
+          },
+          {
+            label: 'Value',
+            value: valueMeasure,
+            options: availableMeasures,
+            onChange: setValueMeasure,
+          },
+          {
+            label: 'Target',
+            value: targetMeasure,
+            options: availableMeasures,
+            onChange: setTargetMeasure,
+          },
+        ]}
+      />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <KPICard
-          title="Month"
-          value={kpiData.value}
-          growth={kpiData.growth}
-          target={kpiData.target}
+          title="Value vs Target"
+          value={kpiMetrics.value}
+          target={kpiMetrics.target}
+          growth={kpiMetrics.growth}
         />
         <KPICard
-          title="YTD Sales"
-          value={kpiData.value}
-          growth={kpiData.growth}
-          target={kpiData.target}
+          title="YTD Performance"
+          value={kpiMetrics.value} // Placeholder logic
+          target={kpiMetrics.target}
+          growth={kpiMetrics.growth}
         />
         <KPICard
-          title="Total"
-          value={kpiData.value}
-          growth={kpiData.growth}
-          target={kpiData.target}
+          title="Total Outlook"
+          value={kpiMetrics.value} // Placeholder logic
+          target={kpiMetrics.target}
+          growth={kpiMetrics.growth}
         />
-      </div>
-
-      <div className="border-t border-gray-200 pt-6 dark:border-gray-800">
-        {data ? (
-          <BrandComparison
-            data={data}
-            measure1={filters.measure1}
-            measure2={filters.measure2}
-            title="Sales: Entries"
-            description="Sales data across different regions and stores"
-          />
-        ) : (
-          <div className="flex h-80 items-center justify-center">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Loading...
-            </p>
-          </div>
-        )}
       </div>
     </section>
   )

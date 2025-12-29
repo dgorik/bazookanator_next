@@ -1,6 +1,6 @@
 'use client'
 
-import { RiEqualizer2Line } from '@remixicon/react'
+import { RiCheckLine, RiEqualizer2Line } from '@remixicon/react'
 import { cn, focusInput } from '@/src/lib/utils'
 import {
   DropdownMenu,
@@ -44,17 +44,24 @@ export default function KPISlicer({
             {selectedMeasure || 'Select measure'}
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
+        <DropdownMenuContent className="max-h-56 overflow-y-auto min-w-56">
           <DropdownMenuLabel>Select {label}</DropdownMenuLabel>
           {measures.map((measure) => (
             <DropdownMenuItem
               key={measure}
               onClick={() => onMeasureChange(measure)}
               className={cn(
+                'flex items-center justify-between gap-x-4',
                 selectedMeasure === measure && 'bg-gray-100 dark:bg-gray-800',
               )}
             >
               {measure}
+              {selectedMeasure === measure && (
+                <RiCheckLine
+                  className="size-4 shrink-0 text-emerald-500"
+                  aria-hidden={true}
+                />
+              )}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
@@ -62,4 +69,3 @@ export default function KPISlicer({
     </div>
   )
 }
-

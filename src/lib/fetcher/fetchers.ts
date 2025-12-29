@@ -22,52 +22,27 @@ export const rawDataFetcher = async () => {
   }
 }
 
-interface Measure {
-  measure?: string
-}
-
-interface Filters extends Measure {
-  measure1: string
-  measure2: string
-}
-
-
-export const getBrandComparisonData = async (filters: Filters) => {
+export const getMeasuresFromProductData = async () => {
   const supabase = getSupabaseClient()
-  const { data, error } = await supabase.rpc('get_converted_sales', {
-    measure_1: filters.measure1,
-    measure_2: filters.measure2,
-  })
+  const { data, error } = await supabase
+    .from('product_data')
+    .select('measure')
+  
   if (error) throw error
-
-  // Map the fixed columns to the selected measure names
+  
+  // Return unique measures
+  const uniqueMeasures = Array.from(new Set(data.map(item => item.measure)))
+  return uniqueMeasures
+}
+export const getMeasureTotal = async (measureName: string) => {
+  const supabase = getSupabaseClient()
+  const { data, error } = await supabase
+    .from('product_data')
+    .select('sales')
+    .eq('measure', measureName)
+  
+  if (error) throw error
   console.log(data)
-  return data
-}
-
-
-export const getMeasures = async () => {
-  const supabase = getSupabaseClient()
-  const { data, error } = await supabase.rpc('get_measures')
-  if (error) throw error
-  return data
-}
-
-export const getKpiTargetValue = async (measure: Measure) => {
-  const supabase = getSupabaseClient()
-  const { data, error } = await supabase.rpc('get_kpi_target_sales', {
-     measure_1: measure.measure,
-  })
-  if (error) throw error
-  return data
-}
-
-export const getKpiValue = async (measure: Measure) => {
-  const supabase = getSupabaseClient()
-  const { data, error } = await supabase.rpc('get_kpi_target_sales', {
-     measure_1: measure.measure,
-  })
-  if (error) throw error
   return data
 }
 
