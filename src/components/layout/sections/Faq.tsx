@@ -1,7 +1,5 @@
 'use client'
 
-import { useId } from 'react'
-
 import {
   Accordion,
   AccordionContent,
@@ -9,60 +7,55 @@ import {
   AccordionTrigger,
 } from '@/src/components/ui/accordion/accordion'
 
+const faqs = [
+  {
+    question: 'How frequently is the sales data updated?',
+    answer:
+      'Actuals are synced monthly from the ERP system. Forecasts (Board OP3, OP6 LE, etc.) are updated after every regional finance review meeting.',
+  },
+  {
+    question:
+      'What do the different forecast versions (OP3, OP6, LE) represent?',
+    answer:
+      'OP represents the Operating Plan (Budget). OP3 is the board-approved plan established at the start of the year. LE stands for Latest Estimate; OP6 and OP9 are updated re-forecasts based on half-year and Q3 performance respectively.',
+  },
+  {
+    question: 'How is the YTD (Year-to-Date) growth calculated?',
+    answer:
+      'YTD growth is calculated by comparing the cumulative Actuals of the current fiscal year against the selected Target Measure (usually Board OP3 or Prior Year) for the same period.',
+  },
+  {
+    question: 'Can I see a breakdown of sales by region or brand?',
+    answer:
+      'Yes, the "Brand Comparison" chart below the main KPIs allows you to compare performance across different brands or regions. For a full row-by-row breakdown, visit the Details page.',
+  },
+  {
+    question: 'How are "Actuals" and "Forecast" values consolidated?',
+    answer:
+      'Data is consolidated using a standardized currency conversion rate set at the beginning of the fiscal year to ensure consistent comparison between regions without the volatility of daily exchange rates.',
+  },
+]
+
 export default function FAQSection() {
-  const id = useId()
-
-  interface FAQProps {
-    question: string
-    answer: string
-    value: string
-  }
-
-  const faqs: FAQProps[] = [
-    {
-      question: 'What is the Bazookanator?',
-      answer:
-        'The Bazookanator is an innovative tool designed to help you create and customize your own Bazooka Bubblegum products with ease.',
-      value: 'item-1',
-    },
-    {
-      question: 'How do I get started?',
-      answer:
-        'Simply sign up for a free account, choose your favourite Bazooka products, and start customizing them in the Bazookanator dashboard.',
-      value: 'item-2',
-    },
-    {
-      question: 'Can I track my bubblegum production?',
-      answer:
-        'Yes! The Bazookanator includes dashboards where you can track production volume, sales, and even bubble size statistics.',
-      value: 'item-3',
-    },
-    {
-      question: 'Is there a free trial available?',
-      answer:
-        'Absolutely. We offer a 14-day free trial so you can explore all the features before committing.',
-      value: 'item-4',
-    },
-    {
-      question: 'Who can use the Bazookanator?',
-      answer:
-        'Whether you are a casual fan of bubblegum, a shop owner, or a global candy distributor, the Bazookanator is designed for everyone.',
-      value: 'item-5',
-    },
-  ]
-
   return (
-    <section id="faq" className="container mx-auto md:w-[700px] py-24 sm:py-32">
-      <div className="p-4">
-        <div className="text-center mb-8">
-          <h2>FAQ</h2>
-          <h2 className="text-3xl md:text:4xl font-bold">Common Questions</h2>
+    <section className="container mx-auto py-12 md:py-24">
+      <div className="mx-auto max-w-3xl px-4">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-gray-50">
+            Frequently Asked Questions
+          </h2>
+          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            Everything you need to know about our sales reporting and
+            forecasting process.
+          </p>
         </div>
-        <Accordion type="single" collapsible>
+        <Accordion type="single" collapsible className="w-full">
           {faqs.map((faq, index) => (
             <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger>{faq.question}</AccordionTrigger>
-              <AccordionContent className="flex flex-col gap-4">
+              <AccordionTrigger className="text-base font-semibold">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600 dark:text-gray-400">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
