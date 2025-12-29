@@ -22,27 +22,17 @@ export const rawDataFetcher = async () => {
   }
 }
 
-export const getMeasuresFromProductData = async () => {
+export const getMeasures = async () => {
   const supabase = getSupabaseClient()
-  const { data, error } = await supabase
-    .from('product_data')
-    .select('measure')
-  
+  const { data, error } = await supabase.rpc('get_measures')
   if (error) throw error
-  
-  // Return unique measures
-  const uniqueMeasures = Array.from(new Set(data.map(item => item.measure)))
-  return uniqueMeasures
+  return data
 }
+
 export const getMeasureTotal = async (measureName: string) => {
   const supabase = getSupabaseClient()
-  const { data, error } = await supabase
-    .from('product_data')
-    .select('sales')
-    .eq('measure', measureName)
-  
+  const { data, error } = await supabase.rpc('get_measure_total',{measure_name: measureName})
   if (error) throw error
-  console.log(data)
   return data
 }
 

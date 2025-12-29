@@ -4,10 +4,7 @@ import { useState, useMemo } from 'react'
 import useSWR from 'swr'
 import KPICard from './components/visuals/KPICard'
 import AnalyticsFilterBar from './components/AnalyticsFilterBar'
-import {
-  getMeasuresFromProductData,
-  getMeasureTotal,
-} from '@/src/lib/fetcher/fetchers'
+import { getMeasures, getMeasureTotal } from '@/src/lib/fetcher/fetchers'
 import { DEFAULT_MEASURES, ANALYTICS_MONTHS } from '@/src/data/filter_data'
 
 export default function MemberClient() {
@@ -20,11 +17,11 @@ export default function MemberClient() {
   )
 
   // Fetch available measures from DB
-  const { data: dbMeasures } = useSWR('measures', getMeasuresFromProductData)
+  const { data: dbMeasures } = useSWR('measures', getMeasures)
 
   const availableMeasures = useMemo(() => {
-    if (!dbMeasures || dbMeasures.length === 0) return ['OP9']
-    return dbMeasures.map((m: any) => m.measure || m).filter(Boolean)
+    if (!dbMeasures || dbMeasures.length === 0) return DEFAULT_MEASURES
+    return dbMeasures.filter(Boolean)
   }, [dbMeasures])
 
   // Fetch KPI data
@@ -40,11 +37,8 @@ export default function MemberClient() {
 
   // Calculate aggregated KPI values
   const kpiMetrics = useMemo(() => {
-    const sumValue = (data: any[]) =>
-      data?.reduce((acc, curr) => acc + (Number(curr.sales) || 0), 0) || 0
-
-    const val = sumValue(valueData || [])
-    const tgt = sumValue(targetData || [])
+    const val = Number(valueData || [])
+    const tgt = Number(targetData || [])
     const growth = tgt !== 0 ? ((val - tgt) / tgt) * 100 : 0
 
     return {
@@ -89,7 +83,7 @@ export default function MemberClient() {
       />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <KPICard
+        {/* <KPICard
           title="Value vs Target"
           value={kpiMetrics.value}
           target={kpiMetrics.target}
@@ -100,7 +94,7 @@ export default function MemberClient() {
           value={kpiMetrics.value} // Placeholder logic
           target={kpiMetrics.target}
           growth={kpiMetrics.growth}
-        />
+        /> */}
         <KPICard
           title="Total Outlook"
           value={kpiMetrics.value} // Placeholder logic
