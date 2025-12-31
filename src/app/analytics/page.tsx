@@ -139,6 +139,7 @@ export default function MemberClient() {
             value: selectedMonth,
             options: addAllOption(ANALYTICS_MONTHS),
             onChange: setSelectedMonth,
+            showOnTabs: ['monthly'],
           },
           {
             label: 'Division',
@@ -169,6 +170,7 @@ export default function MemberClient() {
             isLoading: isLoadingLocations,
           },
         ]}
+        currentTab={timeView}
       />
 
       <AnalyticsFilterBar
@@ -188,23 +190,18 @@ export default function MemberClient() {
             isLoading: isLoadingMeasures,
           },
         ]}
+        currentTab={timeView}
       />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <KPICard
-          title="Value vs Target"
-          value={kpiMetrics.value}
-          target={kpiMetrics.target}
-          growth={kpiMetrics.growth}
-        />
-        <KPICard
-          title="YTD Performance"
-          value={kpiMetrics.value}
-          target={kpiMetrics.target}
-          growth={kpiMetrics.growth}
-        />
-        <KPICard
-          title="Total Outlook"
+          title={
+            timeView === 'monthly'
+              ? 'Monthly Sales'
+              : timeView === 'quarterly'
+                ? 'Quarterly Sales'
+                : 'Total Sales'
+          }
           value={kpiMetrics.value}
           target={kpiMetrics.target}
           growth={kpiMetrics.growth}
