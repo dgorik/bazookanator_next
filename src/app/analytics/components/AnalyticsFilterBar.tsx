@@ -7,6 +7,7 @@ interface FilterConfig {
   value: string
   options: string[]
   onChange: (val: string) => void
+  isLoading?: boolean
 }
 
 interface AnalyticsFilterBarProps {
@@ -24,7 +25,7 @@ export default function AnalyticsFilterBar({
             label={config.label}
             selectedMeasure={config.value}
             onMeasureChange={config.onChange}
-            measures={config.options}
+            measures={config.isLoading ? ['Loading...'] : config.options}
           />
           {index < configs.length - 1 && (
             <div className="hidden h-6 w-px bg-gray-200 dark:bg-gray-800 sm:block" />

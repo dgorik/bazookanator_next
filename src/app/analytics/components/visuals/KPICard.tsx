@@ -86,7 +86,10 @@ export default function KPICard({
               <span>
                 {valueFormatter
                   ? valueFormatter(target)
-                  : formatters.currency({ number: target, maxFractionDigits: 0 })}
+                  : formatters.currency({
+                      number: target,
+                      maxFractionDigits: 0,
+                    })}
               </span>
             </div>
             <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
@@ -101,4 +104,3 @@ export default function KPICard({
     </Card>
   )
 }
-

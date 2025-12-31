@@ -31,7 +31,50 @@ export const getMeasures = async () => {
 
 export const getMeasureTotal = async (measureName: string) => {
   const supabase = getSupabaseClient()
-  const { data, error } = await supabase.rpc('get_measure_total',{measure_name: measureName})
+  const { data, error } = await supabase.rpc('get_measure_total', {
+    measure_name: measureName,
+  })
+  if (error) throw error
+  return data
+}
+
+// Generic filter options fetcher - gets unique values for any column
+export const getFilterOptions = async (columnName: string) => {
+  const supabase = getSupabaseClient()
+  const { data, error } = await supabase.rpc('get_filter_options', {
+    column_name: columnName,
+  })
+  if (error) throw error
+  return data || []
+}
+
+// Filter types
+export interface SalesFilters {
+  measure?: string
+  division?: string
+  brand?: string
+  category?: string
+  location?: string
+  month?: string
+}
+
+export type TimeView = 'monthly' | 'quarterly' | 'total'
+
+// Get aggregated sales data with multiple filters and time view
+export const getSalesData = async (
+  filters: SalesFilters,
+  timeView: TimeView = 'total',
+) => {
+  const supabase = getSupabaseClient()
+  const { data, error } = await supabase.rpc('get_sales_by_filters', {
+    p_measure: filters.measure || null,
+    p_division: filters.division || null,
+    p_brand: filters.brand || null,
+    p_category: filters.category || null,
+    p_location: filters.location || null,
+    p_month: filters.month || null,
+    p_time_view: timeView,
+  })
   if (error) throw error
   return data
 }

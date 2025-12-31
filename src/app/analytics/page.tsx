@@ -4,41 +4,109 @@ import { useState, useMemo } from 'react'
 import useSWR from 'swr'
 import KPICard from './components/visuals/KPICard'
 import AnalyticsFilterBar from './components/AnalyticsFilterBar'
-import { getMeasures, getMeasureTotal } from '@/src/lib/fetcher/fetchers'
+import TimeViewTabs from './components/TimeViewTabs'
+import {
+  getMeasures,
+  getFilterOptions,
+  getSalesData,
+  type TimeView,
+  type SalesFilters,
+} from '@/src/lib/fetcher/fetchers'
 import { DEFAULT_MEASURES, ANALYTICS_MONTHS } from '@/src/data/filter_data'
 
+const ALL_OPTION = 'All'
+
 export default function MemberClient() {
-  const [selectedMonth, setSelectedMonth] = useState<string>(
-    ANALYTICS_MONTHS[new Date().getMonth()] || ANALYTICS_MONTHS[0],
-  )
+  // Filter state
+  const [selectedMonth, setSelectedMonth] = useState<string>(ALL_OPTION)
+  const [selectedDivision, setSelectedDivision] = useState<string>(ALL_OPTION)
+  const [selectedBrand, setSelectedBrand] = useState<string>(ALL_OPTION)
+  const [selectedCategory, setSelectedCategory] = useState<string>(ALL_OPTION)
+  const [selectedLocation, setSelectedLocation] = useState<string>(ALL_OPTION)
   const [valueMeasure, setValueMeasure] = useState<string>(DEFAULT_MEASURES[0])
   const [targetMeasure, setTargetMeasure] = useState<string>(
     DEFAULT_MEASURES[1] || DEFAULT_MEASURES[0],
   )
 
-  // Fetch available measures from DB
-  const { data: dbMeasures } = useSWR('measures', getMeasures)
+  // Time view state
+  const [timeView, setTimeView] = useState<TimeView>('total')
 
+  // Fetch filter options
+  const { data: dbMeasures, isLoading: isLoadingMeasures } = useSWR(
+    'measures',
+    getMeasures,
+  )
+  const { data: divisions, isLoading: isLoadingDivisions } = useSWR(
+    ['filter-options', 'division'],
+    () => getFilterOptions('division'),
+  )
+  const { data: brands, isLoading: isLoadingBrands } = useSWR(
+    ['filter-options', 'brand'],
+    () => getFilterOptions('brand'),
+  )
+  const { data: categories, isLoading: isLoadingCategories } = useSWR(
+    ['filter-options', 'category'],
+    () => getFilterOptions('category'),
+  )
+  const { data: locations, isLoading: isLoadingLocations } = useSWR(
+    ['filter-options', 'location'],
+    () => getFilterOptions('location'),
+  )
+
+  // Process filter options with "All" option
   const availableMeasures = useMemo(() => {
     if (!dbMeasures || dbMeasures.length === 0) return DEFAULT_MEASURES
     return dbMeasures.filter(Boolean)
   }, [dbMeasures])
 
-  // Fetch KPI data
+  const addAllOption = (options: string[] | undefined) => {
+    if (!options || options.length === 0) return [ALL_OPTION]
+    return [ALL_OPTION, ...options.filter(Boolean)]
+  }
+
+  // Build filters object for data fetching
+  const filters: SalesFilters = useMemo(
+    () => ({
+      measure: valueMeasure,
+      division: selectedDivision !== ALL_OPTION ? selectedDivision : undefined,
+      brand: selectedBrand !== ALL_OPTION ? selectedBrand : undefined,
+      category: selectedCategory !== ALL_OPTION ? selectedCategory : undefined,
+      location: selectedLocation !== ALL_OPTION ? selectedLocation : undefined,
+      month: selectedMonth !== ALL_OPTION ? selectedMonth : undefined,
+    }),
+    [
+      valueMeasure,
+      selectedDivision,
+      selectedBrand,
+      selectedCategory,
+      selectedLocation,
+      selectedMonth,
+    ],
+  )
+
+  const targetFilters: SalesFilters = useMemo(
+    () => ({
+      ...filters,
+      measure: targetMeasure,
+    }),
+    [filters, targetMeasure],
+  )
+
+  // Fetch sales data
   const { data: valueData, isLoading: isLoadingValue } = useSWR(
-    valueMeasure ? ['kpi-value', valueMeasure] : null,
-    () => getMeasureTotal(valueMeasure),
+    ['sales-value', filters, timeView],
+    () => getSalesData(filters, timeView),
   )
 
   const { data: targetData, isLoading: isLoadingTarget } = useSWR(
-    targetMeasure ? ['kpi-target', targetMeasure] : null,
-    () => getMeasureTotal(targetMeasure),
+    ['sales-target', targetFilters, timeView],
+    () => getSalesData(targetFilters, timeView),
   )
 
-  // Calculate aggregated KPI values
+  // Calculate KPI metrics
   const kpiMetrics = useMemo(() => {
-    const val = Number(valueData || [])
-    const tgt = Number(targetData || [])
+    const val = Number(valueData) || 0
+    const tgt = Number(targetData) || 0
     const growth = tgt !== 0 ? ((val - tgt) / tgt) * 100 : 0
 
     return {
@@ -48,15 +116,20 @@ export default function MemberClient() {
     }
   }, [valueData, targetData])
 
+  const isLoading = isLoadingValue || isLoadingTarget
+
   return (
     <section className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">
-          Dashboard
-        </h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          Sales and growth stats for anonymous inc.
-        </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            Dashboard
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            Sales and growth stats for anonymous inc.
+          </p>
+        </div>
+        <TimeViewTabs selectedView={timeView} onViewChange={setTimeView} />
       </div>
 
       <AnalyticsFilterBar
@@ -64,26 +137,61 @@ export default function MemberClient() {
           {
             label: 'Month',
             value: selectedMonth,
-            options: ANALYTICS_MONTHS,
+            options: addAllOption(ANALYTICS_MONTHS),
             onChange: setSelectedMonth,
           },
           {
-            label: 'Value',
+            label: 'Division',
+            value: selectedDivision,
+            options: addAllOption(divisions),
+            onChange: setSelectedDivision,
+            isLoading: isLoadingDivisions,
+          },
+          {
+            label: 'Brand',
+            value: selectedBrand,
+            options: addAllOption(brands),
+            onChange: setSelectedBrand,
+            isLoading: isLoadingBrands,
+          },
+          {
+            label: 'Category',
+            value: selectedCategory,
+            options: addAllOption(categories),
+            onChange: setSelectedCategory,
+            isLoading: isLoadingCategories,
+          },
+          {
+            label: 'Location',
+            value: selectedLocation,
+            options: addAllOption(locations),
+            onChange: setSelectedLocation,
+            isLoading: isLoadingLocations,
+          },
+        ]}
+      />
+
+      <AnalyticsFilterBar
+        configs={[
+          {
+            label: 'Value Measure',
             value: valueMeasure,
             options: availableMeasures,
             onChange: setValueMeasure,
+            isLoading: isLoadingMeasures,
           },
           {
-            label: 'Target',
+            label: 'Target Measure',
             value: targetMeasure,
             options: availableMeasures,
             onChange: setTargetMeasure,
+            isLoading: isLoadingMeasures,
           },
         ]}
       />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {/* <KPICard
+        <KPICard
           title="Value vs Target"
           value={kpiMetrics.value}
           target={kpiMetrics.target}
@@ -91,17 +199,25 @@ export default function MemberClient() {
         />
         <KPICard
           title="YTD Performance"
-          value={kpiMetrics.value} // Placeholder logic
+          value={kpiMetrics.value}
           target={kpiMetrics.target}
           growth={kpiMetrics.growth}
-        /> */}
+        />
         <KPICard
           title="Total Outlook"
-          value={kpiMetrics.value} // Placeholder logic
+          value={kpiMetrics.value}
           target={kpiMetrics.target}
           growth={kpiMetrics.growth}
         />
       </div>
+
+      {isLoading && (
+        <div className="flex items-center justify-center py-8">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Loading data...
+          </p>
+        </div>
+      )}
     </section>
   )
 }
