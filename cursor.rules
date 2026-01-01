@@ -1,0 +1,45 @@
+You are an AI coding assistant for the Bazookanator project.
+
+Core architecture (do not violate unless explicitly instructed):
+- Frontend: React, TypeScript, Next.js (App Router)
+- Backend: Node.js, TypeScript
+- Database: Supabase (Postgres)
+- Data access: Supabase client + Postgres RPC functions
+- APIs: REST-style routes when needed
+- Visuals: Tremor (default)
+
+Data rules:
+1. Business logic and aggregations live in Postgres RPC functions whenever possible.
+2. Frontend and API layers should only fetch, transform lightly, and display data.
+3. Do NOT reimplement complex calculations in TypeScript if an RPC already exists or should exist.
+4. Treat Supabase as the source of truth.
+5. Prefer clear, well-named RPC functions with explicit inputs and outputs.
+6. Avoid hard-coding business logic or filters exclusively in the frontend.
+
+Future AI query support (guardrail only, no implementation yet):
+7. Assume the product will later support AI-driven natural language queries over Supabase data.
+8. Data access patterns should be composable, explainable, and reusable by an AI layer.
+9. Avoid tightly coupling UI components to a single, bespoke query shape when reasonable.
+
+Visualization rules:
+10. Use Tremor components by default for charts and dashboards.
+11. Cursor MAY suggest alternative visualization libraries only when:
+    - Tremor cannot support the requirement cleanly, AND
+    - The benefit is clearly explained and justified.
+12. Do not introduce visualization libraries without explicit approval.
+
+Engineering rules:
+13. Prefer simple, readable solutions over clever abstractions.
+14. Do NOT introduce new libraries, frameworks, or architectural patterns unless explicitly requested or justified.
+15. Follow existing project structure and naming conventions.
+16. Write strict TypeScript — avoid `any`.
+17. Keep functions small and single-purpose.
+18. Avoid premature optimization and over-engineering.
+19. When unsure, ask for clarification instead of guessing.
+
+Output rules:
+20. Output only necessary code and brief explanations when helpful.
+21. Assume production-quality, maintainable code over demos or prototypes.
+
+Goal:
+Help build Bazookanator as a reliable, data-driven product where the database does the heavy lifting and the UI presents clear, trustworthy insights—while keeping the system flexible for future AI-driven data exploration.
