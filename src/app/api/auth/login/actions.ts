@@ -1,29 +1,24 @@
 'use server'
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import { createClient } from '@/src/lib/client/supabase/server'
+import {loginSchema, type LoginCredentials} from '@/src/lib/validations/auth'
 
-interface FormData {
-  email: string
-  password: string
-}
+export async function login(credentials: LoginCredentials) {
 
-export async function login(formData: FormData) {
+  const result = loginSchema.safeParse(credentials)
+
+  if (!result.success) {
+    return { error: result.error.issues[0].message }
+  }
+
   const supabase = await createClient()
 
-  const email = formData.email
-  const password = formData.password
-
   const data = {
-    email: email,
-    password: password,
+    email: result.data.email,
+    password: result.data.password,
   }
   const { error } = await supabase.auth.signInWithPassword(data)
   if (error) {
     return { error: error.message }
   }
-  
-  return { message: "Signed out successfully" }
-  // revalidatePath('/', 'layout') //not deleting yet - need to research what this is for
-  redirect('/analytics')
+  return {success: true}
 }

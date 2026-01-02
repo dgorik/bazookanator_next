@@ -42,27 +42,27 @@ export default function LoginForm({
   }, [success, error])
 
   const handlePostUsers = async (e: React.FormEvent) => {
-    setLoading(true)
     e.preventDefault()
+    setLoading(true)
     setStatus(null)
     try {
       const response = await login({
         email,
         password,
       })
-
-      if (response?.message) {
+      if (response.success) {
         router.push('/analytics')
-      }
-
-      if (response?.error) {
-        setLoading(false)
-        setStatus({ type: 'error', message: response.error })
         return
       }
-    } catch (err: any) {
+      if (response?.error) {
+        setStatus({ type: 'error', message: response.error })
+      }
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : 'An unexpected error occurred'
+      setStatus({ type: 'error', message: message })
+    } finally {
       setLoading(false)
-      setStatus({ type: 'error', message: err.message })
     }
   }
 
