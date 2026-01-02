@@ -1,30 +1,25 @@
 "use server"
 
 import { createClient } from "@/src/lib/client/supabase/server"
+import {signupSchema, type SignupCredentials} from "@/src/lib/validations/auth"
 
-interface FormData {
-  email: string
-  password: string
-  first_name: string
-  last_name: string
-}
+export async function signup(credentials: SignupCredentials) {
 
-export async function signup(formData: FormData) {
+  const result = signupSchema.safeParse(credentials)
 
-  const email = formData.email
-  const password = formData.password
-  const first_name = formData.first_name
-  const last_name = formData.last_name
+  if (!result.success) {
+    return { error: result.error.issues[0].message }
+  }
 
   const supabase = await createClient()
 
-  const { data, error } = await supabase.auth.signUp({
-    email: email,
-    password: password,
+  const {error} = await supabase.auth.signUp({
+    email: result.data.email,
+    password: result.data.password,
     options: {
       data: {
-        first_name: first_name,
-        last_name: last_name,
+        first_name: result.data.firstName,
+        last_name: result.data.lastName,
       },
     },
   })
@@ -33,6 +28,6 @@ export async function signup(formData: FormData) {
     return { error: error.message }
   }
 
-  return
+  return {success: true}
 
 }

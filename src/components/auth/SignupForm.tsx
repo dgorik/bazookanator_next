@@ -11,6 +11,7 @@ import {
 import { Input } from '@/src/components/ui/other - shadcn/input'
 import { Label } from '@/src/components/ui/other - shadcn/label'
 import { LoadingSpinner } from '@/src/components/ui/loading_spinner/loading_spinner'
+import { signupSchema } from '@/src/lib/validations/auth'
 
 import { signup } from '@/src/app/api/auth/signup/actions'
 
@@ -28,17 +29,17 @@ export default function SignupForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!email) {
-      setStatus({ type: 'error', message: 'Email is required.' })
-      return
+    const result = signupSchema.safeParse({
+      email,
+      password,
+      firstName,
+      lastName,
+    })
+
+    if (!result.success) {
+      setStatus({ type: 'error', message: result.error.issues[0].message })
+      return // Stop here, don't call the server
     }
-    // } else if (!email.endsWith('@bazooka-inc.com')) {
-    //   setStatus({
-    //     type: 'error',
-    //     message: 'Please enter a @bazooka-inc email.',
-    //   })
-    //   return
-    // }
 
     if (password.length < 6) {
       setStatus({
@@ -51,17 +52,9 @@ export default function SignupForm({
     setLoading(true)
 
     try {
-      const response = await signup({
-        email,
-        password,
-        first_name: firstName,
-        last_name: lastName,
-      })
-      //later handle already registered user error
-      setLoading(false)
+      const response = await signup(result.data)
 
       if (response?.error) {
-        setLoading(false)
         setStatus({ type: 'error', message: response.error })
         return
       }
@@ -74,9 +67,12 @@ export default function SignupForm({
       setPassword('')
       setFirstName('')
       setLastName('')
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : 'An unexpected error occured'
+      setStatus({ type: 'error', message: message })
+    } finally {
       setLoading(false)
-      setStatus({ type: 'error', message: err.message })
     }
   }
 
@@ -94,7 +90,7 @@ export default function SignupForm({
                 <Label htmlFor="first_name">First Name</Label>
                 <Input
                   id="first_name"
-                  type="first_name"
+                  type="text"
                   value={firstName}
                   required={true}
                   onChange={(e) => setFirstName(e.target.value)}
@@ -105,7 +101,7 @@ export default function SignupForm({
                 <Label htmlFor="last_name">Last Name</Label>
                 <Input
                   id="last_name"
-                  type="last_name"
+                  type="text"
                   value={lastName}
                   required={true}
                   onChange={(e) => setLastName(e.target.value)}
